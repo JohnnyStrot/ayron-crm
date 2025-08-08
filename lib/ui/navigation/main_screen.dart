@@ -44,14 +44,23 @@ class _MainScreenState extends State<MainScreen> {
     final GoRouter router = GoRouter.of(context);
     final String loc = router.state.matchedLocation;
     const labelStyle = TextStyle(fontFamily: 'Roboto');
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ayron-CRM", style: TextTheme.of(context).headlineSmall),
+        title: Text(
+          "Ayron-CRM",
+          style: TextTheme.of(context).headlineSmall!.copyWith(
+            color: ColorScheme.of(context).onPrimaryContainer,
+            fontWeight: FontWeight.w500,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
         actions: [
           LogoutButton(
             viewModel: LogoutViewModel(authRepository: context.read()),
           ),
         ],
+        backgroundColor: ColorScheme.of(context).primaryContainer,
         actionsPadding: EdgeInsets.only(right: 10),
       ),
       body: SafeArea(child: widget.child),

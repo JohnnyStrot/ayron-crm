@@ -2,10 +2,14 @@ import 'package:ayron_crm/ui/auth/logout/logout_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class LogoutButton extends StatelessWidget {
-  const LogoutButton({super.key, required LogoutViewModel viewModel})
-    : _viewModel = viewModel;
+  const LogoutButton({
+    super.key,
+    required LogoutViewModel viewModel,
+    this.colorScheme,
+  }) : _viewModel = viewModel;
 
   final LogoutViewModel _viewModel;
+  final ColorScheme? colorScheme;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,17 @@ class LogoutButton extends StatelessWidget {
       onPressed: () {
         _viewModel.logout.execute();
       },
-      label: Text("Logout", style: TextTheme.of(context).bodyLarge),
+      style: ButtonStyle(
+        foregroundColor: WidgetStateColor.resolveWith(
+          (_) =>
+              colorScheme?.onPrimaryContainer ??
+              ColorScheme.of(context).onPrimaryContainer,
+        ),
+      ),
+      label: Text(
+        "Logout",
+        style: TextStyle(fontSize: TextTheme.of(context).bodyLarge?.fontSize),
+      ),
     );
   }
 }

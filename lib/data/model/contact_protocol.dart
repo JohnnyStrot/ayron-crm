@@ -30,6 +30,9 @@ class ContactProtocol implements StrongEntity {
   Contact? get contact => _contact.entity;
   int? get contactId => _contact.id;
 
+  @override
+  String get displayShort => "$type #$id";
+
   factory ContactProtocol.fromJson(Map<String, dynamic> json) =>
       ContactProtocol(
         id: (json['id'] as num).toInt(),

@@ -12,6 +12,7 @@ abstract final class AppTheme {
 
   static ColorScheme lightColorScheme = ColorScheme.light(
     primary: Color(0xff1c1c1f),
+    secondary: Color.fromARGB(255, 106, 112, 129),
   );
   static ColorScheme darkColorScheme = ColorScheme.dark();
 

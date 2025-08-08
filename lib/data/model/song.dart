@@ -81,6 +81,9 @@ class Song implements StrongEntity {
   List<SongRating> get ratings => _ratings.entities;
 
   @override
+  String get displayShort => name;
+
+  @override
   Map<String, dynamic> toJson() {
     var a = <String, dynamic>{
       'id': id,

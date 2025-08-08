@@ -119,4 +119,7 @@ class Opportunity extends StrongEntity {
 
   ToMany<ContactProtocol> _protocols;
   List<ContactProtocol> get protocols => _protocols.entities;
+
+  @override
+  String get displayShort => name;
 }

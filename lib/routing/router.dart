@@ -1,5 +1,7 @@
 import 'package:ayron_crm/data/repositories/auth/auth_repository.dart';
 import 'package:ayron_crm/ui/auth/login/login_viewmodel.dart';
+import 'package:ayron_crm/ui/location/location_details.dart';
+import 'package:ayron_crm/ui/location/location_details_viewmodel.dart';
 import 'package:ayron_crm/ui/location/location_list.dart';
 import 'package:ayron_crm/ui/location/location_list_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 GoRouter router(AuthRepository authRepository) => GoRouter(
   refreshListenable: authRepository,
   navigatorKey: _rootNavigatorKey,
-  initialLocation: Routes.home,
+  initialLocation: Routes.overview,
   debugLogDiagnostics: true,
   redirect: _redirect,
   routes: [
@@ -31,8 +33,10 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
         GoRoute(
           path: Routes.home,
           builder: (context, state) {
-            final viewModel = HomeViewModel();
-            return HomeScreen(viewModel: viewModel);
+            final viewModel = LocationListViewmodel(
+              locationRepository: context.read(),
+            );
+            return LocationList(viewmodel: viewModel);
           },
         ),
         GoRoute(
@@ -57,6 +61,42 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
             final viewModel = HomeViewModel();
             return HomeScreen(viewModel: viewModel);
           },
+          routes: [
+            GoRoute(
+              path: Routes.locationsRelative,
+              builder: (context, state) {
+                final viewModel = LocationListViewmodel(
+                  locationRepository: context.read(),
+                );
+                return LocationList(viewmodel: viewModel);
+              },
+              routes: [
+                GoRoute(
+                  path: Routes.createRelative,
+                  builder: (context, state) {
+                    LocationDetailsViewmodel vm = LocationDetailsViewmodel(
+                      locationRepository: context.read(),
+                    );
+                    vm.createLocation.execute();
+                    return LocationDetails(viewmodel: vm);
+                  },
+                ),
+                GoRoute(
+                  path: ':id',
+                  builder: (context, state) {
+                    final id = int.parse(state.pathParameters['id']!);
+                    final vm = LocationDetailsViewmodel(
+                      locationRepository: context.read(),
+                    );
+
+                    vm.loadLocation.execute(id);
+
+                    return LocationDetails(viewmodel: vm);
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ],
     ),

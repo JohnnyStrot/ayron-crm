@@ -4,4 +4,5 @@ abstract class WeakEntity {
 
 abstract class StrongEntity implements WeakEntity {
   int get id;
+  String get displayShort;
 }
