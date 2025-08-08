@@ -23,8 +23,11 @@ abstract class LocationRepository extends ChangeNotifier
   @override
   Future<Result<Location>> getEntity(int id) => getLocation(id);
   @override
-  Future<Result<List<Location>>> getEntities(search) =>
-      getLocations(name: search.name, city: search.city, state: search.state);
+  Future<Result<List<Location>>> getEntities(search) => getLocations(
+    name: search["name"],
+    city: search["city"],
+    state: search["state"],
+  );
   @override
   Future<Result<void>> deleteEntity(int id) => deleteLocation(id);
   @override

@@ -1,7 +1,7 @@
 import 'package:ayron_crm/utils/result.dart';
 
 abstract interface class DataRepository<T> {
-  Future<Result<List<T>>> getEntities(dynamic search);
+  Future<Result<List<T>>> getEntities(Map<String, dynamic> search);
 
   Future<Result<T>> getEntity(int id);
   Future<Result<T>> createEntity();

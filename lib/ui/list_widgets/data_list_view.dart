@@ -7,13 +7,13 @@ import 'package:go_router/go_router.dart';
 
 abstract class DataListView<
   T extends StrongEntity,
-  V extends DataListView<T, V>
+  M extends DataListViewmodel<T>,
+  V extends DataListView<T, M, V>
 >
     extends StatefulWidget {
-  const DataListView({super.key, required DataListViewmodel<T> viewmodel})
-    : _viewmodel = viewmodel;
+  const DataListView({super.key, required this.viewmodel});
 
-  final DataListViewmodel<T> _viewmodel;
+  final M viewmodel;
 
   @override
   State<V> createState();
@@ -21,7 +21,8 @@ abstract class DataListView<
 
 abstract class DataListViewState<
   T extends StrongEntity,
-  V extends DataListView<T, V>
+  M extends DataListViewmodel<T>,
+  V extends DataListView<T, M, V>
 >
     extends State<V> {
   @override
@@ -39,11 +40,12 @@ abstract class DataListViewState<
   Widget build(BuildContext context) {
     var builder = ListenableBuilder(
       listenable: Listenable.merge([
-        widget._viewmodel.loadEntities,
-        widget._viewmodel.deleteEntity,
+        widget.viewmodel.loadEntities,
+        widget.viewmodel.loadEntities.isExecuting,
+        widget.viewmodel.deleteEntity,
       ]),
       builder: (context, child) {
-        final entities = widget._viewmodel.entities;
+        final entities = widget.viewmodel.entities;
         final scrollView = CustomScrollView(
           slivers: [
             SliverPadding(
@@ -67,9 +69,7 @@ abstract class DataListViewState<
             LinearProgressIndicator(
               minHeight: 5,
               backgroundColor: ColorScheme.of(context).surfaceContainer,
-              value: widget._viewmodel.loadEntities.isExecuting.value
-                  ? null
-                  : 0,
+              value: widget.viewmodel.loadEntities.isExecuting.value ? null : 0,
             ),
             Expanded(child: scrollView),
           ],
@@ -115,7 +115,7 @@ abstract class DataListViewState<
           actions: [
             TextButton(
               onPressed: () {
-                widget._viewmodel.deleteEntity(entity);
+                widget.viewmodel.deleteEntity(entity);
 
                 ctx.pop();
               },

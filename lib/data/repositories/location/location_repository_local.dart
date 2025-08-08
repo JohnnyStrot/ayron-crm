@@ -1,3 +1,4 @@
+import 'package:ayron_crm/config/assets.dart';
 import 'package:ayron_crm/data/model/location.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/opportunity_state.dart';
@@ -14,7 +15,7 @@ class LocationRepositoryLocal extends LocationRepository {
 
   final LocalDataService _localDataService;
 
-  List<Location> _locations;
+  final List<Location> _locations;
   bool _initialized = false;
 
   @override
@@ -25,7 +26,12 @@ class LocationRepositoryLocal extends LocationRepository {
   }) async {
     if (!_initialized) {
       _initialized = true;
-      _locations.addAll(await _localDataService.getLocations());
+      _locations.addAll(
+        await _localDataService.getEntities<Location>(
+          Assets.locations,
+          Location.fromJson,
+        ),
+      );
     }
     try {
       final locations = _locations
@@ -67,7 +73,12 @@ class LocationRepositoryLocal extends LocationRepository {
   Future<Result<Location>> getLocation(int id) async {
     if (!_initialized) {
       _initialized = true;
-      _locations.addAll(await _localDataService.getLocations());
+      _locations.addAll(
+        await _localDataService.getEntities(
+          Assets.locations,
+          Location.fromJson,
+        ),
+      );
     }
     final location = _locations.where((c) => c.id == id).firstOrNull;
     if (location == null) {

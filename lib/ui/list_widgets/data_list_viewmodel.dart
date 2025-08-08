@@ -21,18 +21,30 @@ abstract class DataListViewmodel<T extends StrongEntity> {
           return res;
       }
     }, initialValue: Result.ok(null));
-
+    loadEntities.isExecuting.listen((ex, _) {
+      if (!ex) {
+        if (_searchChanged) loadEntities();
+      }
+    });
     loadEntities();
+  }
+
+  void exLoadEntities() {
+    _searchChanged = true;
+    loadEntities.execute();
   }
 
   final DataRepository<T> _repository;
   List<T> _entities;
   List<T> get entities => _entities;
 
+  bool _searchChanged = false;
+
   late final Command<void, Result<List<T>>> loadEntities;
   late final Command<T, Result<void>> deleteEntity;
 
   Future<Result<List<T>>> _load() async {
+    _searchChanged = false;
     final result = await _repository.getEntities(searchValues());
     switch (result) {
       case Ok<List<T>>():
@@ -42,5 +54,5 @@ abstract class DataListViewmodel<T extends StrongEntity> {
     return result;
   }
 
-  dynamic searchValues();
+  Map<String, dynamic> searchValues();
 }

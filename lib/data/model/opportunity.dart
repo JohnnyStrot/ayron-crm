@@ -80,6 +80,14 @@ class Opportunity extends StrongEntity {
     'protocols': _protocols.toJson(),
   };
 
+  factory Opportunity.create(int id) => Opportunity(
+    id: id,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    contacts: ToMany(entities: []),
+    protocols: ToMany(entities: []),
+  );
+
   Opportunity.copyFrom(Opportunity copyFrom)
     : this(
         id: copyFrom.id,

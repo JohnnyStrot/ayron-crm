@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:ayron_crm/config/assets.dart';
-import 'package:ayron_crm/data/model/location.dart';
+import 'package:ayron_crm/data/model/entity.dart';
 import 'package:flutter/services.dart';
 
 class LocalDataService {
-  Future<List<Location>> getLocations() async {
+  Future<List<T>> getEntities<T extends StrongEntity>(
+    String asset,
+    T Function(Map<String, dynamic>) fromJson,
+  ) async {
     final json = await _loadStringAsset(Assets.locations);
-    return json.map<Location>(Location.fromJson).toList();
+    return json.map<T>(fromJson).toList();
   }
 
   Future<List<Map<String, dynamic>>> _loadStringAsset(String asset) async {

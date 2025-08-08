@@ -24,7 +24,7 @@ class _OpportunityStateSelectState extends State<OpportunityStateSelect> {
           (OpportunityState state) =>
               MenuEntry(value: state, label: state.displayString),
         )
-        .followedBy([MenuEntry(value: null, label: "null")]),
+        .followedBy([MenuEntry(value: null, label: "")]),
   );
   OpportunityState? dropdownValue;
 
@@ -38,16 +38,18 @@ class _OpportunityStateSelectState extends State<OpportunityStateSelect> {
         suffixIconConstraints: BoxConstraints(maxHeight: 48, maxWidth: 48),
         border: OutlineInputBorder(),
       ),
-      trailingIcon: IconButton(
-        padding: EdgeInsets.all(0),
-        onPressed: () {
-          setState(() {
-            dropdownValue = null;
-            widget._onSelected(null);
-          });
-        },
-        icon: Icon(Icons.clear),
-      ),
+      trailingIcon: dropdownValue == null
+          ? null
+          : IconButton(
+              padding: EdgeInsets.all(0),
+              onPressed: () {
+                setState(() {
+                  dropdownValue = null;
+                  widget._onSelected(null);
+                });
+              },
+              icon: Icon(Icons.clear),
+            ),
       onSelected: (OpportunityState? value) {
         // This is called when the user selects an item.
         setState(() {

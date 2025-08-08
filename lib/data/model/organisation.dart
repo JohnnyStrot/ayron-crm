@@ -21,6 +21,11 @@ class Organisation extends Opportunity {
     events: ToMany.fromJson(json["events"], Event.fromJson),
   );
 
+  factory Organisation.create(int id) => Organisation(
+    opportunity: Opportunity.create(id),
+    events: ToMany(entities: []),
+  );
+
   @override
   Map<String, dynamic> toJson() {
     var a = <String, dynamic>{

@@ -36,7 +36,7 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
             final viewModel = LocationListViewmodel(
               locationRepository: context.read(),
             );
-            return LocationList(viewmodel: viewModel);
+            return LocationListView(viewmodel: viewModel);
           },
         ),
         GoRoute(
@@ -45,7 +45,7 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
             final viewModel = LocationListViewmodel(
               locationRepository: context.read(),
             );
-            return LocationList(viewmodel: viewModel);
+            return LocationListView(viewmodel: viewModel);
           },
         ),
         GoRoute(
@@ -68,7 +68,7 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
                 final viewModel = LocationListViewmodel(
                   locationRepository: context.read(),
                 );
-                return LocationList(viewmodel: viewModel);
+                return LocationListView(viewmodel: viewModel);
               },
               routes: [
                 GoRoute(
