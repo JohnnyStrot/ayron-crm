@@ -1,0 +1,54 @@
+import 'package:ayron_crm/ui/auth/login/login_viewmodel.dart';
+import 'package:flutter/material.dart';
+
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key, required LoginViewModel viewModel})
+    : _viewModel = viewModel;
+
+  final LoginViewModel _viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Column(
+              children: [
+                Text(
+                  "AYRON-CRM",
+                  style: TextTheme.of(context).displayLarge,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Customer Relationship Management",
+                  style: TextTheme.of(context).headlineSmall,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 40),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    _viewModel.login.execute();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorScheme.of(context).primary,
+                    foregroundColor: ColorScheme.of(context).onPrimary,
+                    textStyle: TextTheme.of(context).titleLarge,
+                    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                  ),
+                  icon: Icon(Icons.login),
+                  label: Padding(
+                    padding: EdgeInsetsGeometry.only(left: 5),
+                    child: Text("Login"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

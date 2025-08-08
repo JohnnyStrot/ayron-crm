@@ -1,4 +1,4 @@
-package com.example.ayron_crm
+package de.ayronband.crm
 
 import io.flutter.embedding.android.FlutterActivity
 
