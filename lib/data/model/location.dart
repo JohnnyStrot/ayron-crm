@@ -17,6 +17,11 @@ class Location extends Opportunity implements Addressable {
   }) : _events = events,
        super.copyFrom(opportunity);
 
+  factory Location.create(int id) => Location(
+    opportunity: Opportunity.create(id),
+    events: ToMany(entities: []),
+  );
+
   factory Location.fromJson(Map<String, dynamic> json) => Location(
     opportunity: Opportunity.fromJsonNoSubtype(json),
     postcode: (json['postcode'] ?? "") as String,

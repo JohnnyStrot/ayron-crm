@@ -78,4 +78,11 @@ class Contact extends Opportunity implements Addressable {
     a.addAll(super.toJson());
     return a;
   }
+
+  factory Contact.create(int id) => Contact(
+    opportunity: Opportunity.create(id),
+    bands: ToMany(entities: []),
+    contactProtocols: ToMany(entities: []),
+    opportunities: ToMany(entities: []),
+  );
 }

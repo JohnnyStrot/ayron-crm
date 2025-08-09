@@ -44,4 +44,10 @@ class Band extends Opportunity {
     a.addAll(super.toJson());
     return a;
   }
+
+  factory Band.create(int id) => Band(
+    opportunity: Opportunity.create(id),
+    members: ToMany(entities: []),
+    events: ToMany(entities: []),
+  );
 }

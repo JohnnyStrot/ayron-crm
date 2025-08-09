@@ -1,8 +1,10 @@
 import 'package:ayron_crm/config/assets.dart';
 import 'package:ayron_crm/data/model/organisation.dart';
 import 'package:ayron_crm/data/repositories/data_repository_local.dart';
+import 'package:ayron_crm/data/repositories/organisation/organisation_repository.dart';
 
-class OrganisationRepositoryLocal extends DataRepositoryLocal<Organisation> {
+class OrganisationRepositoryLocal extends DataRepositoryLocal<Organisation>
+    implements OrganisationRepository {
   OrganisationRepositoryLocal({required super.localDataService});
 
   @override

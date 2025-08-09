@@ -109,4 +109,10 @@ class Song implements StrongEntity {
     };
     return a;
   }
+
+  factory Song.create(int id) => Song(
+    id: id,
+    ratings: ToMany(entities: []),
+    setlists: ToMany(entities: []),
+  );
 }

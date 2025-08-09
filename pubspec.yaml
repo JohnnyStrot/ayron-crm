@@ -90,6 +90,13 @@ flutter:
   # example:
   assets:
     - assets/locations.json
+    - assets/organisations.json
+    - assets/gigs.json
+    - assets/events.json
+    - assets/bands.json
+    - assets/series.json
+    - assets/contacts.json
+    - assets/songs.json
   fonts:
     - family: Lemon Milk
       fonts:

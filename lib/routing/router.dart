@@ -1,21 +1,131 @@
 import 'package:ayron_crm/data/repositories/auth/auth_repository.dart';
 import 'package:ayron_crm/ui/auth/login/login_viewmodel.dart';
+import 'package:ayron_crm/ui/band/band_list.dart';
+import 'package:ayron_crm/ui/band/band_list_viewmodel.dart';
+import 'package:ayron_crm/ui/contact/contact_list.dart';
+import 'package:ayron_crm/ui/contact/contact_list_viewmodel.dart';
+import 'package:ayron_crm/ui/event/event_list.dart';
+import 'package:ayron_crm/ui/event/event_list_viewmodel.dart';
+import 'package:ayron_crm/ui/gig/gig_list.dart';
+import 'package:ayron_crm/ui/gig/gig_list_viewmodel.dart';
+import 'package:ayron_crm/ui/navigation/data_navigation_page.dart';
 import 'package:ayron_crm/ui/location/location_details.dart';
 import 'package:ayron_crm/ui/location/location_details_viewmodel.dart';
 import 'package:ayron_crm/ui/location/location_list.dart';
 import 'package:ayron_crm/ui/location/location_list_viewmodel.dart';
+import 'package:ayron_crm/ui/organisation/organisation_list.dart';
+import 'package:ayron_crm/ui/organisation/organisation_list_viewmodel.dart';
+import 'package:ayron_crm/ui/series/series_list.dart';
+import 'package:ayron_crm/ui/series/series_list_viewmodel.dart';
+import 'package:ayron_crm/ui/song/song_list.dart';
+import 'package:ayron_crm/ui/song/song_list_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../ui/auth/login/login_screen.dart';
-import '../ui/home/home_screen.dart';
-import '../ui/home/home_viewmodel.dart';
 import '../ui/navigation/main_screen.dart';
 import 'routes.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
+final dataRoutes = [
+  GoRoute(
+    path: Routes.bandsRelative,
+    builder: (context, state) {
+      final viewModel = BandListViewmodel(bandRepository: context.read());
+      return BandListView(viewmodel: viewModel);
+    },
+    routes: [],
+  ),
+  GoRoute(
+    path: Routes.contactsRelative,
+    builder: (context, state) {
+      final viewModel = ContactListViewmodel(contactRepository: context.read());
+      return ContactListView(viewmodel: viewModel);
+    },
+    routes: [],
+  ),
+  GoRoute(
+    path: Routes.eventsRelative,
+    builder: (context, state) {
+      final viewModel = EventListViewmodel(eventRepository: context.read());
+      return EventListView(viewmodel: viewModel);
+    },
+    routes: [],
+  ),
+  GoRoute(
+    path: Routes.gigsRelative,
+    builder: (context, state) {
+      final viewModel = GigListViewmodel(gigRepository: context.read());
+      return GigListView(viewmodel: viewModel);
+    },
+    routes: [],
+  ),
+  GoRoute(
+    path: Routes.locationsRelative,
+    builder: (context, state) {
+      final viewModel = LocationListViewmodel(
+        locationRepository: context.read(),
+      );
+      return LocationListView(viewmodel: viewModel);
+    },
+    routes: [
+      GoRoute(
+        path: Routes.createRelative,
+        builder: (context, state) {
+          LocationDetailsViewmodel vm = LocationDetailsViewmodel(
+            locationRepository: context.read(),
+          );
+          vm.createLocation.execute();
+          return LocationDetails(viewmodel: vm);
+        },
+      ),
+      GoRoute(
+        path: ':id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final vm = LocationDetailsViewmodel(
+            locationRepository: context.read(),
+          );
+
+          vm.loadLocation.execute(id);
+
+          return LocationDetails(viewmodel: vm);
+        },
+      ),
+    ],
+  ),
+  GoRoute(
+    path: Routes.organisationsRelative,
+    builder: (context, state) {
+      final viewModel = OrganisationListViewmodel(
+        organisationRepository: context.read(),
+      );
+      return OrganisationListView(viewmodel: viewModel);
+    },
+    routes: [],
+  ),
+  GoRoute(
+    path: Routes.seriesRelative,
+    builder: (context, state) {
+      final viewModel = EventSeriesListViewmodel(
+        seriesRepository: context.read(),
+      );
+      return EventSeriesListView(viewmodel: viewModel);
+    },
+    routes: [],
+  ),
+  GoRoute(
+    path: Routes.songsRelative,
+    builder: (context, state) {
+      final viewModel = SongListViewmodel(songRepository: context.read());
+      return SongListView(viewmodel: viewModel);
+    },
+    routes: [],
+  ),
+];
 
 GoRouter router(AuthRepository authRepository) => GoRouter(
   refreshListenable: authRepository,
@@ -51,52 +161,18 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
         GoRoute(
           path: Routes.analysis,
           builder: (context, state) {
-            final viewModel = HomeViewModel();
-            return HomeScreen(viewModel: viewModel);
+            final viewModel = OrganisationListViewmodel(
+              organisationRepository: context.read(),
+            );
+            return OrganisationListView(viewmodel: viewModel);
           },
         ),
         GoRoute(
           path: Routes.data,
           builder: (context, state) {
-            final viewModel = HomeViewModel();
-            return HomeScreen(viewModel: viewModel);
+            return DataNavigationPage();
           },
-          routes: [
-            GoRoute(
-              path: Routes.locationsRelative,
-              builder: (context, state) {
-                final viewModel = LocationListViewmodel(
-                  locationRepository: context.read(),
-                );
-                return LocationListView(viewmodel: viewModel);
-              },
-              routes: [
-                GoRoute(
-                  path: Routes.createRelative,
-                  builder: (context, state) {
-                    LocationDetailsViewmodel vm = LocationDetailsViewmodel(
-                      locationRepository: context.read(),
-                    );
-                    vm.createLocation.execute();
-                    return LocationDetails(viewmodel: vm);
-                  },
-                ),
-                GoRoute(
-                  path: ':id',
-                  builder: (context, state) {
-                    final id = int.parse(state.pathParameters['id']!);
-                    final vm = LocationDetailsViewmodel(
-                      locationRepository: context.read(),
-                    );
-
-                    vm.loadLocation.execute(id);
-
-                    return LocationDetails(viewmodel: vm);
-                  },
-                ),
-              ],
-            ),
-          ],
+          routes: dataRoutes,
         ),
       ],
     ),

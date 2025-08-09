@@ -16,8 +16,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
-
   static const List<NavBarItem> tabs = [
     NavBarItem(
       icon: Icon(Icons.dashboard_outlined),
@@ -41,8 +39,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final GoRouter router = GoRouter.of(context);
-    final String loc = router.state.matchedLocation;
+    final String loc = GoRouterState.of(context).matchedLocation;
     const labelStyle = TextStyle(fontFamily: 'Roboto');
 
     return Scaffold(
@@ -75,11 +72,11 @@ class _MainScreenState extends State<MainScreen> {
         onTap: (int index) {
           _goOtherTab(context, index);
         },
-        currentIndex: loc == Routes.overview
+        currentIndex: loc.startsWith(Routes.overview)
             ? 0
-            : loc == Routes.analysis
+            : loc.startsWith(Routes.analysis)
             ? 1
-            : loc == Routes.data
+            : loc.startsWith(Routes.data)
             ? 2
             : 0,
         items: tabs,
@@ -88,11 +85,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _goOtherTab(BuildContext context, int index) {
-    if (index == _currentIndex) return;
     String location = tabs[index].initialLocation;
-    setState(() {
-      _currentIndex = index;
-    });
+    setState(() {});
     if (index == tabs.length) {
       context.go("/");
     } else {

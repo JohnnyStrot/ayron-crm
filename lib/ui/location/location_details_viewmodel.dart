@@ -7,7 +7,7 @@ class LocationDetailsViewmodel {
   LocationDetailsViewmodel({required LocationRepository locationRepository})
     : _locationRepository = locationRepository {
     loadLocation = Command.createAsync((id) async {
-      final val = await _locationRepository.getLocation(id);
+      final val = await _locationRepository.getEntity(id);
       switch (val) {
         case Ok<Location>():
           _location = val.value;
@@ -17,7 +17,7 @@ class LocationDetailsViewmodel {
       return val;
     }, initialValue: Result.ok(null));
     createLocation = Command.createAsyncNoParam(() async {
-      final val = await _locationRepository.createLocation();
+      final val = await _locationRepository.createEntity();
       switch (val) {
         case Ok<Location>():
           _location = val.value;
@@ -30,7 +30,7 @@ class LocationDetailsViewmodel {
       if (location == null) {
         return Future.value(Result.error(Exception("Location is null")));
       }
-      return _locationRepository.saveLocation(location!);
+      return _locationRepository.saveEntity(location!);
     }, initialValue: Result.ok(null));
   }
 

@@ -48,4 +48,9 @@ class Gig extends Event {
     a.addAll(super.toJson());
     return a;
   }
+
+  factory Gig.create(int id) => Gig(
+    event: Event.create(id),
+    setlist: ToMany(entities: []),
+  );
 }

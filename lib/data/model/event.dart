@@ -111,4 +111,12 @@ class Event extends Opportunity {
     a.addAll(super.toJson());
     return a;
   }
+
+  factory Event.create(int id) => Event(
+    opportunity: Opportunity.create(id),
+    series: ToOne(),
+    lineup: ToMany(entities: []),
+    location: ToOne(),
+    organisation: ToOne(),
+  );
 }
