@@ -68,7 +68,7 @@ abstract class DataListViewState<
           children: [
             LinearProgressIndicator(
               minHeight: 5,
-              backgroundColor: ColorScheme.of(context).surfaceContainer,
+              backgroundColor: ColorScheme.of(context).surface,
               value: widget.viewmodel.loadEntities.isExecuting.value ? null : 0,
             ),
             Expanded(child: scrollView),

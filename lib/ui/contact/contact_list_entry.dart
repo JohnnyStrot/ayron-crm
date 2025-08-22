@@ -11,4 +11,7 @@ class ContactListEntry extends OpportunityListEntry<Contact> {
 
   @override
   String get route => Routes.contacts;
+
+  @override
+  String opportunityToString(Contact opp) => opp.displayShort;
 }

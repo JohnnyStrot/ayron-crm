@@ -2,11 +2,16 @@ import 'package:ayron_crm/data/model/entity.dart';
 
 class ToOne<T extends StrongEntity> {
   int? get id => entity == null ? _id : entity!.id;
-  T? entity;
+  T? _entity;
+  T? get entity => _entity;
+  set entity(T? ent) {
+    this._entity = ent;
+    _id = ent?.id;
+  }
 
   int? _id;
 
-  ToOne({this.entity, int? id}) : _id = id;
+  ToOne({T? entity, int? id}) : _entity = entity, _id = id;
 
   factory ToOne.fromJson(
     Map<String, dynamic> json,

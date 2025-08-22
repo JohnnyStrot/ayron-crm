@@ -85,4 +85,13 @@ class Contact extends Opportunity implements Addressable {
     contactProtocols: ToMany(entities: []),
     opportunities: ToMany(entities: []),
   );
+
+  @override
+  String get displayShort => name.isEmpty
+      ? email.isEmpty
+            ? instagram.isEmpty
+                  ? tel
+                  : instagram
+            : email
+      : name;
 }

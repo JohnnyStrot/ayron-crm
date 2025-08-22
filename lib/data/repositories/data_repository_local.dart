@@ -40,7 +40,9 @@ abstract class DataRepositoryLocal<T extends StrongEntity>
   @override
   Future<Result<T>> createEntity() async {
     T entity = newEntity(
-      _entities.map((c) => c.id).reduce((a, b) => a > b ? a : b) + 1,
+      _entities.isEmpty
+          ? 1
+          : _entities.map((c) => c.id).reduce((a, b) => a > b ? a : b) + 1,
     );
     _entities.add(entity);
     return Result.ok(entity);

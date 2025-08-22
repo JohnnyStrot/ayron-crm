@@ -16,7 +16,8 @@ class AppLocalization {
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
   @override
-  bool isSupported(Locale locale) => locale.languageCode == 'en';
+  bool isSupported(Locale locale) =>
+      locale.languageCode == 'en' || locale.languageCode == 'de';
 
   @override
   Future<AppLocalization> load(Locale locale) {

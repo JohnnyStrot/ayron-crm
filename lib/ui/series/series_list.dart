@@ -73,7 +73,7 @@ class _EventSeriesListViewState
   }
 
   @override
-  String get entityDisplay => "EventSeries";
+  String get entityDisplay => "Veranstaltungsreihe";
 
   @override
   String get route => Routes.series;

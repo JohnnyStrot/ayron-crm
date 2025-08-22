@@ -7,9 +7,12 @@ class OpportunityStateSelect extends StatefulWidget {
   const OpportunityStateSelect({
     super.key,
     required void Function(OpportunityState?) onSelected,
+    this.initialValue,
   }) : _onSelected = onSelected;
 
   final void Function(OpportunityState?) _onSelected;
+
+  final OpportunityState? initialValue;
 
   @override
   State<OpportunityStateSelect> createState() => _OpportunityStateSelectState();
@@ -27,6 +30,12 @@ class _OpportunityStateSelectState extends State<OpportunityStateSelect> {
         .followedBy([MenuEntry(value: null, label: "")]),
   );
   OpportunityState? dropdownValue;
+
+  @override
+  void initState() {
+    dropdownValue = widget.initialValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

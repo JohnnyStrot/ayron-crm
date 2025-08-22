@@ -28,13 +28,11 @@ class LoginScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 40),
-                ElevatedButton.icon(
+                FilledButton.icon(
                   onPressed: () {
                     _viewModel.login.execute();
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorScheme.of(context).primary,
-                    foregroundColor: ColorScheme.of(context).onPrimary,
+                  style: FilledButton.styleFrom(
                     textStyle: TextTheme.of(context).titleLarge,
                     padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
                   ),

@@ -63,7 +63,7 @@ class _ContactListViewState
   }
 
   @override
-  String get entityDisplay => "Contact";
+  String get entityDisplay => "Kontakt";
 
   @override
   String get route => Routes.contacts;

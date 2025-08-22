@@ -1,11 +1,19 @@
 import 'package:ayron_crm/data/repositories/auth/auth_repository.dart';
 import 'package:ayron_crm/ui/auth/login/login_viewmodel.dart';
+import 'package:ayron_crm/ui/band/band_details.dart';
+import 'package:ayron_crm/ui/band/band_details_viewmodel.dart';
 import 'package:ayron_crm/ui/band/band_list.dart';
 import 'package:ayron_crm/ui/band/band_list_viewmodel.dart';
+import 'package:ayron_crm/ui/contact/contact_details.dart';
+import 'package:ayron_crm/ui/contact/contact_details_viewmodel.dart';
 import 'package:ayron_crm/ui/contact/contact_list.dart';
 import 'package:ayron_crm/ui/contact/contact_list_viewmodel.dart';
+import 'package:ayron_crm/ui/event/event_details.dart';
+import 'package:ayron_crm/ui/event/event_details_viewmodel.dart';
 import 'package:ayron_crm/ui/event/event_list.dart';
 import 'package:ayron_crm/ui/event/event_list_viewmodel.dart';
+import 'package:ayron_crm/ui/gig/gig_details.dart';
+import 'package:ayron_crm/ui/gig/gig_details_viewmodel.dart';
 import 'package:ayron_crm/ui/gig/gig_list.dart';
 import 'package:ayron_crm/ui/gig/gig_list_viewmodel.dart';
 import 'package:ayron_crm/ui/navigation/data_navigation_page.dart';
@@ -13,10 +21,16 @@ import 'package:ayron_crm/ui/location/location_details.dart';
 import 'package:ayron_crm/ui/location/location_details_viewmodel.dart';
 import 'package:ayron_crm/ui/location/location_list.dart';
 import 'package:ayron_crm/ui/location/location_list_viewmodel.dart';
+import 'package:ayron_crm/ui/organisation/organisation_details.dart';
+import 'package:ayron_crm/ui/organisation/organisation_details_viewmodel.dart';
 import 'package:ayron_crm/ui/organisation/organisation_list.dart';
 import 'package:ayron_crm/ui/organisation/organisation_list_viewmodel.dart';
+import 'package:ayron_crm/ui/series/series_details.dart';
+import 'package:ayron_crm/ui/series/series_details_viewmodel.dart';
 import 'package:ayron_crm/ui/series/series_list.dart';
 import 'package:ayron_crm/ui/series/series_list_viewmodel.dart';
+import 'package:ayron_crm/ui/song/song_details.dart';
+import 'package:ayron_crm/ui/song/song_details_viewmodel.dart';
 import 'package:ayron_crm/ui/song/song_list.dart';
 import 'package:ayron_crm/ui/song/song_list_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +51,29 @@ final dataRoutes = [
       final viewModel = BandListViewmodel(bandRepository: context.read());
       return BandListView(viewmodel: viewModel);
     },
-    routes: [],
+    routes: [
+      GoRoute(
+        path: Routes.createRelative,
+        builder: (context, state) {
+          BandDetailsViewmodel vm = BandDetailsViewmodel(
+            bandRepository: context.read(),
+          );
+          vm.createEntity.execute();
+          return BandDetails(viewmodel: vm);
+        },
+      ),
+      GoRoute(
+        path: ':id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final vm = BandDetailsViewmodel(bandRepository: context.read());
+
+          vm.loadEntity.execute(id);
+
+          return BandDetails(viewmodel: vm);
+        },
+      ),
+    ],
   ),
   GoRoute(
     path: Routes.contactsRelative,
@@ -45,7 +81,29 @@ final dataRoutes = [
       final viewModel = ContactListViewmodel(contactRepository: context.read());
       return ContactListView(viewmodel: viewModel);
     },
-    routes: [],
+    routes: [
+      GoRoute(
+        path: Routes.createRelative,
+        builder: (context, state) {
+          ContactDetailsViewmodel vm = ContactDetailsViewmodel(
+            contactRepository: context.read(),
+          );
+          vm.createEntity.execute();
+          return ContactDetails(viewmodel: vm);
+        },
+      ),
+      GoRoute(
+        path: ':id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final vm = ContactDetailsViewmodel(contactRepository: context.read());
+
+          vm.loadEntity.execute(id);
+
+          return ContactDetails(viewmodel: vm);
+        },
+      ),
+    ],
   ),
   GoRoute(
     path: Routes.eventsRelative,
@@ -53,7 +111,29 @@ final dataRoutes = [
       final viewModel = EventListViewmodel(eventRepository: context.read());
       return EventListView(viewmodel: viewModel);
     },
-    routes: [],
+    routes: [
+      GoRoute(
+        path: Routes.createRelative,
+        builder: (context, state) {
+          EventDetailsViewmodel vm = EventDetailsViewmodel(
+            eventRepository: context.read(),
+          );
+          vm.createEntity.execute();
+          return EventDetails(viewmodel: vm);
+        },
+      ),
+      GoRoute(
+        path: ':id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final vm = EventDetailsViewmodel(eventRepository: context.read());
+
+          vm.loadEntity.execute(id);
+
+          return EventDetails(viewmodel: vm);
+        },
+      ),
+    ],
   ),
   GoRoute(
     path: Routes.gigsRelative,
@@ -61,7 +141,29 @@ final dataRoutes = [
       final viewModel = GigListViewmodel(gigRepository: context.read());
       return GigListView(viewmodel: viewModel);
     },
-    routes: [],
+    routes: [
+      GoRoute(
+        path: Routes.createRelative,
+        builder: (context, state) {
+          GigDetailsViewmodel vm = GigDetailsViewmodel(
+            gigRepository: context.read(),
+          );
+          vm.createEntity.execute();
+          return GigDetails(viewmodel: vm);
+        },
+      ),
+      GoRoute(
+        path: ':id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final vm = GigDetailsViewmodel(gigRepository: context.read());
+
+          vm.loadEntity.execute(id);
+
+          return GigDetails(viewmodel: vm);
+        },
+      ),
+    ],
   ),
   GoRoute(
     path: Routes.locationsRelative,
@@ -78,7 +180,7 @@ final dataRoutes = [
           LocationDetailsViewmodel vm = LocationDetailsViewmodel(
             locationRepository: context.read(),
           );
-          vm.createLocation.execute();
+          vm.createEntity.execute();
           return LocationDetails(viewmodel: vm);
         },
       ),
@@ -90,7 +192,7 @@ final dataRoutes = [
             locationRepository: context.read(),
           );
 
-          vm.loadLocation.execute(id);
+          vm.loadEntity.execute(id);
 
           return LocationDetails(viewmodel: vm);
         },
@@ -105,7 +207,31 @@ final dataRoutes = [
       );
       return OrganisationListView(viewmodel: viewModel);
     },
-    routes: [],
+    routes: [
+      GoRoute(
+        path: Routes.createRelative,
+        builder: (context, state) {
+          OrganisationDetailsViewmodel vm = OrganisationDetailsViewmodel(
+            organisationRepository: context.read(),
+          );
+          vm.createEntity.execute();
+          return OrganisationDetails(viewmodel: vm);
+        },
+      ),
+      GoRoute(
+        path: ':id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final vm = OrganisationDetailsViewmodel(
+            organisationRepository: context.read(),
+          );
+
+          vm.loadEntity.execute(id);
+
+          return OrganisationDetails(viewmodel: vm);
+        },
+      ),
+    ],
   ),
   GoRoute(
     path: Routes.seriesRelative,
@@ -115,7 +241,29 @@ final dataRoutes = [
       );
       return EventSeriesListView(viewmodel: viewModel);
     },
-    routes: [],
+    routes: [
+      GoRoute(
+        path: Routes.createRelative,
+        builder: (context, state) {
+          SeriesDetailsViewmodel vm = SeriesDetailsViewmodel(
+            seriesRepository: context.read(),
+          );
+          vm.createEntity.execute();
+          return SeriesDetails(viewmodel: vm);
+        },
+      ),
+      GoRoute(
+        path: ':id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final vm = SeriesDetailsViewmodel(seriesRepository: context.read());
+
+          vm.loadEntity.execute(id);
+
+          return SeriesDetails(viewmodel: vm);
+        },
+      ),
+    ],
   ),
   GoRoute(
     path: Routes.songsRelative,
@@ -123,7 +271,29 @@ final dataRoutes = [
       final viewModel = SongListViewmodel(songRepository: context.read());
       return SongListView(viewmodel: viewModel);
     },
-    routes: [],
+    routes: [
+      GoRoute(
+        path: Routes.createRelative,
+        builder: (context, state) {
+          SongDetailsViewmodel vm = SongDetailsViewmodel(
+            songRepository: context.read(),
+          );
+          vm.createEntity.execute();
+          return SongDetails(viewmodel: vm);
+        },
+      ),
+      GoRoute(
+        path: ':id',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          final vm = SongDetailsViewmodel(songRepository: context.read());
+
+          vm.loadEntity.execute(id);
+
+          return SongDetails(viewmodel: vm);
+        },
+      ),
+    ],
   ),
 ];
 
@@ -143,10 +313,13 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
         GoRoute(
           path: Routes.home,
           builder: (context, state) {
-            final viewModel = LocationListViewmodel(
-              locationRepository: context.read(),
+            final viewModel = GigDetailsViewmodel(
+              gigRepository: context.read(),
             );
-            return LocationListView(viewmodel: viewModel);
+
+            viewModel.loadEntity.execute(422);
+
+            return GigDetails(viewmodel: viewModel);
           },
         ),
         GoRoute(

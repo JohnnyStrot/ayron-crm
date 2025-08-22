@@ -31,8 +31,10 @@ class EventSeries extends Opportunity {
     return a;
   }
 
-  factory EventSeries.create(int id) => EventSeries(
-    opportunity: Opportunity.create(id),
-    events: ToMany(entities: []),
-  );
+  factory EventSeries.create(int id) {
+    return EventSeries(
+      opportunity: Opportunity.create(id),
+      events: ToMany(entities: []),
+    );
+  }
 }

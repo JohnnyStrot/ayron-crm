@@ -36,7 +36,10 @@ class _LocationListViewState
 
   @override
   Widget buildEntry(BuildContext context, Location entity) {
-    return LocationListEntry(location: entity, onDelete: (loc) => delete(loc));
+    return LocationListEntry(
+      opportunity: entity,
+      onDelete: (loc) => delete(loc),
+    );
   }
 
   @override

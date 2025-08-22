@@ -1,7 +1,13 @@
+import 'package:ayron_crm/data/model/band.dart';
+import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/data/model/contact_protocol.dart';
 import 'package:ayron_crm/data/model/entity.dart';
+import 'package:ayron_crm/data/model/event.dart';
+import 'package:ayron_crm/data/model/event_series.dart';
+import 'package:ayron_crm/data/model/gig.dart';
 import 'package:ayron_crm/data/model/opportunity_contact.dart';
 import 'package:ayron_crm/data/model/opportunity_state.dart';
+import 'package:ayron_crm/data/model/organisation.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
 
 import 'location.dart';
@@ -30,6 +36,18 @@ class Opportunity extends StrongEntity {
     switch (json["__class__"]) {
       case "location":
         return Location.fromJson(json);
+      case "band":
+        return Band.fromJson(json);
+      case "contact":
+        return Contact.fromJson(json);
+      case "event_series":
+        return EventSeries.fromJson(json);
+      case "gig":
+        return Gig.fromJson(json);
+      case "organisation":
+        return Organisation.fromJson(json);
+      case "event":
+        return Event.fromJson(json);
       default:
         return Opportunity.fromJsonNoSubtype(json);
     }

@@ -12,6 +12,14 @@ class ContactRepositoryLocal extends DataRepositoryLocal<Contact>
 
   @override
   bool filter(Contact entity, Map<String, dynamic> search) {
+    if (search["filter"] != null) {
+      return entity.name.toLowerCase().contains(search["filter"]) ||
+          entity.tel.toLowerCase().contains(search["filter"].toLowerCase()) ||
+          entity.instagram.toLowerCase().contains(
+            search["filter"].toLowerCase(),
+          ) ||
+          entity.email.toLowerCase().contains(search["filter"].toLowerCase());
+    }
     return (search["name"] == null
             ? true
             : entity.name.toLowerCase().contains(

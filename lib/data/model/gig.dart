@@ -32,7 +32,7 @@ class Gig extends Event {
         ? null
         : TimeOfDayParse.parse(json["stagetime"]),
     flashback: (json["flashback"] ?? "") as String,
-    showOnWebsite: json["showOnWebsite"] as bool,
+    showOnWebsite: (json["showOnWebsite"] ?? false) as bool,
     setlist: ToMany.fromJson(json["setlist"], Setlist.fromJson),
   );
 

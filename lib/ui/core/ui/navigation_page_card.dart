@@ -23,13 +23,10 @@ class NavigationPageCard extends StatelessWidget {
         context.go(_route);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(
-          vertical: Dimens.vgap,
-          horizontal: Dimens.hgap / 2,
-        ),
+        margin: EdgeInsets.symmetric(vertical: 0, horizontal: Dimens.hgap / 2),
         child: Padding(
           padding: EdgeInsetsGeometry.symmetric(
-            vertical: Dimens.paddingVertical,
+            vertical: Dimens.vgap,
             horizontal: Dimens.paddingHorizontal,
           ),
           child: Column(

@@ -56,16 +56,27 @@ class Event extends Opportunity {
   ToOne<EventSeries> _series;
   EventSeries? get series => _series.entity;
   int? get seriesId => _series.id;
+  set series(EventSeries? s) {
+    _series.entity = s;
+  }
 
   ToMany<Lineup> _lineup;
   List<Lineup> get lineup => _lineup.entities;
 
   ToOne<Location> _location;
   Location? get location => _location.entity;
+  set location(Location? l) {
+    _location.entity = l;
+  }
+
   int? get locationId => _location.id;
 
   ToOne<Organisation> _organisation;
   Organisation? get organisation => _organisation.entity;
+  set organisation(Organisation? o) {
+    _organisation.entity = o;
+  }
+
   int? get organisationId => _organisation.id;
 
   factory Event.fromJsonNoSubtype(Map<String, dynamic> json) => Event(

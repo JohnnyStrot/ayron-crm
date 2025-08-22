@@ -9,8 +9,16 @@ abstract final class Dimens {
   /// General vertical padding used to separate UI items
   static const paddingVertical = 18.0;
 
+  // Small gaps between UI items
   static const hgap = 10.0;
   static const vgap = 10.0;
+
+  // Larger gaps to separate groups of UI items
+  static const hdivide = 30.0;
+  static const vdivide = 30.0;
+
+  // Gap at the bottom of the page so the FAB does not hide ui elements
+  static const fabGap = 60.0;
 
   /// Horizontal padding for screen edges
   double get paddingScreenHorizontal;

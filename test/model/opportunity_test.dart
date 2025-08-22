@@ -6,6 +6,6 @@ import 'package:test/test.dart';
 void main() {
   test('Opportunity with minimal info should be created from JSON', () {
     var b = Opportunity.fromJson(jsonDecode('{"id": 0}'));
-    print(jsonEncode(b.toJson()));
+    expect(b.id, 0);
   });
 }

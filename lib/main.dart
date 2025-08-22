@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_duration_picker/material_duration_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'main_development.dart' as development;
@@ -22,8 +23,12 @@ class MainApp extends StatelessWidget {
       localizationsDelegates: [
         GlobalWidgetsLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialDurationPickerLocalizations.delegate,
         AppLocalizationDelegate(),
       ],
+      locale: const Locale('de'),
+      supportedLocales: [const Locale('de'), const Locale('en')],
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,

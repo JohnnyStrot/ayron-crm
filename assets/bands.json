@@ -1,1 +1,6 @@
-[]
+[
+    {"id": 3, "name": "Nameless","genre": "Rock", "city": "Haltern am See"},
+    {"id": 4, "name": "MacLean","genre": "", "city": ""},
+    {"id": 5, "name": "Maniskopic","genre": "", "city": "Gescher"},
+    {"id": 6, "name": "Flying Gloves","genre": "", "city": "Stadtlohn"}
+]

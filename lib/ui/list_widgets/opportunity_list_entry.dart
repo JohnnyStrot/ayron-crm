@@ -16,13 +16,15 @@ abstract class OpportunityListEntry<T extends Opportunity>
 
   String get route;
 
+  String opportunityToString(T opp) => opp.name;
+
   Widget buildContent(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 10,
       children: [
         Text(
-          opportunity.name,
+          opportunityToString(opportunity),
           overflow: TextOverflow.ellipsis,
           style: TextTheme.of(context).displaySmall!.copyWith(
             fontSize: TextTheme.of(context).bodyLarge!.fontSize,

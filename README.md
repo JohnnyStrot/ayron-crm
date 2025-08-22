@@ -2,15 +2,20 @@
 
 A new Flutter project.
 
-## Getting Started
+# Todos
 
-This project is a starting point for a Flutter application.
+## Bestehende Features übernehmen
 
-A few resources to get you started if this is your first Flutter project:
+- Gig-Setlist
+- Opportunity-Contacts
+- Gig aus Event erstellen
+- Bilder-Uploads
+    - Gig
+    - Organisation
+    - Location
+- Song-Rating
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Neue Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Logos anzeigen, insb. ...
+    - Band-Logo in Lineup-Liste

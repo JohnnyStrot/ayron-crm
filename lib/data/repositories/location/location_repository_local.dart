@@ -19,7 +19,7 @@ class LocationRepositoryLocal extends DataRepositoryLocal<Location>
               )) &&
         (search["city"] == null
             ? true
-            : entity.name.toLowerCase().contains(
+            : entity.city.toLowerCase().contains(
                 search["city"].toLowerCase(),
               )) &&
         (search["state"] == null ? true : entity.state == search["state"]);

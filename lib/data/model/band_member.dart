@@ -13,11 +13,18 @@ class BandMember implements WeakEntity {
 
   ToOne<Contact> _member;
   Contact? get member => _member.entity;
+  set member(Contact? l) {
+    _member.entity = l;
+  }
+
   int? get memberId => _member.id;
 
   ToOne<Band> _band;
   Band? get band => _band.entity;
   int? get bandId => _band.id;
+  set band(Band? l) {
+    _band.entity = l;
+  }
 
   String instrument;
 

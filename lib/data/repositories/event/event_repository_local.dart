@@ -8,7 +8,7 @@ class EventRepositoryLocal extends DataRepositoryLocal<Event>
   EventRepositoryLocal({required super.localDataService});
 
   @override
-  String get assetFile => Assets.events;
+  String get assetFile => Assets.gigs;
 
   @override
   bool filter(Event entity, Map<String, dynamic> search) {

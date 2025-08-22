@@ -11,6 +11,7 @@ class DataNavigationPage extends StatelessWidget {
     return GridView.count(
       primary: false,
       padding: const EdgeInsets.all(Dimens.hgap),
+      childAspectRatio: 2,
       crossAxisSpacing: Dimens.hgap,
       mainAxisSpacing: Dimens.vgap,
       crossAxisCount: 2,
@@ -26,7 +27,7 @@ class DataNavigationPage extends StatelessWidget {
           icon: Icons.festival,
         ),
         NavigationPageCard(
-          route: Routes.events,
+          route: Routes.series,
           label: "Veranstaltungsreihen",
           icon: Icons.event_repeat,
         ),

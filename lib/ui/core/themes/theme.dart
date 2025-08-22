@@ -1,4 +1,8 @@
+import 'package:ayron_crm/ui/core/themes/material_theme.dart';
 import 'package:flutter/material.dart';
+
+// Used https://material-foundation.github.io/material-theme-builder/
+// to generate color scheme
 
 abstract final class AppTheme {
   static TextTheme textTheme = TextTheme(
@@ -10,20 +14,22 @@ abstract final class AppTheme {
     headlineSmall: TextStyle(fontFamily: 'Lemon Milk'),
   );
 
-  static ColorScheme lightColorScheme = ColorScheme.light(
-    primary: Color(0xff1c1c1f),
-    secondary: Color.fromARGB(255, 106, 112, 129),
-  );
-  static ColorScheme darkColorScheme = ColorScheme.dark();
-
   static ThemeData lightTheme = ThemeData(
     fontFamily: 'Play',
-    colorScheme: lightColorScheme,
+    colorScheme: MaterialTheme.lightScheme(),
     textTheme: textTheme,
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(),
+      alignLabelWithHint: true,
+    ),
   );
   static ThemeData darkTheme = ThemeData(
     fontFamily: 'Play',
-    colorScheme: darkColorScheme,
+    colorScheme: MaterialTheme.darkScheme(),
     textTheme: textTheme,
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(),
+      alignLabelWithHint: true,
+    ),
   );
 }

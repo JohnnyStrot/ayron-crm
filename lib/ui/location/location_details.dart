@@ -1,118 +1,146 @@
+import 'package:ayron_crm/data/model/location.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
+import 'package:ayron_crm/ui/core/ui/address_input.dart';
+import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
+import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
+import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
+import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
+import 'package:ayron_crm/ui/details/details_view.dart';
 import 'package:ayron_crm/ui/location/location_details_viewmodel.dart';
-import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter/material.dart';
 
-class LocationDetails extends StatefulWidget {
-  const LocationDetails({
-    super.key,
-    required LocationDetailsViewmodel viewmodel,
-  }) : _viewmodel = viewmodel;
-
-  final LocationDetailsViewmodel _viewmodel;
+class LocationDetails
+    extends DetailsView<Location, LocationDetails, LocationDetailsViewmodel> {
+  const LocationDetails({super.key, required super.viewmodel});
 
   @override
   State<LocationDetails> createState() => _LocationDetailsState();
 }
 
-class _LocationDetailsState extends State<LocationDetails> {
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    widget._viewmodel.saveLocation.addListener(_onSaved);
-  }
-
-  @override
-  void didUpdateWidget(covariant LocationDetails oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    oldWidget._viewmodel.saveLocation.removeListener(_onSaved);
-    widget._viewmodel.saveLocation.addListener(_onSaved);
-  }
-
-  @override
-  void dispose() {
-    widget._viewmodel.saveLocation.removeListener(_onSaved);
-    super.dispose();
-  }
-
+class _LocationDetailsState
+    extends DetailsState<Location, LocationDetails, LocationDetailsViewmodel> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: Dimens.of(context).paddingScreenVertical,
-        horizontal: Dimens.of(context).paddingScreenHorizontal,
-      ),
-      child: ListenableBuilder(
-        listenable: Listenable.merge([
-          widget._viewmodel.createLocation,
-          widget._viewmodel.loadLocation,
-        ]),
-        builder: (context, _) {
-          final location = widget._viewmodel.location;
-          if (location != null) {
-            return Form(
-              key: _formKey,
-              child: Column(
-                spacing: Dimens.vgap,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "Location #${location.id}",
-                    style: TextTheme.of(context).headlineSmall,
-                  ),
-                  TextFormField(
-                    validator: (value) => value == null || (value.length <= 142)
-                        ? null
-                        : "Name darf nur 142 Zeichen lang sein.",
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text("Name"),
+    return ListenableBuilder(
+      listenable: Listenable.merge([
+        widget.viewmodel.createEntity,
+        widget.viewmodel.loadEntity,
+        widget.viewmodel.saveEntity,
+      ]),
+      builder: (context, _) {
+        final location = widget.viewmodel.entity;
+        if (location != null) {
+          return DefaultTabController(
+            initialIndex: 0,
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Location ",
+                        style: TextStyle(fontWeight: FontWeight.w200),
+                      ),
+                      TextSpan(
+                        text: location.name.isEmpty
+                            ? "#${location.id}"
+                            : location.name,
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                    style: TextTheme.of(context).headlineSmall!.copyWith(
+                      fontSize: 16,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    controller: TextEditingController(text: location.name),
-                    onChanged: (value) => widget._viewmodel.setName(value),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
-                      if (_formKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                        widget._viewmodel.saveLocation.execute();
-                      }
-                    },
-                    child: const Text('Submit'),
-                  ),
-                ],
+                ),
+                bottom: const TabBar(
+                  tabs: <Widget>[
+                    Tab(text: "Info"),
+                    Tab(text: "Kontakte"),
+                  ],
+                ),
               ),
-            );
-          } else {
-            return LinearProgressIndicator();
-          }
-        },
-      ),
-    );
-  }
-
-  void _onSaved() {
-    if (!widget._viewmodel.saveLocation.isExecuting.value) {
-      switch (widget._viewmodel.saveLocation.value) {
-        case Ok<void>():
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text("Location gespeichert")));
-        case Error<void>():
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Location konnte nicht gespeichert werden"),
-              action: SnackBarAction(
-                label: "Nochmal",
-                onPressed: widget._viewmodel.saveLocation.execute,
+              body: TabBarView(
+                children: <Widget>[
+                  Form(
+                    key: formKey,
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(
+                        vertical: Dimens.of(context).paddingScreenVertical,
+                        horizontal: Dimens.of(context).paddingScreenHorizontal,
+                      ),
+                      children: [
+                        OpportunityNameField(opportunity: location),
+                        SizedBox(height: Dimens.vdivide),
+                        OpportunityStateInput(opportunity: location),
+                        SizedBox(height: Dimens.vdivide),
+                        AddressInput(addressable: location),
+                        SizedBox(height: Dimens.vdivide),
+                        OpportunityInfoBox(opportunity: location),
+                        SizedBox(height: Dimens.vgap),
+                        TextFormField(
+                          controller: TextEditingController(
+                            text: location.publicShorttext,
+                          ),
+                          onChanged: (value) =>
+                              location.publicShorttext = value,
+                          decoration: InputDecoration(
+                            label: Text("Kurztext für Website"),
+                          ),
+                          maxLines: 3,
+                          minLines: 3,
+                        ),
+                        SizedBox(height: Dimens.vdivide),
+                        OpportunitySocialMedia(opportunity: location),
+                        SizedBox(height: Dimens.vgap),
+                        TextFormField(
+                          validator: (value) =>
+                              value == null || (value.length <= 512)
+                              ? null
+                              : "Max. 512 Zeichen",
+                          controller: TextEditingController(
+                            text: location.googlemaps,
+                          ),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            label: Text("Google Maps"),
+                          ),
+                          onChanged: (value) {
+                            location.googlemaps = value;
+                          },
+                        ),
+                        SizedBox(height: Dimens.vdivide),
+                        FilledButton(
+                          onPressed: () {
+                            // Validate returns true if the form is valid, or false otherwise.
+                            if (formKey.currentState!.validate()) {
+                              // If the form is valid, display a snackbar. In the real world,
+                              // you'd often call a server or save the information in a database.
+                              widget.viewmodel.saveEntity.execute();
+                            }
+                          },
+                          child: const Text('Submit'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Center(child: Text("It's rainy here")),
+                ],
               ),
             ),
           );
-      }
-    }
+        } else {
+          return LinearProgressIndicator();
+        }
+      },
+    );
   }
+
+  @override
+  String get typeDisplay => "Location";
 }
