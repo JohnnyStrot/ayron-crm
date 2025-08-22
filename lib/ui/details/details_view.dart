@@ -1,5 +1,4 @@
 import 'package:ayron_crm/data/model/entity.dart';
-import 'package:ayron_crm/ui/core/ui/submit_button.dart';
 import 'package:ayron_crm/ui/details/details_viewmodel.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter/material.dart';
@@ -49,9 +48,6 @@ abstract class DetailsState<
       widget.viewmodel.saveEntity.execute();
     }
   }
-
-  SubmitButton submitButton() =>
-      SubmitButton(formKey: formKey, saveEntity: widget.viewmodel.saveEntity);
 
   void _onSaved() {
     if (!widget.viewmodel.saveEntity.isExecuting.value) {

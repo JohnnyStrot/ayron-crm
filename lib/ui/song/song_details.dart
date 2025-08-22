@@ -1,7 +1,6 @@
 import 'package:ayron_crm/data/model/song.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/durationpicker.dart';
-import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
 import 'package:ayron_crm/ui/song/song_details_viewmodel.dart';
 import 'package:flutter/material.dart';

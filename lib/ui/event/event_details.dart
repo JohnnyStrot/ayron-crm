@@ -5,7 +5,6 @@ import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
-import 'package:ayron_crm/ui/core/ui/submit_button.dart';
 import 'package:ayron_crm/ui/core/ui/timeofdaypicker.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
 import 'package:ayron_crm/ui/event/event_details_viewmodel.dart';
