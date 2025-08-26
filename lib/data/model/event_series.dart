@@ -17,14 +17,14 @@ class EventSeries extends Opportunity {
 
   factory EventSeries.fromJson(Map<String, dynamic> json) => EventSeries(
     opportunity: Opportunity.fromJsonNoSubtype(json),
-    publicShorttext: (json["publicShorttext"] ?? "") as String,
+    publicShorttext: (json["public_shorttext"] ?? "") as String,
     events: ToMany.fromJson(json["events"], Event.fromJson),
   );
 
   @override
   Map<String, dynamic> toJson() {
     var a = <String, dynamic>{
-      'publicShorttext': publicShorttext,
+      'public_shorttext': publicShorttext,
       'events': _events.toJson(),
     };
     a.addAll(super.toJson());

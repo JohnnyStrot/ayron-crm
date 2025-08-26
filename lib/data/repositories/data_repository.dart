@@ -1,7 +1,15 @@
 import 'package:ayron_crm/utils/result.dart';
 
+typedef ResultList<T> = ({List<T> entities, int count});
+
 abstract class DataRepository<T> {
-  Future<Result<List<T>>> getEntities(Map<String, dynamic> search);
+  Future<Result<ResultList<T>>> getEntities({
+    Map<String, dynamic> filter,
+    String? order,
+    bool? orderDesc,
+    int? skip,
+    int? take,
+  });
 
   Future<Result<T>> getEntity(int id);
   Future<Result<T>> createEntity();

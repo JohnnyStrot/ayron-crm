@@ -42,4 +42,7 @@ class EventSeriesSelect extends EntitySelect<EventSeries> {
 
   @override
   String get label => "Veranstaltungsreihe";
+
+  @override
+  String get order => "name";
 }

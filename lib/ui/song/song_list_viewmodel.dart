@@ -11,21 +11,18 @@ class SongListViewmodel extends DataListViewmodel<Song> {
       _searchName = s;
       exLoadEntities();
     });
-    stateChanged = Command.createAsyncNoResult((s) async {
-      _searchState = s;
-      exLoadEntities();
-    });
   }
 
   late final Command<String?, void> nameChanged;
-  late final Command<OpportunityState?, void> stateChanged;
 
   String? _searchName;
-  OpportunityState? _searchState;
 
   @override
-  searchValues() => <String, dynamic>{
-    "name": _searchName,
-    "state": _searchState,
-  };
+  searchValues() {
+    var search = <String, dynamic>{};
+    if (_searchName != null) {
+      search["name"] = _searchName;
+    }
+    return search;
+  }
 }

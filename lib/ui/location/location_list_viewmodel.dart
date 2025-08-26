@@ -30,9 +30,17 @@ class LocationListViewmodel extends DataListViewmodel<Location> {
   OpportunityState? _searchState;
 
   @override
-  searchValues() => <String, dynamic>{
-    "name": _searchName,
-    "city": _searchCity,
-    "state": _searchState,
-  };
+  searchValues() {
+    var search = <String, dynamic>{};
+    if (_searchName != null) {
+      search["name"] = _searchName;
+    }
+    if (_searchState != null) {
+      search["state"] = _searchState!.toJson;
+    }
+    if (_searchCity != null) {
+      search["city"] = _searchCity;
+    }
+    return search;
+  }
 }

@@ -11,7 +11,8 @@ class ContactRepositoryLocal extends DataRepositoryLocal<Contact>
   String get assetFile => Assets.contacts;
 
   @override
-  bool filter(Contact entity, Map<String, dynamic> search) {
+  bool filter(Contact entity, Map<String, dynamic>? search) {
+    if (search == null) return true;
     if (search["filter"] != null) {
       return entity.name.toLowerCase().contains(search["filter"]) ||
           entity.tel.toLowerCase().contains(search["filter"].toLowerCase()) ||

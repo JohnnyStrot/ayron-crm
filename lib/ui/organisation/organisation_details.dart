@@ -124,5 +124,5 @@ class _OrganisationDetailsState
   }
 
   @override
-  String get typeDisplay => "Veranstaltungsreihe";
+  String get typeDisplay => "Organisation";
 }

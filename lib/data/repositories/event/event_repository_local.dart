@@ -11,7 +11,8 @@ class EventRepositoryLocal extends DataRepositoryLocal<Event>
   String get assetFile => Assets.gigs;
 
   @override
-  bool filter(Event entity, Map<String, dynamic> search) {
+  bool filter(Event entity, Map<String, dynamic>? search) {
+    if (search == null) return true;
     return (search["name"] == null
             ? true
             : entity.name.toLowerCase().contains(
@@ -27,5 +28,5 @@ class EventRepositoryLocal extends DataRepositoryLocal<Event>
   Event newEntity(int id) => Event.create(id);
 
   @override
-  String get typeName => "Event";
+  String get typeName => "Veranstaltung";
 }

@@ -34,6 +34,10 @@ class _LocationDetailsState
             initialIndex: 0,
             length: 2,
             child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                onPressed: submit,
+                child: Icon(Icons.save),
+              ),
               appBar: AppBar(
                 title: Text.rich(
                   TextSpan(
@@ -114,18 +118,7 @@ class _LocationDetailsState
                             location.googlemaps = value;
                           },
                         ),
-                        SizedBox(height: Dimens.vdivide),
-                        FilledButton(
-                          onPressed: () {
-                            // Validate returns true if the form is valid, or false otherwise.
-                            if (formKey.currentState!.validate()) {
-                              // If the form is valid, display a snackbar. In the real world,
-                              // you'd often call a server or save the information in a database.
-                              widget.viewmodel.saveEntity.execute();
-                            }
-                          },
-                          child: const Text('Submit'),
-                        ),
+                        SizedBox(height: Dimens.fabGap),
                       ],
                     ),
                   ),

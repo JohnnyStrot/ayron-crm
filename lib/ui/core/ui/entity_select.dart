@@ -34,10 +34,27 @@ abstract class EntitySelect<T extends StrongEntity> extends StatefulWidget {
   );
 
   Future<Result<List<T>>> getEntities(String filter, LoadProps? loadProps) {
-    return repository.getEntities(createFilter(filter));
+    return repository
+        .getEntities(
+          filter: createFilter(filter),
+          skip: loadProps?.skip,
+          take: loadProps?.take,
+          order: order,
+          orderDesc: orderDesc,
+        )
+        .then((v) {
+          switch (v) {
+            case Ok<ResultList<T>>():
+              return Result.ok(v.value.entities);
+            case Error<ResultList<T>>():
+              return Result.error(v.error);
+          }
+        });
   }
 
   Map<String, dynamic> createFilter(String filter);
+  String get order;
+  bool get orderDesc => false;
 }
 
 class EntitySelectState<T extends StrongEntity> extends State<EntitySelect<T>> {

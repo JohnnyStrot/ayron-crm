@@ -37,9 +37,9 @@ class Lineup implements WeakEntity {
   factory Lineup.fromJson(Map<String, dynamic> json) => Lineup(
     band: ToOne.fromJson(json, Band.fromJson, "band"),
     event: ToOne.fromJson(json, Band.fromJson, "event"),
-    soundcheckTime: json["soundcheckTime"] == null
+    soundcheckTime: json["soundcheck_time"] == null
         ? null
-        : TimeOfDayParse.parse(json["soundcheckTime"]),
+        : TimeOfDayParse.parse(json["soundcheck_time"]),
     stagetime: json["stagetime"] == null
         ? null
         : TimeOfDayParse.parse(json["stagetime"]),
@@ -49,7 +49,7 @@ class Lineup implements WeakEntity {
   @override
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = <String, dynamic>{
-      'soundcheckTime': soundcheckTime?.toJson(),
+      'soundcheck_time': soundcheckTime?.toJson(),
       'stagetime': stagetime?.toJson(),
       'stage': stage,
     };

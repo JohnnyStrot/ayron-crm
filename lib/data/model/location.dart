@@ -27,9 +27,9 @@ class Location extends Opportunity implements Addressable {
     postcode: (json['postcode'] ?? "") as String,
     city: (json['city'] ?? "") as String,
     street: (json['street'] ?? "") as String,
-    houseNumber: (json['houseNumber'] ?? "") as String,
+    houseNumber: (json['house_number'] ?? "") as String,
     googlemaps: (json['googlemaps'] ?? "") as String,
-    publicShorttext: (json['publicShorttext'] ?? "") as String,
+    publicShorttext: (json['public_shorttext'] ?? "") as String,
     events: ToMany.fromJson(json["events"], Event.fromJson),
   );
 
@@ -55,7 +55,7 @@ class Location extends Opportunity implements Addressable {
       'street': street,
       'houseNumber': houseNumber,
       'googlemaps': googlemaps,
-      'publicShorttext': publicShorttext,
+      'public_shorttext': publicShorttext,
     };
     a.addAll(super.toJson());
     return a;

@@ -50,4 +50,7 @@ class ContactSelect extends EntitySelect<Contact> {
 
   @override
   String get label => "Kontakt";
+
+  @override
+  String get order => "name";
 }

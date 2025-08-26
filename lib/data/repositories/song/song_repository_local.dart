@@ -11,7 +11,8 @@ class SongRepositoryLocal extends DataRepositoryLocal<Song>
   String get assetFile => Assets.songs;
 
   @override
-  bool filter(Song entity, Map<String, dynamic> search) {
+  bool filter(Song entity, Map<String, dynamic>? search) {
+    if (search == null) return true;
     return (search["name"] == null
             ? true
             : entity.name.toLowerCase().contains(

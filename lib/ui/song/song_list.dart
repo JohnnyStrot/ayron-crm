@@ -52,11 +52,6 @@ class _SongListViewState
             ),
           ),
         ),
-        Expanded(
-          child: OpportunityStateSelect(
-            onSelected: (value) => widget.viewmodel.stateChanged(value),
-          ),
-        ),
       ],
     );
   }

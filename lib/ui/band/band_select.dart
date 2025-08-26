@@ -50,4 +50,7 @@ class BandSelect extends EntitySelect<Band> {
 
   @override
   String get label => "Band";
+
+  @override
+  String get order => "name";
 }

@@ -27,7 +27,7 @@ class Band extends Opportunity {
 
   factory Band.fromJson(Map<String, dynamic> json) => Band(
     opportunity: Opportunity.fromJsonNoSubtype(json),
-    publicShorttext: (json["publicShorttext"] ?? "") as String,
+    publicShorttext: (json["public_shorttext"] ?? "") as String,
     genre: (json["genre"] ?? "") as String,
     city: (json["city"] ?? "") as String,
     members: ToMany.fromJson(json["members"], BandMember.fromJson),
@@ -37,7 +37,7 @@ class Band extends Opportunity {
   @override
   Map<String, dynamic> toJson() {
     var a = <String, dynamic>{
-      'publicShorttext': publicShorttext,
+      'public_shorttext': publicShorttext,
       'genre': genre,
       'city': city,
     };

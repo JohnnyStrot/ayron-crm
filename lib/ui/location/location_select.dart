@@ -50,4 +50,6 @@ class LocationSelect extends EntitySelect<Location> {
 
   @override
   String get label => "Location";
+  @override
+  String get order => "name";
 }

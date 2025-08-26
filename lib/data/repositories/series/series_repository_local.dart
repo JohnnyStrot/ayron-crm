@@ -11,7 +11,8 @@ class EventSeriesRepositoryLocal extends DataRepositoryLocal<EventSeries>
   String get assetFile => Assets.series;
 
   @override
-  bool filter(EventSeries entity, Map<String, dynamic> search) {
+  bool filter(EventSeries entity, Map<String, dynamic>? search) {
+    if (search == null) return true;
     return (search["name"] == null
             ? true
             : entity.name.toLowerCase().contains(

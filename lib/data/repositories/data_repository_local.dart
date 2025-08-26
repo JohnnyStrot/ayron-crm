@@ -18,11 +18,17 @@ abstract class DataRepositoryLocal<T extends StrongEntity>
   String get typeName;
   String get assetFile;
   T Function(Map<String, dynamic> json) get fromJson;
-  bool filter(T entity, Map<String, dynamic> search);
+  bool filter(T entity, Map<String, dynamic>? filter);
   T newEntity(int id);
 
   @override
-  Future<Result<List<T>>> getEntities(Map<String, dynamic> search) async {
+  Future<Result<ResultList<T>>> getEntities({
+    Map<String, dynamic>? filter,
+    String? order,
+    bool? orderDesc,
+    int? skip,
+    int? take,
+  }) async {
     if (!_initialized) {
       _initialized = true;
       _entities.addAll(
@@ -30,8 +36,8 @@ abstract class DataRepositoryLocal<T extends StrongEntity>
       );
     }
     try {
-      final entities = _entities.where((c) => filter(c, search)).toList();
-      return Result.ok(entities);
+      final entities = _entities.where((c) => this.filter(c, filter)).toList();
+      return Result.ok((entities: entities, count: this._entities.length));
     } on Exception catch (error) {
       return Result.error(error);
     }

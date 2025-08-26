@@ -48,6 +48,8 @@ dependencies:
   test: ^1.25.15
   dropdown_search: ^6.0.2
   material_duration_picker: ^0.1.0
+  http: ^1.5.0
+  infinite_scroll_pagination: ^5.1.0
 
 dev_dependencies:
   flutter_test:

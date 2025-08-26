@@ -2,57 +2,46 @@ import 'package:ayron_crm/data/model/entity.dart';
 import 'package:ayron_crm/data/repositories/data_repository.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter_command/flutter_command.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 abstract class DataListViewmodel<T extends StrongEntity> {
   DataListViewmodel({required DataRepository<T> repository})
-    : _repository = repository,
-      _entities = [] {
-    loadEntities = Command.createAsyncNoParam(
-      _load,
-      initialValue: Result.ok([]),
-    );
+    : _repository = repository {
     deleteEntity = Command.createAsync((entity) async {
-      final res = await _repository.deleteEntity(entity.id);
-      switch (res) {
-        case Error<void>():
-          return res;
-        case Ok<void>():
-          _entities.remove(entity);
-          return res;
-      }
+      var l = await _repository.deleteEntity(entity.id);
+      pagingController.refresh();
+      return l;
     }, initialValue: Result.ok(null));
-    loadEntities.isExecuting.listen((ex, _) {
-      if (!ex) {
-        if (_searchChanged) loadEntities();
-      }
-    });
-    loadEntities();
   }
 
+  final int take = 20;
+
+  late final pagingController = PagingController<int, T>(
+    getNextPageKey: (state) =>
+        state.lastPageIsEmpty ? null : state.nextIntPageKey,
+    fetchPage: (pageKey) => _repository
+        .getEntities(
+          filter: searchValues(),
+          take: 20,
+          skip: (pageKey - 1) * take,
+        )
+        .then((v) {
+          switch (v) {
+            case Ok<ResultList<T>>():
+              return v.value.entities;
+            case Error<ResultList<T>>():
+              return [];
+          }
+        }),
+  );
+
   void exLoadEntities() {
-    _searchChanged = true;
-    loadEntities.execute();
+    pagingController.refresh();
   }
 
   final DataRepository<T> _repository;
-  List<T> _entities;
-  List<T> get entities => _entities;
 
-  bool _searchChanged = false;
-
-  late final Command<void, Result<List<T>>> loadEntities;
   late final Command<T, Result<void>> deleteEntity;
-
-  Future<Result<List<T>>> _load() async {
-    _searchChanged = false;
-    final result = await _repository.getEntities(searchValues());
-    switch (result) {
-      case Ok<List<T>>():
-        _entities = result.value;
-      case Error<List<T>>():
-    }
-    return result;
-  }
 
   Map<String, dynamic> searchValues();
 }

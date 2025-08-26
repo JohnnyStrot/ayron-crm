@@ -11,7 +11,8 @@ class LocationRepositoryLocal extends DataRepositoryLocal<Location>
   String get assetFile => Assets.locations;
 
   @override
-  bool filter(Location entity, Map<String, dynamic> search) {
+  bool filter(Location entity, Map<String, dynamic>? search) {
+    if (search == null) return true;
     return (search["name"] == null
             ? true
             : entity.name.toLowerCase().contains(

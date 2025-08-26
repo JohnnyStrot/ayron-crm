@@ -42,4 +42,7 @@ class OrganisationSelect extends EntitySelect<Organisation> {
 
   @override
   String get label => "Organisation";
+
+  @override
+  String get order => "name";
 }

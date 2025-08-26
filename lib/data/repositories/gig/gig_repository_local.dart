@@ -11,7 +11,8 @@ class GigRepositoryLocal extends DataRepositoryLocal<Gig>
   String get assetFile => Assets.gigs;
 
   @override
-  bool filter(Gig entity, Map<String, dynamic> search) {
+  bool filter(Gig entity, Map<String, dynamic>? search) {
+    if (search == null) return true;
     return (search["name"] == null
             ? true
             : entity.name.toLowerCase().contains(

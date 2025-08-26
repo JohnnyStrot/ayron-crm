@@ -28,11 +28,11 @@ class Contact extends Opportunity implements Addressable {
     postcode: (json['postcode'] ?? "") as String,
     city: (json['city'] ?? "") as String,
     street: (json['street'] ?? "") as String,
-    houseNumber: (json['houseNumber'] ?? "") as String,
+    houseNumber: (json['house_number'] ?? "") as String,
     email: (json['email'] ?? "") as String,
     tel: (json['tel'] ?? "") as String,
     contactProtocols: ToMany.fromJson(
-      json["contactProtocols"],
+      json["contact_protocols"],
       ContactProtocol.fromJson,
     ),
     opportunities: ToMany.fromJson(
@@ -68,10 +68,10 @@ class Contact extends Opportunity implements Addressable {
       'postcode': postcode,
       'city': city,
       'street': street,
-      'houseNumber': houseNumber,
+      'house_number': houseNumber,
       'email': email,
       'tel': tel,
-      'contactProtocols': _contactProtocols.toJson(),
+      'contact_protocols': _contactProtocols.toJson(),
       'opportunities': _opportunities.toJson(),
       'bands': _bands.toJson(),
     };

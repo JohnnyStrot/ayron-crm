@@ -7,9 +7,15 @@ class AuthApiClient {
   final FlutterAppAuth _appAuth = FlutterAppAuth();
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
-  final String _clientId = 'ayron-crm';
+  final String _clientId = String.fromEnvironment(
+    'auth_client_id',
+    defaultValue: 'ayron-crm',
+  );
   final String _redirectUrl = 'de.ayronband.crm://callback';
-  final String _issuer = 'https://johnnyst.de:8443/realms/applications';
+  final String _issuer = String.fromEnvironment(
+    'auth_issuer',
+    defaultValue: 'https://johnnyst.de:8443/realms/applications',
+  );
   final List<String> _scopes = ['openid', 'offline_access'];
 
   static const String _accessTokenKey = 'access_token';

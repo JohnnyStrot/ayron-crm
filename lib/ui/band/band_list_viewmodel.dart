@@ -24,8 +24,14 @@ class BandListViewmodel extends DataListViewmodel<Band> {
   OpportunityState? _searchState;
 
   @override
-  searchValues() => <String, dynamic>{
-    "name": _searchName,
-    "state": _searchState,
-  };
+  searchValues() {
+    var search = <String, dynamic>{};
+    if (_searchName != null) {
+      search["name"] = _searchName;
+    }
+    if (_searchState != null) {
+      search["state"] = _searchState!.toJson;
+    }
+    return search;
+  }
 }

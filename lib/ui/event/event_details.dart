@@ -191,7 +191,7 @@ class _EventDetailsState
                           controller: TextEditingController(
                             text: event.summary,
                           ),
-                          onChanged: (value) => event.tickets = value,
+                          onChanged: (value) => event.summary = value,
                           decoration: InputDecoration(label: Text("Kurztext")),
                           maxLines: 3,
                           minLines: 3,

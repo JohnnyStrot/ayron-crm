@@ -59,13 +59,13 @@ class Opportunity extends StrongEntity {
         name: (json['name'] ?? "") as String,
         info: (json['info'] ?? "") as String,
         state: OpportunityState.fromJson((json['state'] ?? "") as String),
-        stateText: (json['stateText'] ?? "") as String,
-        createdAt: json['createdAt'] == null
+        stateText: (json['state_text'] ?? "") as String,
+        createdAt: json['created_at'] == null
             ? DateTime.now()
-            : DateTime.parse(json['createdAt'] as String),
-        updatedAt: json['updatedAt'] == null
+            : DateTime.parse(json['created_at'] as String),
+        updatedAt: json['updated_at'] == null
             ? DateTime.now()
-            : DateTime.parse(json['updatedAt'] as String),
+            : DateTime.parse(json['updated_at'] as String),
         instagram: (json['instagram'] ?? "") as String,
         xtwitter: (json['xtwitter'] ?? "") as String,
         facebook: (json['facebook'] ?? "") as String,
@@ -85,9 +85,9 @@ class Opportunity extends StrongEntity {
     'name': name,
     'info': info,
     'state': state.toJson,
-    'stateText': stateText,
-    'createdAt': createdAt.toIso8601String(),
-    'updatedAt': updatedAt.toIso8601String(),
+    'state_text': stateText,
+    'created_at': createdAt.toIso8601String(),
+    'updated_at': updatedAt.toIso8601String(),
     'instagram': instagram,
     'xtwitter': xtwitter,
     'facebook': facebook,

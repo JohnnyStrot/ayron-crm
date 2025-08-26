@@ -25,24 +25,24 @@ class Gig extends Event {
 
   factory Gig.fromJson(Map<String, dynamic> json) => Gig(
     event: Event.fromJsonNoSubtype(json),
-    soundcheckTime: json["soundcheckTime"] == null
+    soundcheckTime: json["soundcheck_time"] == null
         ? null
-        : TimeOfDayParse.parse(json["soundcheckTime"]),
+        : TimeOfDayParse.parse(json["soundcheck_time"]),
     stagetime: json["stagetime"] == null
         ? null
         : TimeOfDayParse.parse(json["stagetime"]),
     flashback: (json["flashback"] ?? "") as String,
-    showOnWebsite: (json["showOnWebsite"] ?? false) as bool,
+    showOnWebsite: (json["show_on_website"] ?? false) as bool,
     setlist: ToMany.fromJson(json["setlist"], Setlist.fromJson),
   );
 
   @override
   Map<String, dynamic> toJson() {
     var a = <String, dynamic>{
-      'soundcheckTime': soundcheckTime?.toJson(),
+      'soundcheck_time': soundcheckTime?.toJson(),
       'stagetime': stagetime?.toJson(),
       'flashback': flashback,
-      'showOnWebsite': showOnWebsite,
+      'show_on_website': showOnWebsite,
       'setlist': _setlist.toJson(),
     };
     a.addAll(super.toJson());

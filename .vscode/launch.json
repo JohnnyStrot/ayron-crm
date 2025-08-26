@@ -14,7 +14,14 @@
             "name": "ayron_crm dev",
             "request": "launch",
             "type": "dart",
-            "program": "${workspaceFolder}/lib/main_development.dart"
+            "program": "${workspaceFolder}/lib/main_development.dart",
+            "preLaunchTask": "adb reverse"
+        },
+        {
+            "name": "ayron_crm local",
+            "request": "launch",
+            "type": "dart",
+            "program": "${workspaceFolder}/lib/main_local.dart"
         },
         {
             "name": "ayron_crm (profile mode)",

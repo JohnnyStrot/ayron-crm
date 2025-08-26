@@ -22,6 +22,17 @@ class SongListEntry extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextTheme.of(context).displaySmall!.copyWith(
             fontSize: TextTheme.of(context).bodyLarge!.fontSize,
+            color: ColorScheme.of(
+              context,
+            ).onSurface.withAlpha(song.inRepertoire ? 255 : 120),
+          ),
+        ),
+        Text(
+          song.author,
+          style: TextStyle(
+            color: ColorScheme.of(
+              context,
+            ).onSurface.withAlpha(song.inRepertoire ? 255 : 120),
           ),
         ),
       ],

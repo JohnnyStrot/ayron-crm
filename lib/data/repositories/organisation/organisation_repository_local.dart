@@ -11,7 +11,8 @@ class OrganisationRepositoryLocal extends DataRepositoryLocal<Organisation>
   String get assetFile => Assets.organisations;
 
   @override
-  bool filter(Organisation entity, Map<String, dynamic> search) {
+  bool filter(Organisation entity, Map<String, dynamic>? search) {
+    if (search == null) return true;
     return (search["name"] == null
             ? true
             : entity.name.toLowerCase().contains(

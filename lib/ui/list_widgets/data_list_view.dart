@@ -5,6 +5,8 @@ import 'package:ayron_crm/ui/list_widgets/data_list_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 abstract class DataListView<
   T extends StrongEntity,
   M extends DataListViewmodel<T>,
@@ -38,44 +40,44 @@ abstract class DataListViewState<
 
   @override
   Widget build(BuildContext context) {
-    var builder = ListenableBuilder(
-      listenable: Listenable.merge([
-        widget.viewmodel.loadEntities,
-        widget.viewmodel.loadEntities.isExecuting,
-        widget.viewmodel.deleteEntity,
-      ]),
-      builder: (context, child) {
-        final entities = widget.viewmodel.entities;
-        final scrollView = CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: Dimens.paddingVertical),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  final entity = entities[index];
-                  return Padding(
-                    padding: EdgeInsets.only(top: index > 0 ? 10 : 0),
-                    child: buildEntry(context, entity),
-                  );
-                }, childCount: entities.length),
-              ),
+    final paging = PagingListener(
+      controller: widget.viewmodel.pagingController,
+      builder: (context, state, fetchNextPage) {
+        return PagedSliverList<int, T>(
+          state: state,
+          fetchNextPage: fetchNextPage,
+          builderDelegate: PagedChildBuilderDelegate(
+            itemBuilder: (context, entity, index) => Padding(
+              padding: EdgeInsets.only(top: index > 0 ? 10 : 0),
+              child: buildEntry(context, entity),
             ),
-          ],
-        );
-        return Column(
-          spacing: 10,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            LinearProgressIndicator(
-              minHeight: 5,
-              backgroundColor: ColorScheme.of(context).surface,
-              value: widget.viewmodel.loadEntities.isExecuting.value ? null : 0,
-            ),
-            Expanded(child: scrollView),
-          ],
+          ),
         );
       },
     );
+
+    final scroll = CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: EdgeInsets.only(bottom: Dimens.fabGap),
+          sliver: paging,
+        ),
+      ],
+    );
+
+    /*
+    return Column(
+      spacing: 10,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        LinearProgressIndicator(
+          minHeight: 5,
+          backgroundColor: ColorScheme.of(context).surface,
+          value: widget.viewmodel.loadEntities.isExecuting.value ? null : 0,
+        ),
+        Expanded(child: scrollView),
+      ],
+    );*/
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -96,7 +98,7 @@ abstract class DataListViewState<
           children: [
             Text(entityDisplay, style: TextTheme.of(context).headlineSmall),
             buildSearch(context),
-            Expanded(child: builder),
+            Expanded(child: scroll),
           ],
         ),
       ),
