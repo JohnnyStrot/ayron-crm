@@ -40,6 +40,8 @@ class Band extends Opportunity {
       'public_shorttext': publicShorttext,
       'genre': genre,
       'city': city,
+      'members': _members.toJson(),
+      'events': _events.toJson(),
     };
     a.addAll(super.toJson());
     return a;

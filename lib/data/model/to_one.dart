@@ -19,11 +19,11 @@ class ToOne<T extends StrongEntity> {
     String attribute,
   ) => json[attribute] != null
       ? ToOne(entity: fromJson(json[attribute]))
-      : ToOne(id: json["${attribute}_id"] as int?);
+      : ToOne(id: json["${attribute}Id"] as int?);
 
   MapEntry<String, dynamic> toJson(String attribute) =>
       MapEntry<String, dynamic>(
-        entity == null ? "${attribute}_id" : attribute,
-        entity ?? _id,
+        entity == null ? "${attribute}Id" : attribute,
+        entity?.toJson() ?? _id,
       );
 }

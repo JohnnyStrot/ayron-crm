@@ -6,18 +6,18 @@ import 'package:ayron_crm/data/model/to_one.dart';
 class BandMember implements WeakEntity {
   BandMember({
     required ToOne<Band> band,
-    required ToOne<Contact> member,
+    required ToOne<Contact> contact,
     this.instrument = "",
-  }) : _member = member,
+  }) : _contact = contact,
        _band = band;
 
-  ToOne<Contact> _member;
-  Contact? get member => _member.entity;
-  set member(Contact? l) {
-    _member.entity = l;
+  ToOne<Contact> _contact;
+  Contact? get contact => _contact.entity;
+  set contact(Contact? l) {
+    _contact.entity = l;
   }
 
-  int? get memberId => _member.id;
+  int? get memberId => _contact.id;
 
   ToOne<Band> _band;
   Band? get band => _band.entity;
@@ -30,14 +30,14 @@ class BandMember implements WeakEntity {
 
   factory BandMember.fromJson(Map<String, dynamic> json) => BandMember(
     band: ToOne.fromJson(json, Band.fromJson, "band"),
-    member: ToOne.fromJson(json, Contact.fromJson, "member"),
+    contact: ToOne.fromJson(json, Contact.fromJson, "contact"),
     instrument: json["instrument"] ?? "",
   );
 
   @override
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = <String, dynamic>{'instrument': instrument};
-    map.addEntries([_member.toJson("member"), _band.toJson("band")]);
+    map.addEntries([_contact.toJson("contact"), _band.toJson("band")]);
     return map;
   }
 }

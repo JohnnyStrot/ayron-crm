@@ -50,7 +50,7 @@ class _MemberListState extends State<MemberList> {
             IconButton.filled(
               onPressed: () {
                 setState(() {
-                  BandMember l = BandMember(band: ToOne(), member: ToOne());
+                  BandMember l = BandMember(band: ToOne(), contact: ToOne());
                   widget._band.members.add(l);
                   _elements.add(_MemberExpansion(member: l));
                 });
@@ -92,7 +92,7 @@ class _MemberListState extends State<MemberList> {
                   spacing: Dimens.hgap,
                   children: [
                     Text(
-                      exp.member.member?.displayShort ?? "",
+                      exp.member.contact?.displayShort ?? "",
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                     Text(
@@ -139,9 +139,9 @@ class _MemberListState extends State<MemberList> {
                 child: ContactSelect(
                   repository: context.read(),
                   onSelect: (l) => setState(() {
-                    entity.member = l;
+                    entity.contact = l;
                   }),
-                  initialValue: entity.member,
+                  initialValue: entity.contact,
                 ),
               ),
               Expanded(

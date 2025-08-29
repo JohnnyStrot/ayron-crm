@@ -8,7 +8,7 @@ class Setlist implements WeakEntity {
     required ToOne<Song> song,
     required ToOne<Gig> gig,
     this.text = "",
-    this.order = -1,
+    required this.order,
     this.optional = false,
     this.encore = false,
   }) : _gig = gig,
@@ -21,6 +21,9 @@ class Setlist implements WeakEntity {
   ToOne<Song> _song;
   Song? get song => _song.entity;
   int? get songId => _song.id;
+  set song(Song? s) {
+    _song.entity = s;
+  }
 
   String text;
   int order;
@@ -44,7 +47,10 @@ class Setlist implements WeakEntity {
       'optional': optional,
       'encore': encore,
     };
-    map.addEntries([_gig.toJson("gig"), _song.toJson("song")]);
+    map.addEntries([
+      //_gig.toJson("gig"),
+      _song.toJson("song"),
+    ]);
     return map;
   }
 }

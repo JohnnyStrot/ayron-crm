@@ -68,45 +68,51 @@ class EntitySelectState<T extends StrongEntity> extends State<EntitySelect<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownSearch<T>(
-      compareFn: (item1, item2) => item1.id == item2.id,
-      selectedItem: _currentValue,
-      onChanged: _select,
-      items: _getData,
-      itemAsString: widget.entityAsString,
-      suffixProps: DropdownSuffixProps(
-        clearButtonProps: ClearButtonProps(isVisible: true),
-        dropdownButtonProps: DropdownButtonProps(isVisible: false),
-      ),
-      decoratorProps: DropDownDecoratorProps(
-        decoration: InputDecoration(
-          labelText: widget.label,
-          border: OutlineInputBorder(),
-        ),
-      ),
-      popupProps: PopupProps.bottomSheet(
-        cacheItems: true,
-        bottomSheetProps: BottomSheetProps(
-          backgroundColor: ColorScheme.of(context).surfaceContainer,
-        ),
-        searchFieldProps: TextFieldProps(
-          decoration: InputDecoration(label: Text("Suche...")),
-          padding: EdgeInsets.symmetric(
-            vertical: Dimens.paddingVertical,
-            horizontal: Dimens.paddingHorizontal,
+    return Builder(
+      builder: (context) {
+        return DropdownSearch<T>(
+          compareFn: (item1, item2) => item1.id == item2.id,
+          selectedItem: _currentValue,
+          onChanged: _select,
+          items: _getData,
+          itemAsString: widget.entityAsString,
+
+          suffixProps: DropdownSuffixProps(
+            clearButtonProps: ClearButtonProps(isVisible: true),
+            dropdownButtonProps: DropdownButtonProps(isVisible: false),
           ),
-        ),
-        showSearchBox: true,
-        itemBuilder: (context, item, isDisabled, isSelected) {
-          return Padding(
-            padding: EdgeInsetsGeometry.symmetric(
-              vertical: Dimens.of(context).paddingScreenVertical,
-              horizontal: Dimens.of(context).paddingScreenHorizontal,
+          decoratorProps: DropDownDecoratorProps(
+            decoration: InputDecoration(
+              labelText: widget.label,
+              border: OutlineInputBorder(),
             ),
-            child: widget.buildItem(context, item, isDisabled, isSelected),
-          );
-        },
-      ),
+          ),
+          popupProps: PopupProps.modalBottomSheet(
+            cacheItems: true,
+            modalBottomSheetProps: ModalBottomSheetProps(
+              backgroundColor: ColorScheme.of(context).surfaceContainer,
+              useRootNavigator: true,
+            ),
+            searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(label: Text("Suche...")),
+              padding: EdgeInsets.symmetric(
+                vertical: Dimens.paddingVertical,
+                horizontal: Dimens.paddingHorizontal,
+              ),
+            ),
+            showSearchBox: true,
+            itemBuilder: (context, item, isDisabled, isSelected) {
+              return Padding(
+                padding: EdgeInsetsGeometry.symmetric(
+                  vertical: Dimens.of(context).paddingScreenVertical,
+                  horizontal: Dimens.of(context).paddingScreenHorizontal,
+                ),
+                child: widget.buildItem(context, item, isDisabled, isSelected),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

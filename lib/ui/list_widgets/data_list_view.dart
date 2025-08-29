@@ -65,20 +65,6 @@ abstract class DataListViewState<
       ],
     );
 
-    /*
-    return Column(
-      spacing: 10,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        LinearProgressIndicator(
-          minHeight: 5,
-          backgroundColor: ColorScheme.of(context).surface,
-          value: widget.viewmodel.loadEntities.isExecuting.value ? null : 0,
-        ),
-        Expanded(child: scrollView),
-      ],
-    );*/
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {

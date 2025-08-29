@@ -11,7 +11,7 @@ void main() {
     expect(b.instrument, "Harfe");
     expect(b.band, isNull);
     expect(b.bandId, isNull);
-    expect(b.member, isNull);
+    expect(b.contact, isNull);
     expect(b.memberId, isNull);
   });
   test('Band Member with associated band should be created', () {
@@ -29,8 +29,8 @@ void main() {
 
     var b = BandMember.fromJson(jsonDecode(json));
 
-    expect(b.member, isNotNull);
-    expect(b.member!.name, "Johannes");
+    expect(b.contact, isNotNull);
+    expect(b.contact!.name, "Johannes");
   });
   test(
     'Band Member with associated member, given only id, should be created',
@@ -39,7 +39,7 @@ void main() {
 
       var b = BandMember.fromJson(jsonDecode(json));
 
-      expect(b.member, isNull);
+      expect(b.contact, isNull);
       expect(b.memberId, isNotNull);
       expect(b.memberId, 0);
     },

@@ -1,4 +1,5 @@
 import 'package:ayron_crm/data/model/gig.dart';
+import 'package:ayron_crm/ui/contact_protocol/protocol_list.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/datepicker.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
@@ -9,7 +10,9 @@ import 'package:ayron_crm/ui/core/ui/timeofdaypicker.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
 import 'package:ayron_crm/ui/event/lineup_list.dart';
 import 'package:ayron_crm/ui/gig/gig_details_viewmodel.dart';
+import 'package:ayron_crm/ui/gig/gig_setlist.dart';
 import 'package:ayron_crm/ui/location/location_select.dart';
+import 'package:ayron_crm/ui/opportunity_contact/opportunity_contact_list.dart';
 import 'package:ayron_crm/ui/organisation/organisation_select.dart';
 import 'package:ayron_crm/ui/series/series_select.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +42,7 @@ class _GigDetailsState
           if (gig != null) {
             return DefaultTabController(
               initialIndex: 0,
-              length: 3,
+              length: 4,
               child: Scaffold(
                 floatingActionButton: FloatingActionButton(
                   onPressed: submit,
@@ -72,6 +75,7 @@ class _GigDetailsState
                       Tab(text: "Info"),
                       Tab(text: "Public"),
                       Tab(text: "Kontakte"),
+                      Tab(text: "Setlist"),
                     ],
                   ),
                 ),
@@ -235,7 +239,39 @@ class _GigDetailsState
                         SizedBox(height: Dimens.fabGap),
                       ],
                     ),
-                    Text("rainy"),
+                    ListView(
+                      children: [
+                        OpportunityContactList(
+                          opportunity: gig,
+                          repository: context.read(),
+                          opcoRepository: context.read(),
+                        ),
+                        if (gig.location != null)
+                          OpportunityContactList(
+                            opportunity: gig.location!,
+                            label: "Zur Location",
+                            repository: context.read(),
+                            opcoRepository: context.read(),
+                          ),
+                        if (gig.organisation != null)
+                          OpportunityContactList(
+                            opportunity: gig.organisation!,
+                            label: "Zur Organisation",
+                            repository: context.read(),
+                            opcoRepository: context.read(),
+                          ),
+                        if (gig.series != null)
+                          OpportunityContactList(
+                            opportunity: gig.series!,
+                            label: "Zur Veranstaltungsreihe",
+                            repository: context.read(),
+                            opcoRepository: context.read(),
+                          ),
+                        ProtocolList(protocols: gig.protocols),
+                        SizedBox(height: Dimens.fabGap),
+                      ],
+                    ),
+                    GigSetlist(gig: gig, repository: context.read()),
                   ],
                 ),
               ),
