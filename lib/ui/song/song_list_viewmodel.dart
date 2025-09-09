@@ -1,5 +1,4 @@
 import 'package:ayron_crm/data/model/song.dart';
-import 'package:ayron_crm/data/model/opportunity_state.dart';
 import 'package:ayron_crm/data/repositories/song/song_repository.dart';
 import 'package:ayron_crm/ui/list_widgets/data_list_viewmodel.dart';
 import 'package:flutter_command/flutter_command.dart';

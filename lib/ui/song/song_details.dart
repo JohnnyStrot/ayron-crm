@@ -17,6 +17,7 @@ class _SongDetailsState
     extends DetailsState<Song, SongDetails, SongDetailsViewmodel> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListenableBuilder(
       listenable: Listenable.merge([
         widget.viewmodel.createEntity,

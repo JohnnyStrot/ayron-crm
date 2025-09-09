@@ -1,10 +1,8 @@
-import 'package:ayron_crm/data/model/band.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/routing/routes.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_select.dart';
 import 'package:ayron_crm/ui/list_widgets/data_list_view.dart';
-import 'package:ayron_crm/ui/band/band_list_entry.dart';
 import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 import 'package:ayron_crm/ui/opportunity/opportunity_list_viewmodel.dart';
 import 'package:flutter/material.dart';

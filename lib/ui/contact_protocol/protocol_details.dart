@@ -93,7 +93,7 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
               TextSpan(
                 text:
                     (_protocol!.contact?.displayShort) ??
-                    "#${_protocol!.id ?? ""}",
+                    "#${_protocol?.id ?? ""}",
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.w500,
