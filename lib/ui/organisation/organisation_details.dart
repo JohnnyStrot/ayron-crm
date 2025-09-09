@@ -5,6 +5,7 @@ import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
+import 'package:ayron_crm/ui/opportunity_contact/opportunity_contact_page.dart';
 import 'package:ayron_crm/ui/organisation/organisation_details_viewmodel.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,7 @@ class _OrganisationDetailsState
         > {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListenableBuilder(
       listenable: Listenable.merge([
         widget.viewmodel.createEntity,
@@ -37,8 +39,8 @@ class _OrganisationDetailsState
         widget.viewmodel.saveEntity,
       ]),
       builder: (context, _) {
-        final series = widget.viewmodel.entity;
-        if (series != null) {
+        final organisation = widget.viewmodel.entity;
+        if (organisation != null) {
           return DefaultTabController(
             initialIndex: 0,
             length: 2,
@@ -56,9 +58,9 @@ class _OrganisationDetailsState
                         style: TextStyle(fontWeight: FontWeight.w200),
                       ),
                       TextSpan(
-                        text: series.name.isEmpty
-                            ? "#${series.id}"
-                            : series.name,
+                        text: organisation.name.isEmpty
+                            ? "#${organisation.id}"
+                            : organisation.name,
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.w500,
@@ -88,17 +90,18 @@ class _OrganisationDetailsState
                         horizontal: Dimens.of(context).paddingScreenHorizontal,
                       ),
                       children: [
-                        OpportunityNameField(opportunity: series),
+                        OpportunityNameField(opportunity: organisation),
                         SizedBox(height: Dimens.vdivide),
-                        OpportunityStateInput(opportunity: series),
+                        OpportunityStateInput(opportunity: organisation),
                         SizedBox(height: Dimens.vdivide),
-                        OpportunityInfoBox(opportunity: series),
+                        OpportunityInfoBox(opportunity: organisation),
                         SizedBox(height: Dimens.vgap),
                         TextFormField(
                           controller: TextEditingController(
-                            text: series.publicShorttext,
+                            text: organisation.publicShorttext,
                           ),
-                          onChanged: (value) => series.publicShorttext = value,
+                          onChanged: (value) =>
+                              organisation.publicShorttext = value,
                           decoration: InputDecoration(
                             label: Text("Kurztext für Website"),
                           ),
@@ -106,12 +109,12 @@ class _OrganisationDetailsState
                           minLines: 3,
                         ),
                         SizedBox(height: Dimens.vdivide),
-                        OpportunitySocialMedia(opportunity: series),
+                        OpportunitySocialMedia(opportunity: organisation),
                         SizedBox(height: Dimens.fabGap),
                       ],
                     ),
                   ),
-                  Center(child: Text("It's rainy here")),
+                  OpportunityContactPage(opportunity: organisation),
                 ],
               ),
             ),

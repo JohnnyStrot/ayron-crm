@@ -7,6 +7,7 @@ import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
 import 'package:ayron_crm/ui/core/ui/timeofdaypicker.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
+import 'package:ayron_crm/ui/event/event_contact_page.dart';
 import 'package:ayron_crm/ui/event/event_details_viewmodel.dart';
 import 'package:ayron_crm/ui/event/lineup_list.dart';
 import 'package:ayron_crm/ui/location/location_select.dart';
@@ -27,6 +28,7 @@ class _EventDetailsState
     extends DetailsState<Event, EventDetails, EventDetailsViewmodel> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Form(
       key: formKey,
       child: ListenableBuilder(
@@ -215,7 +217,7 @@ class _EventDetailsState
                         SizedBox(height: Dimens.fabGap),
                       ],
                     ),
-                    Text("rainy"),
+                    EventContactPage(event: event),
                   ],
                 ),
               ),

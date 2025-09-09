@@ -9,6 +9,7 @@ import 'package:ayron_crm/data/model/opportunity_contact.dart';
 import 'package:ayron_crm/data/model/opportunity_state.dart';
 import 'package:ayron_crm/data/model/organisation.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:flutter/material.dart';
 
 import 'location.dart';
 
@@ -34,19 +35,19 @@ class Opportunity extends StrongEntity {
 
   factory Opportunity.fromJson(Map<String, dynamic> json) {
     switch (json["__class__"]) {
-      case "location":
+      case "Location":
         return Location.fromJson(json);
-      case "band":
+      case "Band":
         return Band.fromJson(json);
-      case "contact":
+      case "Contact":
         return Contact.fromJson(json);
-      case "event_series":
+      case "EventSeries":
         return EventSeries.fromJson(json);
-      case "gig":
+      case "Gig":
         return Gig.fromJson(json);
-      case "organisation":
+      case "Organisation":
         return Organisation.fromJson(json);
-      case "event":
+      case "Event":
         return Event.fromJson(json);
       default:
         return Opportunity.fromJsonNoSubtype(json);
@@ -95,7 +96,6 @@ class Opportunity extends StrongEntity {
     'web': web,
     'youtube': youtube,
     'contacts': _contacts.toJson(),
-    'protocols': _protocols.toJson(),
   };
 
   factory Opportunity.create(int id) => Opportunity(
@@ -148,4 +148,7 @@ class Opportunity extends StrongEntity {
 
   @override
   String get displayShort => name;
+
+  String get typeDisplay => "Gelegenheit";
+  IconData get typeIcon => Icons.assignment;
 }

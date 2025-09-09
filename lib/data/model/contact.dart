@@ -3,6 +3,7 @@ import 'package:ayron_crm/data/model/band_member.dart';
 import 'package:ayron_crm/data/model/contact_protocol.dart';
 import 'package:ayron_crm/data/model/opportunity_contact.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:flutter/material.dart';
 
 import 'opportunity.dart';
 
@@ -71,7 +72,6 @@ class Contact extends Opportunity implements Addressable {
       'house_number': houseNumber,
       'email': email,
       'tel': tel,
-      'contact_protocols': _contactProtocols.toJson(),
       'opportunities': _opportunities.toJson(),
       'bands': _bands.toJson(),
     };
@@ -94,4 +94,18 @@ class Contact extends Opportunity implements Addressable {
                   : instagram
             : email
       : name;
+
+  IconData get displayIcon => name.isEmpty
+      ? email.isEmpty
+            ? instagram.isEmpty
+                  ? Icons.phone
+                  : Icons.alternate_email
+            : Icons.mail
+      : Icons.person;
+
+  @override
+  String get typeDisplay => "Kontakt";
+
+  @override
+  IconData get typeIcon => Icons.person;
 }

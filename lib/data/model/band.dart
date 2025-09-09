@@ -2,6 +2,8 @@ import 'package:ayron_crm/data/model/band_member.dart';
 import 'package:ayron_crm/data/model/lineup.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/icon_data.dart';
 
 class Band extends Opportunity {
   Band({
@@ -52,4 +54,10 @@ class Band extends Opportunity {
     members: ToMany(entities: []),
     events: ToMany(entities: []),
   );
+
+  @override
+  String get typeDisplay => "Band";
+
+  @override
+  IconData get typeIcon => Icons.piano;
 }

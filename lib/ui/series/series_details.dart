@@ -5,6 +5,7 @@ import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
+import 'package:ayron_crm/ui/opportunity_contact/opportunity_contact_page.dart';
 import 'package:ayron_crm/ui/series/series_details_viewmodel.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class _SeriesDetailsState
     extends DetailsState<EventSeries, SeriesDetails, SeriesDetailsViewmodel> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListenableBuilder(
       listenable: Listenable.merge([
         widget.viewmodel.createEntity,
@@ -101,7 +103,7 @@ class _SeriesDetailsState
                       ],
                     ),
                   ),
-                  Center(child: Text("It's rainy here")),
+                  OpportunityContactPage(opportunity: series),
                 ],
               ),
             ),

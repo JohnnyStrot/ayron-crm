@@ -17,7 +17,7 @@ class BandMember implements WeakEntity {
     _contact.entity = l;
   }
 
-  int? get memberId => _contact.id;
+  int? get contactId => _contact.id;
 
   ToOne<Band> _band;
   Band? get band => _band.entity;

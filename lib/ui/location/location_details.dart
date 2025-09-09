@@ -7,6 +7,7 @@ import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
 import 'package:ayron_crm/ui/location/location_details_viewmodel.dart';
+import 'package:ayron_crm/ui/opportunity_contact/opportunity_contact_page.dart';
 import 'package:flutter/material.dart';
 
 class LocationDetails
@@ -21,6 +22,7 @@ class _LocationDetailsState
     extends DetailsState<Location, LocationDetails, LocationDetailsViewmodel> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListenableBuilder(
       listenable: Listenable.merge([
         widget.viewmodel.createEntity,
@@ -122,7 +124,7 @@ class _LocationDetailsState
                       ],
                     ),
                   ),
-                  Center(child: Text("It's rainy here")),
+                  OpportunityContactPage(opportunity: location),
                 ],
               ),
             ),

@@ -130,4 +130,9 @@ class Event extends Opportunity {
     location: ToOne(),
     organisation: ToOne(),
   );
+
+  @override
+  String get typeDisplay => "Veranstaltung";
+  @override
+  IconData get typeIcon => Icons.festival;
 }

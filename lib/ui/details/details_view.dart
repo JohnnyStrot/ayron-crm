@@ -19,10 +19,14 @@ abstract class DetailsState<
   V extends DetailsView<T, V, M>,
   M extends DetailsViewmodel<T, M>
 >
-    extends State<V> {
+    extends State<V>
+    with AutomaticKeepAliveClientMixin<V> {
   final formKey = GlobalKey<FormState>();
 
   String get typeDisplay;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {

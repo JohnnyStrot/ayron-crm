@@ -1,6 +1,8 @@
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/icon_data.dart';
 
 class EventSeries extends Opportunity {
   EventSeries({
@@ -37,4 +39,10 @@ class EventSeries extends Opportunity {
       events: ToMany(entities: []),
     );
   }
+
+  @override
+  String get typeDisplay => "Veranstaltungsreihe";
+
+  @override
+  IconData get typeIcon => Icons.event_repeat;
 }

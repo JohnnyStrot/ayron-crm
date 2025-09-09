@@ -1,6 +1,8 @@
 import 'package:ayron_crm/data/model/addressable.dart';
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/icon_data.dart';
 
 import 'opportunity.dart';
 
@@ -60,4 +62,9 @@ class Location extends Opportunity implements Addressable {
     a.addAll(super.toJson());
     return a;
   }
+
+  @override
+  String get typeDisplay => "Location";
+  @override
+  IconData get typeIcon => Icons.location_on;
 }

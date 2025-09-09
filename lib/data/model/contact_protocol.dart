@@ -2,6 +2,7 @@ import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/data/model/entity.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/to_one.dart';
+import 'package:flutter/material.dart';
 
 class ContactProtocol implements StrongEntity {
   ContactProtocol({
@@ -29,6 +30,27 @@ class ContactProtocol implements StrongEntity {
   ToOne<Contact> _contact;
   Contact? get contact => _contact.entity;
   int? get contactId => _contact.id;
+
+  IconData get icon => getIcon(type);
+
+  static IconData getIcon(String type) {
+    switch (type) {
+      case "Telefon":
+        return Icons.phone;
+      case "Textnachricht":
+        return Icons.chat;
+      case "E-Mail":
+        return Icons.mail;
+      case "Gespräch":
+        return Icons.spatial_audio;
+      case "Schriftlich":
+        return Icons.history_edu;
+      case "Sprachnachricht":
+        return Icons.voice_chat;
+      default:
+        return Icons.question_mark;
+    }
+  }
 
   @override
   String get displayShort => "$type #$id";

@@ -21,6 +21,7 @@ class _ContactDetailsState
     extends DetailsState<Contact, ContactDetails, ContactDetailsViewmodel> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListenableBuilder(
       listenable: Listenable.merge([
         widget.viewmodel.createEntity,

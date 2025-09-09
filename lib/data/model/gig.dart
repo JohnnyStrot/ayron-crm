@@ -53,4 +53,10 @@ class Gig extends Event {
     event: Event.create(id),
     setlist: ToMany(entities: []),
   );
+
+  @override
+  String get typeDisplay => "Gig";
+
+  @override
+  IconData get typeIcon => Icons.stadium;
 }

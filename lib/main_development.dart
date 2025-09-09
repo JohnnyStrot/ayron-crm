@@ -2,6 +2,8 @@ import 'package:ayron_crm/data/repositories/auth/auth_repository.dart';
 import 'package:ayron_crm/data/repositories/auth/auth_repository_remote.dart';
 import 'package:ayron_crm/data/repositories/band/band_repository.dart';
 import 'package:ayron_crm/data/repositories/band/band_repository_remote.dart';
+import 'package:ayron_crm/data/repositories/band_member/band_member_repository.dart';
+import 'package:ayron_crm/data/repositories/band_member/band_member_repository_remote.dart';
 import 'package:ayron_crm/data/repositories/contact/contact_repository.dart';
 import 'package:ayron_crm/data/repositories/contact/contact_repository_remote.dart';
 import 'package:ayron_crm/data/repositories/contact_protocol/contact_protocol_repository.dart';
@@ -59,6 +61,11 @@ void main() {
           create: (context) =>
               BandRepositoryRemote(apiService: context.read())
                   as BandRepository,
+        ),
+        Provider(
+          create: (context) =>
+              BandMemberRepositoryRemote(apiService: context.read())
+                  as BandMemberRepository,
         ),
         Provider(
           create: (context) =>

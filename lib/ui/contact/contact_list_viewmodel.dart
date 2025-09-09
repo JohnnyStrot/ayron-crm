@@ -27,7 +27,7 @@ class ContactListViewmodel extends DataListViewmodel<Contact> {
   searchValues() {
     var search = <String, dynamic>{};
     if (_searchName != null) {
-      search["name"] = _searchName;
+      search["filter"] = _searchName;
     }
     if (_searchState != null) {
       search["state"] = _searchState!.toJson;

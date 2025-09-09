@@ -7,11 +7,9 @@ import 'package:ayron_crm/data/model/to_one.dart';
 import 'package:ayron_crm/data/repositories/data_repository.dart';
 import 'package:ayron_crm/data/repositories/song/song_repository.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/song/song_select.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class GigSetlist extends StatefulWidget {
   const GigSetlist({super.key, required this.gig, required this.repository});

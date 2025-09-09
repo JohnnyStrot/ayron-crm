@@ -1,13 +1,17 @@
 import 'package:ayron_crm/data/model/band.dart';
 import 'package:ayron_crm/ui/band/band_details_viewmodel.dart';
 import 'package:ayron_crm/ui/band/member_list.dart';
+import 'package:ayron_crm/ui/contact_protocol/protocol_list.dart';
+import 'package:ayron_crm/ui/core/callable_change_notifier.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
+import 'package:ayron_crm/ui/opportunity_contact/opportunity_contact_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BandDetails extends DetailsView<Band, BandDetails, BandDetailsViewmodel> {
   const BandDetails({super.key, required super.viewmodel});
@@ -18,15 +22,19 @@ class BandDetails extends DetailsView<Band, BandDetails, BandDetailsViewmodel> {
 
 class _BandDetailsState
     extends DetailsState<Band, BandDetails, BandDetailsViewmodel> {
+  final CallableChangeNotifier updateProtocols = CallableChangeNotifier();
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListenableBuilder(
       listenable: Listenable.merge([
         widget.viewmodel.createEntity,
         widget.viewmodel.loadEntity,
         widget.viewmodel.saveEntity,
+        updateProtocols,
       ]),
-      builder: (context, _) {
+      builder: (cont, _) {
         final band = widget.viewmodel.entity;
         if (band != null) {
           return DefaultTabController(
@@ -53,7 +61,7 @@ class _BandDetailsState
                         ),
                       ),
                     ],
-                    style: TextTheme.of(context).headlineSmall!.copyWith(
+                    style: TextTheme.of(cont).headlineSmall!.copyWith(
                       fontSize: 16,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -72,8 +80,8 @@ class _BandDetailsState
                     key: formKey,
                     child: ListView(
                       padding: EdgeInsets.symmetric(
-                        vertical: Dimens.of(context).paddingScreenVertical,
-                        horizontal: Dimens.of(context).paddingScreenHorizontal,
+                        vertical: Dimens.of(cont).paddingScreenVertical,
+                        horizontal: Dimens.of(cont).paddingScreenHorizontal,
                       ),
                       children: [
                         OpportunityNameField(opportunity: band),
@@ -121,7 +129,56 @@ class _BandDetailsState
                       ],
                     ),
                   ),
-                  Center(child: Text("It's rainy here")),
+                  ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: Dimens.vdivide),
+                        child: OpportunityContactList(
+                          opportunity: band,
+                          repository: context.read(),
+                          opcoRepository: context.read(),
+                          updateProtocols: updateProtocols,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: Dimens.vdivide),
+                        child: BandMemberList(
+                          opportunity: band,
+                          repository: context.read(),
+                          bandMemberRepository: context.read(),
+                          updateProtocols: updateProtocols,
+                          label: Text(
+                            "Mitglieder",
+                            style: TextTheme.of(context).headlineSmall!
+                                .copyWith(
+                                  fontSize: TextTheme.of(
+                                    context,
+                                  ).bodyLarge!.fontSize,
+                                ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: Dimens.paddingHorizontal,
+                          right: Dimens.paddingHorizontal,
+                          bottom: Dimens.vgap,
+                        ),
+                        child: Text(
+                          "Protokoll",
+                          style: TextTheme.of(cont).headlineSmall,
+                        ),
+                      ),
+                      ProtocolList(
+                        protocols: band.protocols,
+                        repository: context.read(),
+                        showContact: true,
+                        showOpp: false,
+                        updateProtocols: updateProtocols,
+                      ),
+                      SizedBox(height: Dimens.fabGap),
+                    ],
+                  ),
                 ],
               ),
             ),

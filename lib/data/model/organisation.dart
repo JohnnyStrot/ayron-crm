@@ -1,6 +1,8 @@
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/icon_data.dart';
 
 class Organisation extends Opportunity {
   Organisation({
@@ -35,4 +37,9 @@ class Organisation extends Opportunity {
     a.addAll(super.toJson());
     return a;
   }
+
+  @override
+  String get typeDisplay => "Organisation";
+  @override
+  IconData get typeIcon => Icons.groups;
 }
