@@ -1,6 +1,7 @@
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/data/model/setlist.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:ayron_crm/routing/routes.dart';
 import 'package:ayron_crm/utils/datetime_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -59,4 +60,6 @@ class Gig extends Event {
 
   @override
   IconData get typeIcon => Icons.stadium;
+  @override
+  String get route => Routes.gigs;
 }

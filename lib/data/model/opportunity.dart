@@ -151,4 +151,5 @@ class Opportunity extends StrongEntity {
 
   String get typeDisplay => "Gelegenheit";
   IconData get typeIcon => Icons.assignment;
+  String get route => "opportunity";
 }

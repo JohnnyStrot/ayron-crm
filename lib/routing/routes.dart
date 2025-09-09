@@ -3,6 +3,7 @@ abstract final class Routes {
   static const login = '/$loginRelative';
   static const overview = '/$overviewRelative';
   static const analysis = '/$analysisRelative';
+
   static const data = '/$dataRelative';
   static const locations = '$data/$locationsRelative';
   static const organisations = '$data/$organisationsRelative';
@@ -27,4 +28,15 @@ abstract final class Routes {
   static const songsRelative = 'song';
   static const bandsRelative = 'band';
   static const seriesRelative = 'series';
+
+  static const allOpportunitiesRelative = "opportunity/all";
+  static const pastOpportunitiesRelative = "opportunity/past";
+  static const activeOpportunitiesRelative = "opportunity/active";
+
+  static const allOpportunities = "$analysis/$allOpportunitiesRelative";
+  static const pastOpportunities = "$analysis/$pastOpportunitiesRelative";
+  static const activeOpportunities = "$overview/$activeOpportunitiesRelative";
+
+  static const dashboardRelative = "dashboard";
+  static const dashboard = "$overview/$dashboardRelative";
 }

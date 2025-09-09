@@ -2,6 +2,7 @@ import 'package:ayron_crm/config/assets.dart';
 import 'package:ayron_crm/data/model/song.dart';
 import 'package:ayron_crm/data/repositories/data_repository_local.dart';
 import 'package:ayron_crm/data/repositories/song/song_repository.dart';
+import 'package:ayron_crm/utils/result.dart';
 
 class SongRepositoryLocal extends DataRepositoryLocal<Song>
     implements SongRepository {
@@ -29,4 +30,9 @@ class SongRepositoryLocal extends DataRepositoryLocal<Song>
 
   @override
   String get typeName => "Song";
+
+  @override
+  Future<Result<List<Song>>> getRepertoire() {
+    return Future.value(Result.ok([]));
+  }
 }

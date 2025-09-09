@@ -8,10 +8,9 @@ import '../../../utils/result.dart';
 
 abstract class DataRepositoryRemote<T extends StrongEntity>
     implements DataRepository<T> {
-  DataRepositoryRemote({required ApiService apiService})
-    : _apiService = apiService;
+  DataRepositoryRemote({required this.apiService});
 
-  final ApiService _apiService;
+  final ApiService apiService;
 
   String get typeName;
   String get typeApiEndpoint;
@@ -20,7 +19,7 @@ abstract class DataRepositoryRemote<T extends StrongEntity>
 
   @override
   Future<Result<T>> createEntity() async {
-    return await _apiService
+    return await apiService
         .post(typeApiEndpoint, {})
         .then((response) {
           return Result.ok(fromJson(jsonDecode(response.body)));
@@ -32,7 +31,7 @@ abstract class DataRepositoryRemote<T extends StrongEntity>
 
   @override
   Future<Result<void>> deleteEntity(int id) async {
-    return await _apiService
+    return await apiService
         .delete("$typeApiEndpoint/$id", {})
         .then((response) {
           return Result<void>.ok(null);
@@ -58,7 +57,7 @@ abstract class DataRepositoryRemote<T extends StrongEntity>
     if (orderDesc != null) params["order_desc"] = orderDesc;
     if (filter != null) params.addAll(filter);
 
-    return await _apiService
+    return await apiService
         .get(typeApiEndpoint, params: params)
         .then((response) {
           var res = jsonDecode(response.body);
@@ -80,7 +79,7 @@ abstract class DataRepositoryRemote<T extends StrongEntity>
 
   @override
   Future<Result<T>> getEntity(int id) async {
-    return await _apiService
+    return await apiService
         .get("$typeApiEndpoint/$id")
         .then((response) {
           return Result<T>.ok(fromJson(jsonDecode(response.body)));
@@ -92,7 +91,7 @@ abstract class DataRepositoryRemote<T extends StrongEntity>
 
   @override
   Future<Result<void>> saveEntity(T entity) async {
-    return await _apiService
+    return await apiService
         .put("$typeApiEndpoint/${entity.id}", entity.toJson())
         .then((response) {
           return Result<void>.ok(null);

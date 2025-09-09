@@ -1,6 +1,6 @@
 import 'package:ayron_crm/data/model/organisation.dart';
 import 'package:ayron_crm/routing/routes.dart';
-import 'package:ayron_crm/ui/list_widgets/opportunity_list_entry.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 
 class OrganisationListEntry extends OpportunityListEntry<Organisation> {
   const OrganisationListEntry({
@@ -10,5 +10,5 @@ class OrganisationListEntry extends OpportunityListEntry<Organisation> {
   }) : super(opportunity: organisation);
 
   @override
-  String get route => Routes.organisations;
+  String route(op) => Routes.organisations;
 }

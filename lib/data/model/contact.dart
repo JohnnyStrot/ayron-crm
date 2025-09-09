@@ -3,6 +3,7 @@ import 'package:ayron_crm/data/model/band_member.dart';
 import 'package:ayron_crm/data/model/contact_protocol.dart';
 import 'package:ayron_crm/data/model/opportunity_contact.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:ayron_crm/routing/routes.dart';
 import 'package:flutter/material.dart';
 
 import 'opportunity.dart';
@@ -108,4 +109,16 @@ class Contact extends Opportunity implements Addressable {
 
   @override
   IconData get typeIcon => Icons.person;
+
+  @override
+  String get route => Routes.contacts;
+
+  @override
+  String get address => [
+    [
+      if (street.isNotEmpty) street,
+      if (houseNumber.isNotEmpty) houseNumber,
+    ].join(" "),
+    [if (postcode.isNotEmpty) postcode, if (city.isNotEmpty) city].join(" "),
+  ].join(", ");
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 enum OpportunityState {
-  none("Kein", "Kein", Color.fromARGB(0, 201, 45, 45), null),
+  none("Kein", null, Color.fromARGB(0, 201, 45, 45), null),
   open("Offen", "Offen", Color.fromARGB(255, 231, 41, 28), Icons.question_mark),
   contacted(
     "Kontaktiert",
     "Kontaktiert",
-    Color.fromARGB(255, 235, 97, 17),
+    Color.fromARGB(255, 235, 133, 17),
     Icons.question_answer,
   ),
   application(
@@ -24,7 +24,7 @@ enum OpportunityState {
   applied(
     "Beworben",
     "Beworben",
-    Color.fromARGB(255, 235, 97, 17),
+    Color.fromARGB(255, 235, 133, 17),
     Icons.schedule,
   ),
   rejected(
@@ -80,10 +80,10 @@ enum OpportunityState {
     return OpportunityState.none;
   }
 
-  String get toJson => serializeString;
+  String? get toJson => serializeString;
 
   final String displayString;
-  final String serializeString;
+  final String? serializeString;
   final Color color;
   final IconData? icon;
 }

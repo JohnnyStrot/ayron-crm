@@ -1,6 +1,6 @@
 import 'package:ayron_crm/data/model/location.dart';
 import 'package:ayron_crm/routing/routes.dart';
-import 'package:ayron_crm/ui/list_widgets/opportunity_list_entry.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 import 'package:flutter/material.dart';
 
 class LocationListEntry extends OpportunityListEntry<Location> {
@@ -29,5 +29,5 @@ class LocationListEntry extends OpportunityListEntry<Location> {
   }
 
   @override
-  String get route => Routes.locations;
+  String route(op) => Routes.locations;
 }

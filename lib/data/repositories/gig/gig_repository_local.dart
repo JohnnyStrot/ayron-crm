@@ -2,6 +2,7 @@ import 'package:ayron_crm/config/assets.dart';
 import 'package:ayron_crm/data/model/gig.dart';
 import 'package:ayron_crm/data/repositories/data_repository_local.dart';
 import 'package:ayron_crm/data/repositories/gig/gig_repository.dart';
+import 'package:ayron_crm/utils/result.dart';
 
 class GigRepositoryLocal extends DataRepositoryLocal<Gig>
     implements GigRepository {
@@ -29,4 +30,9 @@ class GigRepositoryLocal extends DataRepositoryLocal<Gig>
 
   @override
   String get typeName => "Gig";
+
+  @override
+  Future<Result<List<Gig>>> getUpcoming() {
+    return Future.value(Result.ok([] as List<Gig>));
+  }
 }

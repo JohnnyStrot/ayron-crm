@@ -1,6 +1,6 @@
 import 'package:ayron_crm/data/model/event_series.dart';
 import 'package:ayron_crm/routing/routes.dart';
-import 'package:ayron_crm/ui/list_widgets/opportunity_list_entry.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 
 class EventSeriesListEntry extends OpportunityListEntry<EventSeries> {
   const EventSeriesListEntry({
@@ -10,5 +10,5 @@ class EventSeriesListEntry extends OpportunityListEntry<EventSeries> {
   }) : super(opportunity: series);
 
   @override
-  String get route => Routes.series;
+  String route(op) => Routes.series;
 }

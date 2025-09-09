@@ -1,6 +1,7 @@
 import 'package:ayron_crm/data/model/addressable.dart';
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:ayron_crm/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/icon_data.dart';
 
@@ -67,4 +68,16 @@ class Location extends Opportunity implements Addressable {
   String get typeDisplay => "Location";
   @override
   IconData get typeIcon => Icons.location_on;
+
+  @override
+  String get route => Routes.locations;
+
+  @override
+  String get address => [
+    [
+      if (street.isNotEmpty) street,
+      if (houseNumber.isNotEmpty) houseNumber,
+    ].join(" "),
+    [if (postcode.isNotEmpty) postcode, if (city.isNotEmpty) city].join(" "),
+  ].join(", ");
 }

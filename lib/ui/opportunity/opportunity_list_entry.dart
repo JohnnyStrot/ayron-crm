@@ -2,8 +2,7 @@ import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-abstract class OpportunityListEntry<T extends Opportunity>
-    extends StatelessWidget {
+class OpportunityListEntry<T extends Opportunity> extends StatelessWidget {
   const OpportunityListEntry({
     super.key,
     required this.opportunity,
@@ -14,7 +13,7 @@ abstract class OpportunityListEntry<T extends Opportunity>
 
   final void Function(T loc) onDelete;
 
-  String get route;
+  String route(Opportunity op) => op.route;
 
   String opportunityToString(T opp) => opp.name;
 
@@ -41,7 +40,7 @@ abstract class OpportunityListEntry<T extends Opportunity>
       children: [
         IconButton(
           onPressed: () {
-            context.push("$route/${opportunity.id}");
+            context.push("${route(opportunity)}/${opportunity.id}");
           },
           icon: Icon(Icons.edit),
         ),

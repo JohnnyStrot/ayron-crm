@@ -8,6 +8,7 @@ import 'package:ayron_crm/ui/contact/contact_details.dart';
 import 'package:ayron_crm/ui/contact/contact_details_viewmodel.dart';
 import 'package:ayron_crm/ui/contact/contact_list.dart';
 import 'package:ayron_crm/ui/contact/contact_list_viewmodel.dart';
+import 'package:ayron_crm/ui/dashboard/dashboard.dart';
 import 'package:ayron_crm/ui/event/event_details.dart';
 import 'package:ayron_crm/ui/event/event_details_viewmodel.dart';
 import 'package:ayron_crm/ui/event/event_list.dart';
@@ -16,11 +17,15 @@ import 'package:ayron_crm/ui/gig/gig_details.dart';
 import 'package:ayron_crm/ui/gig/gig_details_viewmodel.dart';
 import 'package:ayron_crm/ui/gig/gig_list.dart';
 import 'package:ayron_crm/ui/gig/gig_list_viewmodel.dart';
+import 'package:ayron_crm/ui/navigation/analysis_navigation_page.dart';
 import 'package:ayron_crm/ui/navigation/data_navigation_page.dart';
 import 'package:ayron_crm/ui/location/location_details.dart';
 import 'package:ayron_crm/ui/location/location_details_viewmodel.dart';
 import 'package:ayron_crm/ui/location/location_list.dart';
 import 'package:ayron_crm/ui/location/location_list_viewmodel.dart';
+import 'package:ayron_crm/ui/navigation/overview_navigation_page.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_list.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_list_viewmodel.dart';
 import 'package:ayron_crm/ui/organisation/organisation_details.dart';
 import 'package:ayron_crm/ui/organisation/organisation_details_viewmodel.dart';
 import 'package:ayron_crm/ui/organisation/organisation_list.dart';
@@ -43,6 +48,44 @@ import 'routes.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
+final overviewRoutes = [
+  GoRoute(
+    path: Routes.dashboardRelative,
+    builder: (context, state) => Dashboard(),
+  ),
+  GoRoute(
+    path: Routes.activeOpportunitiesRelative,
+    builder: (context, state) {
+      final viewModel = OpportunityListViewmodel(
+        opportunityRepository: context.read(),
+        active: true,
+      );
+      return OpportunityList(viewmodel: viewModel);
+    },
+  ),
+];
+final analysisRoutes = [
+  GoRoute(
+    path: Routes.allOpportunitiesRelative,
+    builder: (context, state) {
+      final viewModel = OpportunityListViewmodel(
+        opportunityRepository: context.read(),
+      );
+      return OpportunityList(viewmodel: viewModel);
+    },
+  ),
+  GoRoute(
+    path: Routes.pastOpportunitiesRelative,
+    builder: (context, state) {
+      final viewModel = OpportunityListViewmodel(
+        opportunityRepository: context.read(),
+        past: true,
+      );
+      return OpportunityList(viewmodel: viewModel);
+    },
+  ),
+];
 
 final dataRoutes = [
   GoRoute(
@@ -325,20 +368,16 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
         GoRoute(
           path: Routes.overview,
           builder: (context, state) {
-            final viewModel = LocationListViewmodel(
-              locationRepository: context.read(),
-            );
-            return LocationListView(viewmodel: viewModel);
+            return OverviewNavigationPage();
           },
+          routes: overviewRoutes,
         ),
         GoRoute(
           path: Routes.analysis,
           builder: (context, state) {
-            final viewModel = OrganisationListViewmodel(
-              organisationRepository: context.read(),
-            );
-            return OrganisationListView(viewmodel: viewModel);
+            return AnalysisNavigationPage();
           },
+          routes: analysisRoutes,
         ),
         GoRoute(
           path: Routes.data,

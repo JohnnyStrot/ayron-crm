@@ -1,17 +1,15 @@
 import 'package:ayron_crm/data/model/band.dart';
 import 'package:ayron_crm/routing/routes.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/list_widgets/opportunity_list_entry.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/widgets.dart';
 
 class BandListEntry extends OpportunityListEntry<Band> {
   const BandListEntry({super.key, required Band band, required super.onDelete})
     : super(opportunity: band);
 
   @override
-  String get route => Routes.bands;
+  String route(op) => Routes.bands;
 
   @override
   Widget buildContent(BuildContext context) {

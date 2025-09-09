@@ -1,7 +1,7 @@
 import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/routing/routes.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/list_widgets/opportunity_list_entry.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 import 'package:flutter/material.dart';
 
 class ContactListEntry extends OpportunityListEntry<Contact> {
@@ -12,7 +12,7 @@ class ContactListEntry extends OpportunityListEntry<Contact> {
   }) : super(opportunity: contact);
 
   @override
-  String get route => Routes.contacts;
+  String route(op) => Routes.contacts;
 
   @override
   String opportunityToString(Contact opp) => opp.displayShort;

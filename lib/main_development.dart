@@ -14,6 +14,8 @@ import 'package:ayron_crm/data/repositories/gig/gig_repository.dart';
 import 'package:ayron_crm/data/repositories/gig/gig_repository_remote.dart';
 import 'package:ayron_crm/data/repositories/location/location_repository.dart';
 import 'package:ayron_crm/data/repositories/location/location_repository_remote.dart';
+import 'package:ayron_crm/data/repositories/opportunity/opportunity_repository.dart';
+import 'package:ayron_crm/data/repositories/opportunity/opportunity_repository_remote.dart';
 import 'package:ayron_crm/data/repositories/opportunity_contact/opportunity_contact_repository.dart';
 import 'package:ayron_crm/data/repositories/opportunity_contact/opportunity_contact_repository_remote.dart';
 import 'package:ayron_crm/data/repositories/organisation/organisation_repository.dart';
@@ -76,6 +78,11 @@ void main() {
           create: (context) =>
               EventRepositoryRemote(apiService: context.read())
                   as EventRepository,
+        ),
+        Provider(
+          create: (context) =>
+              OpportunityRepositoryRemote(apiService: context.read())
+                  as OpportunityRepository,
         ),
         Provider(
           create: (context) =>

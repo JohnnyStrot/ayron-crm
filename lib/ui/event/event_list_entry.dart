@@ -1,7 +1,7 @@
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/routing/routes.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/list_widgets/opportunity_list_entry.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 import 'package:flutter/material.dart';
 
 class EventListEntry extends OpportunityListEntry<Event> {
@@ -12,7 +12,7 @@ class EventListEntry extends OpportunityListEntry<Event> {
   }) : super(opportunity: event);
 
   @override
-  String get route => Routes.events;
+  String route(op) => Routes.events;
 
   @override
   Widget buildContent(BuildContext context) {

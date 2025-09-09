@@ -20,7 +20,7 @@ class NavigationPageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.go(_route);
+        context.push(_route);
       },
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 0, horizontal: Dimens.hgap / 2),

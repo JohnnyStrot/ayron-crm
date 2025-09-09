@@ -1,6 +1,7 @@
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
+import 'package:ayron_crm/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/icon_data.dart';
 
@@ -42,4 +43,6 @@ class Organisation extends Opportunity {
   String get typeDisplay => "Organisation";
   @override
   IconData get typeIcon => Icons.groups;
+  @override
+  String get route => Routes.organisations;
 }

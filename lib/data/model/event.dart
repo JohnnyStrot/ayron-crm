@@ -6,6 +6,7 @@ import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/organisation.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
 import 'package:ayron_crm/data/model/to_one.dart';
+import 'package:ayron_crm/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:ayron_crm/utils/datetime_extension.dart';
 
@@ -135,4 +136,6 @@ class Event extends Opportunity {
   String get typeDisplay => "Veranstaltung";
   @override
   IconData get typeIcon => Icons.festival;
+  @override
+  String get route => Routes.events;
 }
