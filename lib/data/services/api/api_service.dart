@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:ayron_crm/data/services/api/auth_api_client.dart';
 import 'package:ayron_crm/utils/result.dart';
+import 'package:dio/dio.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class ApiService {
   ApiService({required AuthApiClient authApiClient})
@@ -186,5 +188,74 @@ class ApiService {
     }
 
     return response;
+  }
+
+  Future<Result<void>> downloadEndpoint(
+    String endpoint,
+    String savePath, {
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    return download(
+      "$_baseUrl/$endpoint",
+      savePath,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  Future<Result<void>> download(
+    String urlPath,
+    String savePath, {
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    final refreshResult = await _authApiClient.refreshTokens();
+    switch (refreshResult) {
+      case Ok<void>():
+        var token = await _authApiClient.getAccessToken();
+        await Dio().download(
+          urlPath,
+          savePath,
+          onReceiveProgress: onReceiveProgress,
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $token',
+              'Content-Type': 'application/json',
+            },
+          ),
+        );
+        return Result<void>.ok(null);
+      case Error<void>():
+        // Refresh failed, user must log in again
+        return Result<void>.error(
+          Exception('Session expired, please log in again.'),
+        );
+    }
+  }
+
+  Future<Result<void>> launchEndpoint(String endpoint) async {
+    return launch(Uri.parse('$_baseUrl/$endpoint'));
+  }
+
+  Future<Result<void>> launch(Uri uri) async {
+    final refreshResult = await _authApiClient.refreshTokens();
+    switch (refreshResult) {
+      case Ok<void>():
+        var token = await _authApiClient.getAccessToken();
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+          webViewConfiguration: WebViewConfiguration(
+            headers: {
+              'Authorization': 'Bearer $token',
+              'Content-Type': 'application/json',
+            },
+          ),
+        );
+        return Result<void>.ok(null);
+      case Error<void>():
+        // Refresh failed, user must log in again
+        return Result<void>.error(
+          Exception('Session expired, please log in again.'),
+        );
+    }
   }
 }

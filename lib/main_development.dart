@@ -37,6 +37,7 @@ import 'main.dart';
 /// Uses development api.
 void main() {
   Logger.root.level = Level.ALL;
+
   runApp(
     MultiProvider(
       providers: [

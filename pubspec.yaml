@@ -51,6 +51,10 @@ dependencies:
   http: ^1.5.0
   infinite_scroll_pagination: ^5.1.0
   flutter_typeahead: ^5.2.0
+  path_provider: ^2.1.5
+  dio: ^5.9.0
+  permission_handler: ^12.0.1
+  universal_html: ^2.2.4
 
 dev_dependencies:
   flutter_test:

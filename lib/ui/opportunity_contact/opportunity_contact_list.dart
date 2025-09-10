@@ -460,6 +460,7 @@ class _OpportunityContactListState
     return opCo.role;
   }
 
+  @override
   late List<_ExpansionItem<OpportunityContact>> _items;
 
   @override

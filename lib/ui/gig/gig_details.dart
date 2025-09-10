@@ -240,7 +240,11 @@ class _GigDetailsState
                       ],
                     ),
                     EventContactPage(event: gig),
-                    GigSetlist(gig: gig, repository: context.read()),
+                    GigSetlist(
+                      gig: gig,
+                      repository: context.read(),
+                      apiService: context.read(),
+                    ),
                   ],
                 ),
               ),

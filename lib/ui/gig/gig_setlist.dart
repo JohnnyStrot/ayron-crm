@@ -6,16 +6,26 @@ import 'package:ayron_crm/data/model/song.dart';
 import 'package:ayron_crm/data/model/to_one.dart';
 import 'package:ayron_crm/data/repositories/data_repository.dart';
 import 'package:ayron_crm/data/repositories/song/song_repository.dart';
+import 'package:ayron_crm/data/services/api/api_service.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
+import 'package:ayron_crm/ui/core/ui/file_downloader.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class GigSetlist extends StatefulWidget {
-  const GigSetlist({super.key, required this.gig, required this.repository});
+  const GigSetlist({
+    super.key,
+    required this.gig,
+    required this.repository,
+    required this.apiService,
+  });
 
   final Gig gig;
   final SongRepository repository;
+
+  final ApiService apiService;
 
   @override
   State<GigSetlist> createState() => _GigSetlistState();
@@ -126,7 +136,11 @@ class _GigSetlistState extends State<GigSetlist> {
                 },
                 icon: Icon(Icons.edit_note),
               ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.download)),
+              CrossPlatformDownloader(
+                endpoint: "gig/setlist-tex/${widget.gig.id}",
+                apiService: context.read(),
+                fileName: "setlist.tex",
+              ),
             ],
           ),
           Expanded(

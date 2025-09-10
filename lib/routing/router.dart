@@ -353,18 +353,7 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
         return NoTransitionPage(child: MainScreen(child: child));
       },
       routes: [
-        GoRoute(
-          path: Routes.home,
-          builder: (context, state) {
-            final viewModel = GigDetailsViewmodel(
-              gigRepository: context.read(),
-            );
-
-            viewModel.loadEntity.execute(422);
-
-            return GigDetails(viewmodel: viewModel);
-          },
-        ),
+        GoRoute(path: Routes.home, builder: (context, state) => Dashboard()),
         GoRoute(
           path: Routes.overview,
           builder: (context, state) {
