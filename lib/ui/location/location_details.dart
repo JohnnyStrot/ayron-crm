@@ -6,9 +6,11 @@ import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
+import 'package:ayron_crm/ui/gig/create_gig_button.dart';
 import 'package:ayron_crm/ui/location/location_details_viewmodel.dart';
 import 'package:ayron_crm/ui/opportunity_contact/opportunity_contact_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LocationDetails
     extends DetailsView<Location, LocationDetails, LocationDetailsViewmodel> {

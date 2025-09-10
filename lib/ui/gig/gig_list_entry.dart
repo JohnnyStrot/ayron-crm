@@ -18,7 +18,7 @@ class GigListEntry extends OpportunityListEntry<Gig> {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 10,
       children: [
-        Text((gig.date?.toIso8601String() ?? "").substring(0, 10)),
+        Text((gig.date?.toIso8601String().substring(0, 10) ?? "")),
         Text(
           gig.name,
           overflow: TextOverflow.ellipsis,

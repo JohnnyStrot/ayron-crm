@@ -10,6 +10,7 @@ import 'package:ayron_crm/ui/details/details_view.dart';
 import 'package:ayron_crm/ui/event/event_contact_page.dart';
 import 'package:ayron_crm/ui/event/event_details_viewmodel.dart';
 import 'package:ayron_crm/ui/event/lineup_list.dart';
+import 'package:ayron_crm/ui/gig/create_gig_button.dart';
 import 'package:ayron_crm/ui/location/location_select.dart';
 import 'package:ayron_crm/ui/organisation/organisation_select.dart';
 import 'package:ayron_crm/ui/series/series_select.dart';
@@ -94,12 +95,23 @@ class _EventDetailsState
                           spacing: Dimens.vgap,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Datepicker(
-                              initialValue: event.date,
-                              label: "Datum",
-                              onDate: (date) {
-                                event.date = date;
-                              },
+                            Row(
+                              spacing: Dimens.hgap,
+                              children: [
+                                Expanded(
+                                  child: Datepicker(
+                                    initialValue: event.date,
+                                    label: "Datum",
+                                    onDate: (date) {
+                                      event.date = date;
+                                    },
+                                  ),
+                                ),
+                                CreateGigButton(
+                                  repository: context.read(),
+                                  event: event,
+                                ),
+                              ],
                             ),
                             LocationSelect(
                               repository: context.read(),

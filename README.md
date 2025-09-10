@@ -6,7 +6,6 @@ A new Flutter project.
 
 ## Bestehende Features übernehmen
 
-- Gig-Setlist-LaTeX-Download
 - Gig aus Event erstellen
 - Bilder-Uploads
     - Gig
