@@ -72,7 +72,6 @@ abstract class DataRepositoryRemote<T extends StrongEntity>
           return Result<ResultList<T>>.ok((entities: entities, count: count));
         })
         .catchError((err) {
-          print(err);
           return Result<ResultList<T>>.error(Exception(err));
         });
   }

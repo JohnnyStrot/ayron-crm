@@ -4,6 +4,7 @@ import 'package:ayron_crm/ui/band/member_list.dart';
 import 'package:ayron_crm/ui/contact_protocol/protocol_list.dart';
 import 'package:ayron_crm/ui/core/callable_change_notifier.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
+import 'package:ayron_crm/ui/core/ui/image_view.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
@@ -122,6 +123,23 @@ class _BandDetailsState
                           ),
                           maxLines: 3,
                           minLines: 3,
+                        ),
+                        SizedBox(height: Dimens.vgap),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ImageView(
+                                type: "band",
+                                attr: "logo",
+                                id: band.id,
+                                label: "Logo",
+                                image: band.logo,
+
+                                apiService: context.read(),
+                              ),
+                            ),
+                            Expanded(child: SizedBox()),
+                          ],
                         ),
                         SizedBox(height: Dimens.vdivide),
                         OpportunitySocialMedia(opportunity: band),

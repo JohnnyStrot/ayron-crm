@@ -1,64 +1,122 @@
+import 'dart:io';
+
+import 'package:async/async.dart' hide Result;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:oidc/oidc.dart';
+import 'package:oidc_default_store/oidc_default_store.dart';
 
 import '../../../utils/result.dart';
 
 class AuthApiClient {
-  final FlutterAppAuth _appAuth = FlutterAppAuth();
-  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
-
-  final String _clientId = String.fromEnvironment(
+  static const String _clientId = String.fromEnvironment(
     'auth_client_id',
     defaultValue: 'ayron-crm',
   );
-  final String _redirectUrl = 'de.ayronband.crm://callback';
-  final String _issuer = String.fromEnvironment(
+  static const List<String> _scopes = ['openid', 'offline_access'];
+  static const String _issuer = String.fromEnvironment(
     'auth_issuer',
     defaultValue: 'https://johnnyst.de:8443/realms/applications',
   );
-  final List<String> _scopes = ['openid', 'offline_access'];
+  static const String _redirectUrlMobile = 'de.ayronband.crm://callback';
 
-  static const String _accessTokenKey = 'access_token';
-  static const String _refreshTokenKey = 'refresh_token';
-  static const String _idTokenKey = 'id_token';
+  static const managerId = "ayron-crm";
+
+  OidcPlatformSpecificOptions_Web_NavigationMode webNavigationMode =
+      OidcPlatformSpecificOptions_Web_NavigationMode.newPage;
+
+  bool allowInsecureConnections = false;
+  OidcAppAuthExternalUserAgent externalUserAgent =
+      OidcAppAuthExternalUserAgent.asWebAuthenticationSession;
+
+  OidcPlatformSpecificOptions _getOptions() {
+    return OidcPlatformSpecificOptions(
+      web: OidcPlatformSpecificOptions_Web(
+        navigationMode: webNavigationMode,
+        popupHeight: 800,
+        popupWidth: 730,
+      ),
+      // these settings are from https://pub.dev/packages/flutter_appauth.
+      android: OidcPlatformSpecificOptions_AppAuth_Android(
+        allowInsecureConnections: allowInsecureConnections,
+      ),
+      ios: OidcPlatformSpecificOptions_AppAuth_IosMacos(
+        externalUserAgent: externalUserAgent,
+      ),
+      macos: OidcPlatformSpecificOptions_AppAuth_IosMacos(
+        externalUserAgent: externalUserAgent,
+      ),
+      windows: const OidcPlatformSpecificOptions_Native(),
+      linux: OidcPlatformSpecificOptions_Native(),
+    );
+  }
+
+  final oidcManager = OidcUserManager.lazy(
+    id: managerId,
+    discoveryDocumentUri: OidcUtils.getOpenIdConfigWellKnownUri(
+      Uri.parse(_issuer),
+    ),
+    clientCredentials: const OidcClientAuthentication.none(clientId: _clientId),
+    store: OidcDefaultStore(),
+    settings: OidcUserManagerSettings(
+      uiLocales: ["de"],
+      refreshBefore: (token) {
+        return const Duration(seconds: 1);
+      },
+      scope: _scopes,
+      postLogoutRedirectUri: kIsWeb
+          ? Uri.parse('http://localhost:22433/redirect.html')
+          : Platform.isAndroid || Platform.isIOS || Platform.isMacOS
+          ? Uri.parse(_redirectUrlMobile)
+          : Platform.isWindows || Platform.isLinux
+          ? Uri.parse('http://localhost:0')
+          : null,
+      redirectUri: kIsWeb
+          // this url must be an actual html page.
+          // see the file in /web/redirect.html for an example.
+          //
+          // for debugging in flutter, you must run this app with --web-port 22433
+          ? Uri.parse('http://localhost:22433/redirect.html')
+          : Platform.isIOS || Platform.isMacOS || Platform.isAndroid
+          // scheme: reverse domain name notation of your package name.
+          // path: anything.
+          ? Uri.parse(_redirectUrlMobile)
+          : Platform.isWindows || Platform.isLinux
+          // using port 0 means that we don't care which port is used,
+          // and a random unused port will be assigned.
+          //
+          // this is safer than passing a port yourself.
+          //
+          // note that you can also pass a path like /redirect,
+          // but it's completely optional.
+          ? Uri.parse('http://localhost:0')
+          : Uri(),
+    ),
+  );
 
   Future<Result<void>> login() async {
+    debugPrint("Logging in");
     try {
-      final AuthorizationTokenResponse result = await _appAuth
-          .authorizeAndExchangeCode(
-            AuthorizationTokenRequest(
-              _clientId,
-              _redirectUrl,
-              promptValues: ['login'],
-              issuer: _issuer,
-              scopes: _scopes,
-            ),
-          );
-      // Store tokens securely
-      await _secureStorage.write(
-        key: _accessTokenKey,
-        value: result.accessToken,
+      var res = await oidcManager.loginAuthorizationCodeFlow(
+        options: _getOptions(),
       );
-      await _secureStorage.write(
-        key: _refreshTokenKey,
-        value: result.refreshToken,
-      );
-      await _secureStorage.write(key: _idTokenKey, value: result.idToken);
+      debugPrint(res?.uid ?? "");
       return Result.ok(null);
     } on Exception catch (e) {
       return Result.error(e);
+    } catch (ee) {
+      return Result.error(Exception("wtf"));
     }
   }
 
   Future<String?> getAccessToken() async {
-    return await _secureStorage.read(key: _accessTokenKey);
+    return oidcManager.currentUser?.token.accessToken;
   }
 
   Future<Result<void>> logout() async {
     try {
-      await _secureStorage.delete(key: _accessTokenKey);
-      await _secureStorage.delete(key: _refreshTokenKey);
-      await _secureStorage.delete(key: _idTokenKey);
+      oidcManager.logout();
       return Result.ok(null);
     } on Exception catch (e) {
       return Result.error(e);
@@ -66,34 +124,6 @@ class AuthApiClient {
   }
 
   Future<Result<void>> refreshTokens() async {
-    try {
-      final refreshToken = await _secureStorage.read(key: _refreshTokenKey);
-      if (refreshToken == null) {
-        return Result.error(Exception("No token stored"));
-      }
-
-      final TokenResponse result = await _appAuth.token(
-        TokenRequest(
-          _clientId,
-          _redirectUrl,
-          issuer: _issuer,
-          refreshToken: refreshToken,
-        ),
-      );
-
-      await _secureStorage.write(
-        key: _accessTokenKey,
-        value: result.accessToken,
-      );
-      if (result.refreshToken != null) {
-        await _secureStorage.write(
-          key: _refreshTokenKey,
-          value: result.refreshToken,
-        );
-      }
-      return Result.ok(null);
-    } on Exception catch (e) {
-      return Result.error(e);
-    }
+    return Result.ok(null);
   }
 }

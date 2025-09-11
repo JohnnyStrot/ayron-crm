@@ -8,11 +8,13 @@ class Organisation extends Opportunity {
   Organisation({
     required Opportunity opportunity,
     this.publicShorttext = "",
+    this.logo,
     required ToMany<Event> events,
   }) : _events = events,
        super.copyFrom(opportunity);
 
   String publicShorttext;
+  String? logo;
 
   ToMany<Event> _events;
   List<Event> get events => _events.entities;
@@ -21,6 +23,7 @@ class Organisation extends Opportunity {
     opportunity: Opportunity.fromJsonNoSubtype(json),
     publicShorttext: (json["public_shorttext"] ?? "") as String,
     events: ToMany.fromJson(json["events"], Event.fromJson),
+    logo: json["logo"],
   );
 
   factory Organisation.create(int id) => Organisation(
@@ -32,6 +35,7 @@ class Organisation extends Opportunity {
   Map<String, dynamic> toJson() {
     var a = <String, dynamic>{
       'public_shorttext': publicShorttext,
+      'logo': logo,
       'events': _events.toJson(),
     };
     a.addAll(super.toJson());

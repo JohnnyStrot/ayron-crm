@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:ayron_crm/data/services/api/auth_api_client.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:dio/dio.dart';
-
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ApiService {
@@ -254,6 +255,121 @@ class ApiService {
       case Error<void>():
         // Refresh failed, user must log in again
         return Result<void>.error(
+          Exception('Session expired, please log in again.'),
+        );
+    }
+  }
+
+  Future<Result<void>> deleteImage(String endpoint, String file) async {
+    try {
+      var res = await delete(endpoint, {"file": file});
+      if (res.statusCode == 200) {
+        return Result.ok(null);
+      }
+      return Result.error(Exception("Status code ${res.statusCode} returned"));
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  Future<Result<String?>> uploadImage(String endpoint, XFile image) async {
+    final refreshResult = await _authApiClient.refreshTokens();
+    switch (refreshResult) {
+      case Ok<void>():
+        var token = await _authApiClient.getAccessToken();
+
+        try {
+          var dioRequest = Dio();
+          dioRequest.options.baseUrl = _baseUrl;
+
+          dioRequest.options.headers = {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          };
+
+          var formData = FormData();
+
+          var file = await MultipartFile.fromFile(
+            image.path,
+            filename: image.name,
+            contentType: DioMediaType("image", image.name),
+          );
+
+          formData.files.add(MapEntry('file', file));
+
+          var response = await dioRequest.post(
+            "$_baseUrl/$endpoint",
+            data: formData,
+          );
+          if (response.statusCode == 200) {
+            return Result.ok(response.data["file"]);
+          }
+          return Result.error(
+            Exception("Status code ${response.statusCode} was returned"),
+          );
+        } on Exception catch (err) {
+          return Result.error(err);
+        }
+      case Error<void>():
+        // Refresh failed, user must log in again
+        return Result<String?>.error(
+          Exception('Session expired, please log in again.'),
+        );
+    }
+  }
+
+  Future<Result<List<String>>> uploadImages(
+    String endpoint,
+    List<XFile> images,
+  ) async {
+    final refreshResult = await _authApiClient.refreshTokens();
+    switch (refreshResult) {
+      case Ok<void>():
+        var token = await _authApiClient.getAccessToken();
+
+        try {
+          var dioRequest = Dio();
+          dioRequest.options.baseUrl = _baseUrl;
+
+          dioRequest.options.headers = {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          };
+
+          var formData = FormData();
+          for (var image in images) {
+            var file = await MultipartFile.fromFile(
+              image.path,
+              filename: image.name,
+              contentType: DioMediaType("image", image.name),
+            );
+
+            formData.files.add(MapEntry("file", file));
+          }
+
+          var response = await dioRequest.post(
+            "$_baseUrl/$endpoint",
+            data: formData,
+          );
+          if (response.data["files"] == null) {
+            return Result.error(Exception("No file names returned"));
+          }
+          if (response.statusCode == 200) {
+            return Result.ok(
+              (response.data["files"] as List<dynamic>)
+                  .map((c) => c as String)
+                  .toList(),
+            );
+          }
+          return Result.error(
+            Exception("Status code ${response.statusCode} was returned"),
+          );
+        } on Exception catch (err) {
+          return Result.error(err);
+        }
+      case Error<void>():
+        // Refresh failed, user must log in again
+        return Result<List<String>>.error(
           Exception('Session expired, please log in again.'),
         );
     }

@@ -17,6 +17,7 @@ class Contact extends Opportunity implements Addressable {
     this.houseNumber = "",
     this.email = "",
     this.tel = "",
+    this.picture,
     required ToMany<ContactProtocol> contactProtocols,
     required ToMany<OpportunityContact> opportunities,
     required ToMany<BandMember> bands,
@@ -42,6 +43,7 @@ class Contact extends Opportunity implements Addressable {
       OpportunityContact.fromJson,
     ),
     bands: ToMany.fromJson(json["bands"], BandMember.fromJson),
+    picture: json["picture"] as String?,
   );
 
   @override
@@ -54,6 +56,7 @@ class Contact extends Opportunity implements Addressable {
   String houseNumber;
   String email;
   String tel;
+  String? picture;
 
   ToMany<ContactProtocol> _contactProtocols;
   List<ContactProtocol> get contactProtocols => _contactProtocols.entities;
@@ -75,6 +78,7 @@ class Contact extends Opportunity implements Addressable {
       'tel': tel,
       'opportunities': _opportunities.toJson(),
       'bands': _bands.toJson(),
+      'picture': picture,
     };
     a.addAll(super.toJson());
     return a;

@@ -14,6 +14,8 @@ class Location extends Opportunity implements Addressable {
     this.street = "",
     this.houseNumber = "",
     this.googlemaps = "",
+    this.logo,
+    required this.images,
     this.publicShorttext = "",
     required ToMany<Event> events,
   }) : _events = events,
@@ -22,6 +24,7 @@ class Location extends Opportunity implements Addressable {
   factory Location.create(int id) => Location(
     opportunity: Opportunity.create(id),
     events: ToMany(entities: []),
+    images: [],
   );
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
@@ -33,6 +36,10 @@ class Location extends Opportunity implements Addressable {
     googlemaps: (json['googlemaps'] ?? "") as String,
     publicShorttext: (json['public_shorttext'] ?? "") as String,
     events: ToMany.fromJson(json["events"], Event.fromJson),
+    logo: json["logo"] as String?,
+    images:
+        (json["images"] as List<dynamic>?)?.map((c) => c as String).toList() ??
+        [],
   );
 
   @override
@@ -46,6 +53,9 @@ class Location extends Opportunity implements Addressable {
   String googlemaps;
   String publicShorttext;
 
+  String? logo;
+  List<String> images;
+
   ToMany<Event> _events;
   List<Event> get events => _events.entities;
 
@@ -58,6 +68,7 @@ class Location extends Opportunity implements Addressable {
       'houseNumber': houseNumber,
       'googlemaps': googlemaps,
       'public_shorttext': publicShorttext,
+      'logo': logo,
     };
     a.addAll(super.toJson());
     return a;

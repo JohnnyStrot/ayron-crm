@@ -1,6 +1,7 @@
 import 'package:ayron_crm/data/model/gig.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/datepicker.dart';
+import 'package:ayron_crm/ui/core/ui/image_view.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
@@ -236,6 +237,51 @@ class _GigDetailsState
                         LineupList(event: gig),
                         SizedBox(height: Dimens.vdivide),
                         OpportunitySocialMedia(opportunity: gig),
+                        SizedBox(height: Dimens.vdivide),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ImageView(
+                                type: "gig",
+                                attr: "thumbnail",
+                                id: gig.id,
+                                label: "Thumbnail",
+                                image: gig.thumbnail,
+                                apiService: context.read(),
+                              ),
+                            ),
+                            Expanded(
+                              child: ImageView(
+                                type: "gig",
+                                attr: "poster",
+                                id: gig.id,
+                                label: "Poster",
+                                image: gig.poster,
+                                apiService: context.read(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: Dimens.vgap),
+                        ImageView(
+                          type: "gig",
+                          attr: "banner",
+                          id: gig.id,
+                          label: "Banner",
+                          image: gig.banner,
+                          apiService: context.read(),
+                          imageAspectRatio: 7.0 / 4.0,
+                        ),
+                        SizedBox(height: Dimens.vgap),
+                        ImageView(
+                          type: "gig",
+                          attr: "images",
+                          id: gig.id,
+                          label: "Bilder",
+                          images: gig.images,
+                          imageAspectRatio: 4.0 / 3.0,
+                          apiService: context.read(),
+                        ),
                         SizedBox(height: Dimens.fabGap),
                       ],
                     ),

@@ -1,6 +1,8 @@
 import 'package:ayron_crm/data/model/location.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/address_input.dart';
+import 'package:ayron_crm/ui/core/ui/image_upload.dart';
+import 'package:ayron_crm/ui/core/ui/image_view.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
@@ -102,6 +104,32 @@ class _LocationDetailsState
                           ),
                           maxLines: 3,
                           minLines: 3,
+                        ),
+                        SizedBox(height: Dimens.vdivide),
+                        Row(
+                          spacing: Dimens.hgap,
+                          children: [
+                            Expanded(
+                              child: ImageView(
+                                type: "location",
+                                attr: "logo",
+                                id: location.id,
+                                label: "Logo",
+                                image: location.logo,
+                                apiService: context.read(),
+                              ),
+                            ),
+                            Expanded(
+                              child: ImageView(
+                                type: "location",
+                                attr: "images",
+                                id: location.id,
+                                label: "Bilder",
+                                images: location.images,
+                                apiService: context.read(),
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: Dimens.vdivide),
                         OpportunitySocialMedia(opportunity: location),

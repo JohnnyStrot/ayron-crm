@@ -6,11 +6,7 @@ A new Flutter project.
 
 ## Bestehende Features übernehmen
 
-- Gig aus Event erstellen
-- Bilder-Uploads
-    - Gig
-    - Organisation
-    - Location
+- die scheise responsive machen
 - Song-Rating
 
 ## Neue Features

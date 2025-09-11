@@ -1,5 +1,7 @@
 import 'package:ayron_crm/data/model/organisation.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
+import 'package:ayron_crm/ui/core/ui/image_upload.dart';
+import 'package:ayron_crm/ui/core/ui/image_view.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
@@ -8,6 +10,7 @@ import 'package:ayron_crm/ui/details/details_view.dart';
 import 'package:ayron_crm/ui/opportunity_contact/opportunity_contact_page.dart';
 import 'package:ayron_crm/ui/organisation/organisation_details_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OrganisationDetails
     extends
@@ -107,6 +110,23 @@ class _OrganisationDetailsState
                           ),
                           maxLines: 3,
                           minLines: 3,
+                        ),
+                        SizedBox(height: Dimens.vgap),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ImageView(
+                                type: "organisation",
+                                attr: "logo",
+                                id: organisation.id,
+                                label: "Logo",
+                                image: organisation.logo,
+
+                                apiService: context.read(),
+                              ),
+                            ),
+                            Expanded(child: SizedBox()),
+                          ],
                         ),
                         SizedBox(height: Dimens.vdivide),
                         OpportunitySocialMedia(opportunity: organisation),

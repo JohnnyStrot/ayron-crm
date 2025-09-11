@@ -2,12 +2,14 @@ import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/ui/contact/contact_details_viewmodel.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/address_input.dart';
+import 'package:ayron_crm/ui/core/ui/image_view.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ContactDetails
     extends DetailsView<Contact, ContactDetails, ContactDetailsViewmodel> {
@@ -93,6 +95,22 @@ class _ContactDetailsState
                   OpportunityStateInput(opportunity: contact),
                   SizedBox(height: Dimens.vdivide),
                   OpportunitySocialMedia(opportunity: contact),
+                  SizedBox(height: Dimens.vdivide),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ImageView(
+                          type: "contact",
+                          attr: "picture",
+                          id: contact.id,
+                          label: "Bild",
+                          image: contact.picture,
+                          apiService: context.read(),
+                        ),
+                      ),
+                      Expanded(child: SizedBox()),
+                    ],
+                  ),
                   SizedBox(height: Dimens.vdivide),
                   OpportunityInfoBox(opportunity: contact),
                   SizedBox(height: Dimens.fabGap),

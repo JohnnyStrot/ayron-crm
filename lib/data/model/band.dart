@@ -11,6 +11,7 @@ class Band extends Opportunity {
     this.publicShorttext = "",
     this.genre = "",
     this.city = "",
+    this.logo,
     required ToMany<BandMember> members,
     required ToMany<Lineup> events,
   }) : _members = members,
@@ -20,6 +21,7 @@ class Band extends Opportunity {
   String publicShorttext;
   String genre;
   String city;
+  String? logo;
 
   ToMany<BandMember> _members;
   List<BandMember> get members => _members.entities;
@@ -32,6 +34,7 @@ class Band extends Opportunity {
     publicShorttext: (json["public_shorttext"] ?? "") as String,
     genre: (json["genre"] ?? "") as String,
     city: (json["city"] ?? "") as String,
+    logo: json["logo"] as String?,
     members: ToMany.fromJson(json["members"], BandMember.fromJson),
     events: ToMany.fromJson(json["events"], Lineup.fromJson),
   );
@@ -42,6 +45,7 @@ class Band extends Opportunity {
       'public_shorttext': publicShorttext,
       'genre': genre,
       'city': city,
+      'logo': logo,
       'members': _members.toJson(),
       'events': _events.toJson(),
     };

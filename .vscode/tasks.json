@@ -4,13 +4,8 @@
       {
         "label": "adb reverse",
         "type": "shell",
-        "command": "adb",
-        "args": [
-          "reverse",
-          "tcp:4003",
-          "tcp:4003"
-        ],
+        "command": "adb reverse tcp:4003 tcp:4003 && adb reverse tcp:4006 tcp:4006",
         "problemMatcher": []
-      }
+      },
     ]
   }

@@ -1,3 +1,4 @@
+import 'package:ayron_crm/data/services/api/auth_api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_duration_picker/material_duration_picker.dart';
@@ -33,6 +34,21 @@ class MainApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
       routerConfig: router(context.read()),
+      builder: (context, child) {
+        AuthApiClient auth = context.read();
+        return FutureBuilder(
+          future: auth.oidcManager.init(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(child: CircularProgressIndicator.adaptive());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            }
+            return child!;
+          },
+        );
+      },
     );
   }
 }
