@@ -33,46 +33,53 @@ class OpportunityListEntry<T extends Opportunity> extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final action = Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        IconButton(
-          onPressed: () {
-            context.push("${route(opportunity)}/${opportunity.id}");
-          },
-          icon: Icon(Icons.edit),
+  Widget buildActionButtons(BuildContext context) => Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      IconButton(
+        onPressed: () {
+          context.push("${route(opportunity)}/${opportunity.id}");
+        },
+        icon: Icon(Icons.edit),
+      ),
+      IconButton(
+        onPressed: () {
+          onDelete(opportunity);
+        },
+        icon: Icon(Icons.delete),
+      ),
+    ],
+  );
+
+  Widget buildBorder(BuildContext context, Widget child) => Container(
+    decoration: BoxDecoration(
+      border: BoxBorder.fromLTRB(
+        bottom: BorderSide(
+          color: ColorScheme.of(context).primary.withAlpha(60),
+          style: BorderStyle.solid,
         ),
-        IconButton(
-          onPressed: () {
-            onDelete(opportunity);
-          },
-          icon: Icon(Icons.delete),
-        ),
-      ],
-    );
-    return Container(
-      decoration: BoxDecoration(
-        border: BoxBorder.fromLTRB(
-          bottom: BorderSide(
-            color: ColorScheme.of(context).primary.withAlpha(60),
-            style: BorderStyle.solid,
-          ),
-          left: BorderSide(
-            color: opportunity.state.color,
-            style: BorderStyle.solid,
-            width: 5.0,
-          ),
+        left: BorderSide(
+          color: opportunity.state.color,
+          style: BorderStyle.solid,
+          width: 5.0,
         ),
       ),
-      padding: EdgeInsets.only(bottom: 10, left: 10),
-      child: Row(
+    ),
+    padding: EdgeInsets.only(bottom: 10, left: 10),
+    child: child,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return buildBorder(
+      context,
+      Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(child: buildContent(context)),
-          action,
+          buildActionButtons(context),
         ],
       ),
     );

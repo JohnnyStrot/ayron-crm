@@ -61,9 +61,6 @@ class Gig extends Event {
       'flashback': flashback,
       'show_on_website': showOnWebsite,
       'setlist': _setlist.toJson(),
-      'banner': banner,
-      'poster': poster,
-      'thumbnail': thumbnail,
     };
     a.addAll(super.toJson());
     return a;

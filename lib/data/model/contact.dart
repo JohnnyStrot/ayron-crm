@@ -78,7 +78,6 @@ class Contact extends Opportunity implements Addressable {
       'tel': tel,
       'opportunities': _opportunities.toJson(),
       'bands': _bands.toJson(),
-      'picture': picture,
     };
     a.addAll(super.toJson());
     return a;

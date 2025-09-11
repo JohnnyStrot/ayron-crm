@@ -1,5 +1,6 @@
 import 'package:ayron_crm/data/model/location.dart';
 import 'package:ayron_crm/routing/routes.dart';
+import 'package:ayron_crm/ui/core/ui/rounded_image_icon.dart';
 import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 import 'package:flutter/material.dart';
 
@@ -12,18 +13,30 @@ class LocationListEntry extends OpportunityListEntry<Location> {
 
   @override
   Widget buildContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 10,
+    return Row(
       children: [
-        Text(
-          opportunity.name,
-          overflow: TextOverflow.ellipsis,
-          style: TextTheme.of(context).displaySmall!.copyWith(
-            fontSize: TextTheme.of(context).bodyLarge!.fontSize,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 10,
+            children: [
+              Text(
+                opportunity.name,
+                overflow: TextOverflow.ellipsis,
+                style: TextTheme.of(context).displaySmall!.copyWith(
+                  fontSize: TextTheme.of(context).bodyLarge!.fontSize,
+                ),
+              ),
+              Text(opportunity.city),
+            ],
           ),
         ),
-        Text(opportunity.city),
+        if (opportunity.logo != null)
+          RoundedImageIcon(
+            imageLocation:
+                "location/logo/${opportunity.id}/${opportunity.logo}",
+            size: 40,
+          ),
       ],
     );
   }

@@ -68,7 +68,6 @@ class Location extends Opportunity implements Addressable {
       'houseNumber': houseNumber,
       'googlemaps': googlemaps,
       'public_shorttext': publicShorttext,
-      'logo': logo,
     };
     a.addAll(super.toJson());
     return a;

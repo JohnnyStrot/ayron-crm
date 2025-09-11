@@ -4,7 +4,6 @@ import 'package:ayron_crm/ui/core/ui/image_upload.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/rendering.dart';
 
 class ImageView extends StatefulWidget {
   const ImageView({

@@ -15,22 +15,22 @@ class _ExpansionProtocolItem {
 }
 
 class ProtocolList extends StatefulWidget {
-  const ProtocolList({
+  ProtocolList({
     super.key,
     required this.repository,
-    this.protocols,
+    List<ContactProtocol>? protocols,
     this.contact,
     this.showContact = true,
     this.showOpp = true,
     this.updateProtocols,
-  });
+  }) : protocols = protocols ?? [];
 
   final bool showContact;
   final bool showOpp;
 
   final ContactProtocolRepository repository;
 
-  final List<ContactProtocol>? protocols;
+  final List<ContactProtocol> protocols;
   final Contact? contact;
 
   final Listenable? updateProtocols;
@@ -60,20 +60,12 @@ class _ProtocolListState extends State<ProtocolList> {
   }
 
   void _updateProtocols() {
-    widget.protocols!.sort(
-      (a, b) => a.timestamp.isBefore(b.timestamp) ? 1 : -1,
-    );
+    widget.protocols.sort((a, b) => a.timestamp.isBefore(b.timestamp) ? 1 : -1);
     _createItems();
   }
 
   void _createItems() {
-    if (widget.protocols != null) {
-      setState(() {
-        _items = widget.protocols!
-            .map((e) => _ExpansionProtocolItem(protocol: e))
-            .toList();
-      });
-    } else if (widget.contact != null) {
+    if (widget.contact != null) {
       widget.repository.getProtocols(widget.contact!).then((res) {
         switch (res) {
           case Ok<List<ContactProtocol>>():
@@ -89,6 +81,12 @@ class _ProtocolListState extends State<ProtocolList> {
               );
             }
         }
+      });
+    } else {
+      setState(() {
+        _items = widget.protocols
+            .map((e) => _ExpansionProtocolItem(protocol: e))
+            .toList();
       });
     }
   }
@@ -199,14 +197,22 @@ class _ProtocolListState extends State<ProtocolList> {
                     await Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (context) => ProtocolDetails(
-                          repository: context.read(),
-                          protocol: prot,
+                        builder: (context) => Align(
+                          alignment: Alignment.topCenter,
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: Dimens.contentMaxWidth,
+                            ),
+                            child: ProtocolDetails(
+                              repository: context.read(),
+                              protocol: prot,
+                            ),
+                          ),
                         ),
                       ),
                     );
                     setState(() {
-                      widget.protocols!.sort(
+                      widget.protocols.sort(
                         (a, b) => a.timestamp.isBefore(b.timestamp) ? 1 : -1,
                       );
                       _createItems();
@@ -220,8 +226,8 @@ class _ProtocolListState extends State<ProtocolList> {
                     switch (result) {
                       case Ok<void>():
                         setState(() {
-                          if (widget.protocols != null) {
-                            widget.protocols!.remove(prot);
+                          if (widget.protocols.isNotEmpty) {
+                            widget.protocols.remove(prot);
                           }
                           _items.remove(item);
                         });

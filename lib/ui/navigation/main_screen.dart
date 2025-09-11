@@ -152,7 +152,7 @@ class _MainScreenState extends State<MainScreen> {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  constraints: BoxConstraints(maxWidth: 600),
+                  constraints: BoxConstraints(maxWidth: Dimens.contentMaxWidth),
                   child: widget.child,
                 ),
               ),
@@ -167,7 +167,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({
     super.key,
     required this.navbarCategories,
@@ -177,6 +177,11 @@ class AppDrawer extends StatelessWidget {
   final List<NavBarCategory> navbarCategories;
   final bool mobile;
 
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -201,8 +206,20 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
           ),
-          for (var cat in navbarCategories)
-            Column(children: [cat.tile(context, mobile), Divider()]),
+          for (var cat in widget.navbarCategories)
+            Column(
+              children: [
+                cat.tile(context, widget.mobile, (nav) {
+                  setState(() {
+                    if (widget.mobile) {
+                      context.pop();
+                    }
+                    context.go(nav.location);
+                  });
+                }),
+                Divider(),
+              ],
+            ),
         ],
       ),
     );
@@ -221,7 +238,11 @@ class NavBarCategory extends NavBarItem {
   });
 
   @override
-  Widget tile(BuildContext context, bool mobile) {
+  Widget tile(
+    BuildContext context,
+    bool mobile,
+    void Function(NavBarItem) onTap,
+  ) {
     final matched = GoRouter.of(
       context,
     ).state.matchedLocation.startsWith(location);
@@ -236,7 +257,7 @@ class NavBarCategory extends NavBarItem {
         for (var nav in subItems)
           Padding(
             padding: const EdgeInsets.only(left: Dimens.vgap),
-            child: nav.tile(context, mobile),
+            child: nav.tile(context, mobile, onTap),
           ),
       ],
     );
@@ -256,7 +277,11 @@ class NavBarItem {
     Widget? activeIcon,
   }) : activeIcon = activeIcon ?? icon;
 
-  Widget tile(BuildContext context, bool mobile) {
+  Widget tile(
+    BuildContext context,
+    bool mobile,
+    void Function(NavBarItem) onTap,
+  ) {
     final matched = GoRouter.of(
       context,
     ).state.matchedLocation.startsWith(location);
@@ -266,12 +291,7 @@ class NavBarItem {
         style: TextStyle(fontWeight: matched ? FontWeight.bold : null),
       ),
       leading: matched ? activeIcon : icon,
-      onTap: () {
-        if (mobile) {
-          context.pop();
-        }
-        context.go(location);
-      },
+      onTap: () => onTap(this),
     );
   }
 }

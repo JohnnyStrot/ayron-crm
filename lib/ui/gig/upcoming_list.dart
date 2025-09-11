@@ -2,6 +2,7 @@ import 'package:ayron_crm/data/model/gig.dart';
 import 'package:ayron_crm/data/repositories/gig/gig_repository.dart';
 import 'package:ayron_crm/routing/routes.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
+import 'package:ayron_crm/ui/core/ui/rounded_image_icon.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -85,13 +86,26 @@ class _UpcomingListState extends State<UpcomingList> {
                               Text(gig.location?.address ?? ""),
                             ],
                           ),
-                          Text(
-                            gig.name,
-                            style: TextTheme.of(context).headlineSmall!
-                                .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: Dimens.hgap,
+                            children: [
+                              Text(
+                                gig.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextTheme.of(context).headlineSmall!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                              ),
+                              if (gig.thumbnail != null)
+                                RoundedImageIcon(
+                                  size: 40,
+                                  imageLocation:
+                                      "gig/thumbnail/${gig.id}/${gig.thumbnail}",
                                 ),
+                            ],
                           ),
                         ],
                       ),

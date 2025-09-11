@@ -343,7 +343,7 @@ final dataRoutes = [
 GoRouter router(AuthRepository authRepository) => GoRouter(
   refreshListenable: authRepository,
   navigatorKey: _rootNavigatorKey,
-  initialLocation: Routes.overview,
+  initialLocation: Routes.dashboard,
   debugLogDiagnostics: true,
   redirect: _redirect,
   routes: [

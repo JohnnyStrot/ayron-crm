@@ -20,6 +20,8 @@ abstract final class Dimens {
   // Gap at the bottom of the page so the FAB does not hide ui elements
   static const fabGap = 60.0;
 
+  static const contentMaxWidth = 600.0;
+
   /// Horizontal padding for screen edges
   double get paddingScreenHorizontal;
 

@@ -35,7 +35,6 @@ class Organisation extends Opportunity {
   Map<String, dynamic> toJson() {
     var a = <String, dynamic>{
       'public_shorttext': publicShorttext,
-      'logo': logo,
       'events': _events.toJson(),
     };
     a.addAll(super.toJson());

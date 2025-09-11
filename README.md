@@ -4,9 +4,10 @@ A new Flutter project.
 
 # Todos
 
+- login checken
+
 ## Bestehende Features übernehmen
 
-- die scheise responsive machen
 - Song-Rating
 
 ## Neue Features
