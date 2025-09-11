@@ -160,7 +160,7 @@ class _LocationDetailsState
             ),
           );
         } else {
-          return LinearProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       },
     );

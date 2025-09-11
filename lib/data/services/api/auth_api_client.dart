@@ -124,6 +124,10 @@ class AuthApiClient {
   }
 
   Future<Result<void>> refreshTokens() async {
+    var a = await oidcManager.refreshToken();
+    if (a == null) {
+      return Result.error(Exception("Token not refreshed"));
+    }
     return Result.ok(null);
   }
 }

@@ -235,7 +235,7 @@ class _EventDetailsState
               ),
             );
           } else {
-            return LinearProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),

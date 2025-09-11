@@ -109,7 +109,7 @@ class _SeriesDetailsState
             ),
           );
         } else {
-          return LinearProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       },
     );

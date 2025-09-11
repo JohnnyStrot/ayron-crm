@@ -202,7 +202,7 @@ class _BandDetailsState
             ),
           );
         } else {
-          return LinearProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       },
     );

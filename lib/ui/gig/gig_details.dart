@@ -296,7 +296,7 @@ class _GigDetailsState
               ),
             );
           } else {
-            return LinearProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),

@@ -311,7 +311,7 @@ class _SongDetailsState
             ),
           );
         } else {
-          return LinearProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       },
     );

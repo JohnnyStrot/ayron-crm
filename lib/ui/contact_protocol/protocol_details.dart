@@ -72,7 +72,7 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
   @override
   Widget build(BuildContext context) {
     if (_protocol == null) {
-      return LinearProgressIndicator();
+      return Center(child: CircularProgressIndicator());
     }
 
     var tec = TextEditingController(text: _protocol!.type);

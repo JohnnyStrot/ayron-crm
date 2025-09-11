@@ -119,7 +119,7 @@ class _ContactDetailsState
             ),
           );
         } else {
-          return LinearProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       },
     );
