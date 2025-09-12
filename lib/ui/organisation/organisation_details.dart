@@ -1,6 +1,5 @@
 import 'package:ayron_crm/data/model/organisation.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/core/ui/image_upload.dart';
 import 'package:ayron_crm/ui/core/ui/image_view.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
@@ -44,50 +43,50 @@ class _OrganisationDetailsState
       builder: (context, _) {
         final organisation = widget.viewmodel.entity;
         if (organisation != null) {
-          return DefaultTabController(
-            initialIndex: 0,
-            length: 2,
-            child: Scaffold(
-              floatingActionButton: FloatingActionButton(
-                onPressed: submit,
-                child: Icon(Icons.save),
-              ),
-              appBar: AppBar(
-                title: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Organisation ",
-                        style: TextStyle(fontWeight: FontWeight.w200),
-                      ),
-                      TextSpan(
-                        text: organisation.name.isEmpty
-                            ? "#${organisation.id}"
-                            : organisation.name,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w500,
+          return Form(
+            key: formKey,
+            child: DefaultTabController(
+              initialIndex: 0,
+              length: 2,
+              child: Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: submit,
+                  child: Icon(Icons.save),
+                ),
+                appBar: AppBar(
+                  title: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Organisation ",
+                          style: TextStyle(fontWeight: FontWeight.w200),
                         ),
+                        TextSpan(
+                          text: organisation.name.isEmpty
+                              ? "#${organisation.id}"
+                              : organisation.name,
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                      style: TextTheme.of(context).headlineSmall!.copyWith(
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                    style: TextTheme.of(context).headlineSmall!.copyWith(
-                      fontSize: 16,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  bottom: const TabBar(
+                    tabs: <Widget>[
+                      Tab(text: "Info"),
+                      Tab(text: "Kontakte"),
+                    ],
+                  ),
                 ),
-                bottom: const TabBar(
-                  tabs: <Widget>[
-                    Tab(text: "Info"),
-                    Tab(text: "Kontakte"),
-                  ],
-                ),
-              ),
-              body: TabBarView(
-                children: <Widget>[
-                  Form(
-                    key: formKey,
-                    child: ListView(
+                body: TabBarView(
+                  children: <Widget>[
+                    ListView(
                       padding: EdgeInsets.symmetric(
                         vertical: Dimens.of(context).paddingScreenVertical,
                         horizontal: Dimens.of(context).paddingScreenHorizontal,
@@ -133,9 +132,10 @@ class _OrganisationDetailsState
                         SizedBox(height: Dimens.fabGap),
                       ],
                     ),
-                  ),
-                  OpportunityContactPage(opportunity: organisation),
-                ],
+
+                    OpportunityContactPage(opportunity: organisation),
+                  ],
+                ),
               ),
             ),
           );

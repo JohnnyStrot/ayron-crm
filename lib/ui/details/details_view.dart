@@ -48,7 +48,7 @@ abstract class DetailsState<
   }
 
   void submit() {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState != null && formKey.currentState!.validate()) {
       widget.viewmodel.saveEntity.execute();
     }
   }

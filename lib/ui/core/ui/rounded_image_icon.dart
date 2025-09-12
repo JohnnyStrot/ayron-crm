@@ -24,8 +24,12 @@ class RoundedImageIcon extends StatelessWidget {
       child: Align(
         alignment: Alignment.center,
         child: ClipRRect(
-          borderRadius: BorderRadiusGeometry.all(Radius.circular(8.0)),
-          child: Image.network("$_baseImageUrl/$imageLocation"),
+          borderRadius: BorderRadiusGeometry.all(Radius.circular(size * 0.1)),
+          child: Image.network(
+            "$_baseImageUrl/$imageLocation",
+            errorBuilder: (context, error, stackTrace) =>
+                Placeholder(color: ColorScheme.of(context).errorContainer),
+          ),
         ),
       ),
     );

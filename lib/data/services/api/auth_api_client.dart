@@ -65,6 +65,7 @@ class AuthApiClient {
         return const Duration(seconds: 1);
       },
       scope: _scopes,
+
       postLogoutRedirectUri: kIsWeb
           ? Uri.parse('http://localhost:22433/redirect.html')
           : Platform.isAndroid || Platform.isIOS || Platform.isMacOS
@@ -105,8 +106,6 @@ class AuthApiClient {
       return Result.ok(null);
     } on Exception catch (e) {
       return Result.error(e);
-    } catch (ee) {
-      return Result.error(Exception("wtf"));
     }
   }
 

@@ -1,14 +1,12 @@
 import 'package:ayron_crm/data/model/location.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/address_input.dart';
-import 'package:ayron_crm/ui/core/ui/image_upload.dart';
 import 'package:ayron_crm/ui/core/ui/image_view.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_info_box.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_name_field.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_social_media.dart';
 import 'package:ayron_crm/ui/core/ui/opportunity_state_input.dart';
 import 'package:ayron_crm/ui/details/details_view.dart';
-import 'package:ayron_crm/ui/gig/create_gig_button.dart';
 import 'package:ayron_crm/ui/location/location_details_viewmodel.dart';
 import 'package:ayron_crm/ui/opportunity_contact/opportunity_contact_page.dart';
 import 'package:flutter/material.dart';
@@ -36,50 +34,50 @@ class _LocationDetailsState
       builder: (context, _) {
         final location = widget.viewmodel.entity;
         if (location != null) {
-          return DefaultTabController(
-            initialIndex: 0,
-            length: 2,
-            child: Scaffold(
-              floatingActionButton: FloatingActionButton(
-                onPressed: submit,
-                child: Icon(Icons.save),
-              ),
-              appBar: AppBar(
-                title: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Location ",
-                        style: TextStyle(fontWeight: FontWeight.w200),
-                      ),
-                      TextSpan(
-                        text: location.name.isEmpty
-                            ? "#${location.id}"
-                            : location.name,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w500,
+          return Form(
+            key: formKey,
+            child: DefaultTabController(
+              initialIndex: 0,
+              length: 2,
+              child: Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: submit,
+                  child: Icon(Icons.save),
+                ),
+                appBar: AppBar(
+                  title: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Location ",
+                          style: TextStyle(fontWeight: FontWeight.w200),
                         ),
+                        TextSpan(
+                          text: location.name.isEmpty
+                              ? "#${location.id}"
+                              : location.name,
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                      style: TextTheme.of(context).headlineSmall!.copyWith(
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                    style: TextTheme.of(context).headlineSmall!.copyWith(
-                      fontSize: 16,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  bottom: const TabBar(
+                    tabs: <Widget>[
+                      Tab(text: "Info"),
+                      Tab(text: "Kontakte"),
+                    ],
+                  ),
                 ),
-                bottom: const TabBar(
-                  tabs: <Widget>[
-                    Tab(text: "Info"),
-                    Tab(text: "Kontakte"),
-                  ],
-                ),
-              ),
-              body: TabBarView(
-                children: <Widget>[
-                  Form(
-                    key: formKey,
-                    child: ListView(
+                body: TabBarView(
+                  children: <Widget>[
+                    ListView(
                       padding: EdgeInsets.symmetric(
                         vertical: Dimens.of(context).paddingScreenVertical,
                         horizontal: Dimens.of(context).paddingScreenHorizontal,
@@ -153,9 +151,9 @@ class _LocationDetailsState
                         SizedBox(height: Dimens.fabGap),
                       ],
                     ),
-                  ),
-                  OpportunityContactPage(opportunity: location),
-                ],
+                    OpportunityContactPage(opportunity: location),
+                  ],
+                ),
               ),
             ),
           );

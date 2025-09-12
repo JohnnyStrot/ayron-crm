@@ -1,6 +1,5 @@
 import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/routing/routes.dart';
-import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/rounded_image_icon.dart';
 import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 import 'package:flutter/material.dart';

@@ -31,50 +31,50 @@ class _SeriesDetailsState
       builder: (context, _) {
         final series = widget.viewmodel.entity;
         if (series != null) {
-          return DefaultTabController(
-            initialIndex: 0,
-            length: 2,
-            child: Scaffold(
-              floatingActionButton: FloatingActionButton(
-                onPressed: submit,
-                child: Icon(Icons.save),
-              ),
-              appBar: AppBar(
-                title: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Veranstaltungsreihe ",
-                        style: TextStyle(fontWeight: FontWeight.w200),
-                      ),
-                      TextSpan(
-                        text: series.name.isEmpty
-                            ? "#${series.id}"
-                            : series.name,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w500,
+          return Form(
+            key: formKey,
+            child: DefaultTabController(
+              initialIndex: 0,
+              length: 2,
+              child: Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: submit,
+                  child: Icon(Icons.save),
+                ),
+                appBar: AppBar(
+                  title: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Veranstaltungsreihe ",
+                          style: TextStyle(fontWeight: FontWeight.w200),
                         ),
+                        TextSpan(
+                          text: series.name.isEmpty
+                              ? "#${series.id}"
+                              : series.name,
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                      style: TextTheme.of(context).headlineSmall!.copyWith(
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                    style: TextTheme.of(context).headlineSmall!.copyWith(
-                      fontSize: 16,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  bottom: const TabBar(
+                    tabs: <Widget>[
+                      Tab(text: "Info"),
+                      Tab(text: "Kontakte"),
+                    ],
+                  ),
                 ),
-                bottom: const TabBar(
-                  tabs: <Widget>[
-                    Tab(text: "Info"),
-                    Tab(text: "Kontakte"),
-                  ],
-                ),
-              ),
-              body: TabBarView(
-                children: <Widget>[
-                  Form(
-                    key: formKey,
-                    child: ListView(
+                body: TabBarView(
+                  children: <Widget>[
+                    ListView(
                       padding: EdgeInsets.symmetric(
                         vertical: Dimens.of(context).paddingScreenVertical,
                         horizontal: Dimens.of(context).paddingScreenHorizontal,
@@ -102,9 +102,10 @@ class _SeriesDetailsState
                         SizedBox(height: Dimens.fabGap),
                       ],
                     ),
-                  ),
-                  OpportunityContactPage(opportunity: series),
-                ],
+
+                    OpportunityContactPage(opportunity: series),
+                  ],
+                ),
               ),
             ),
           );

@@ -19,22 +19,29 @@ class ContactSelect extends EntitySelect<Contact> {
     bool isDisabled,
     bool isSelected,
   ) => Row(
-    spacing: Dimens.hdivide,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    spacing: Dimens.hgap,
     children: [
+      Expanded(child: Text(item.displayShort, overflow: TextOverflow.ellipsis)),
       Expanded(
-        flex: 3,
-        child: Text(
-          item.name,
-          overflow: TextOverflow.ellipsis,
-          style: TextTheme.of(context).headlineSmall!.copyWith(fontSize: 14),
-        ),
-      ),
-      Expanded(
-        flex: 2,
-        child: Text(
-          item.email,
-          overflow: TextOverflow.ellipsis,
-          style: TextTheme.of(context).titleSmall,
+        child: Column(
+          children: [
+            Text(
+              item.tel,
+              style: TextTheme.of(context).bodySmall,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              item.email,
+              style: TextTheme.of(context).bodySmall,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              item.instagram.isNotEmpty ? "@${item.instagram}" : "",
+              style: TextTheme.of(context).bodySmall,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     ],

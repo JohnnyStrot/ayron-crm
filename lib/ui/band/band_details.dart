@@ -38,48 +38,48 @@ class _BandDetailsState
       builder: (cont, _) {
         final band = widget.viewmodel.entity;
         if (band != null) {
-          return DefaultTabController(
-            initialIndex: 0,
-            length: 2,
-            child: Scaffold(
-              floatingActionButton: FloatingActionButton(
-                onPressed: submit,
-                child: Icon(Icons.save),
-              ),
-              appBar: AppBar(
-                title: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Band ",
-                        style: TextStyle(fontWeight: FontWeight.w200),
-                      ),
-                      TextSpan(
-                        text: band.name.isEmpty ? "#${band.id}" : band.name,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w500,
+          return Form(
+            key: formKey,
+            child: DefaultTabController(
+              initialIndex: 0,
+              length: 2,
+              child: Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: submit,
+                  child: Icon(Icons.save),
+                ),
+                appBar: AppBar(
+                  title: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Band ",
+                          style: TextStyle(fontWeight: FontWeight.w200),
                         ),
+                        TextSpan(
+                          text: band.name.isEmpty ? "#${band.id}" : band.name,
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                      style: TextTheme.of(cont).headlineSmall!.copyWith(
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                    style: TextTheme.of(cont).headlineSmall!.copyWith(
-                      fontSize: 16,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  bottom: const TabBar(
+                    tabs: <Widget>[
+                      Tab(text: "Info"),
+                      Tab(text: "Kontakte"),
+                    ],
+                  ),
                 ),
-                bottom: const TabBar(
-                  tabs: <Widget>[
-                    Tab(text: "Info"),
-                    Tab(text: "Kontakte"),
-                  ],
-                ),
-              ),
-              body: TabBarView(
-                children: <Widget>[
-                  Form(
-                    key: formKey,
-                    child: ListView(
+                body: TabBarView(
+                  children: <Widget>[
+                    ListView(
                       padding: EdgeInsets.symmetric(
                         vertical: Dimens.of(cont).paddingScreenVertical,
                         horizontal: Dimens.of(cont).paddingScreenHorizontal,
@@ -146,58 +146,63 @@ class _BandDetailsState
                         SizedBox(height: Dimens.fabGap),
                       ],
                     ),
-                  ),
-                  ListView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: Dimens.vdivide),
-                        child: OpportunityContactList(
-                          opportunity: band,
-                          repository: context.read(),
-                          opcoRepository: context.read(),
-                          updateProtocols: updateProtocols,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: Dimens.vdivide),
-                        child: BandMemberList(
-                          opportunity: band,
-                          repository: context.read(),
-                          bandMemberRepository: context.read(),
-                          updateProtocols: updateProtocols,
-                          label: Text(
-                            "Mitglieder",
-                            style: TextTheme.of(context).headlineSmall!
-                                .copyWith(
-                                  fontSize: TextTheme.of(
-                                    context,
-                                  ).bodyLarge!.fontSize,
-                                ),
+
+                    ListView(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: Dimens.vdivide,
+                          ),
+                          child: OpportunityContactList(
+                            opportunity: band,
+                            repository: context.read(),
+                            opcoRepository: context.read(),
+                            updateProtocols: updateProtocols,
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: Dimens.paddingHorizontal,
-                          right: Dimens.paddingHorizontal,
-                          bottom: Dimens.vgap,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: Dimens.vdivide,
+                          ),
+                          child: BandMemberList(
+                            opportunity: band,
+                            repository: context.read(),
+                            bandMemberRepository: context.read(),
+                            updateProtocols: updateProtocols,
+                            label: Text(
+                              "Mitglieder",
+                              style: TextTheme.of(context).headlineSmall!
+                                  .copyWith(
+                                    fontSize: TextTheme.of(
+                                      context,
+                                    ).bodyLarge!.fontSize,
+                                  ),
+                            ),
+                          ),
                         ),
-                        child: Text(
-                          "Protokoll",
-                          style: TextTheme.of(cont).headlineSmall,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: Dimens.paddingHorizontal,
+                            right: Dimens.paddingHorizontal,
+                            bottom: Dimens.vgap,
+                          ),
+                          child: Text(
+                            "Protokoll",
+                            style: TextTheme.of(cont).headlineSmall,
+                          ),
                         ),
-                      ),
-                      ProtocolList(
-                        protocols: band.protocols,
-                        repository: context.read(),
-                        showContact: true,
-                        showOpp: false,
-                        updateProtocols: updateProtocols,
-                      ),
-                      SizedBox(height: Dimens.fabGap),
-                    ],
-                  ),
-                ],
+                        ProtocolList(
+                          protocols: band.protocols,
+                          repository: context.read(),
+                          showContact: true,
+                          showOpp: false,
+                          updateProtocols: updateProtocols,
+                        ),
+                        SizedBox(height: Dimens.fabGap),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
