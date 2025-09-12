@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:async/async.dart' hide Result;
 import 'package:flutter/foundation.dart';
-import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:oidc/oidc.dart';
 import 'package:oidc_default_store/oidc_default_store.dart';
@@ -22,6 +20,11 @@ class AuthApiClient {
   static const String _redirectUrlMobile = 'de.ayronband.crm://callback';
 
   static const managerId = "ayron-crm";
+
+  final FlutterSecureStorage _secureStorage;
+  static const String _accessTokenKey = 'access_token';
+  static const String _refreshTokenKey = 'refresh_token';
+  static const String _idTokenKey = 'id_token';
 
   OidcPlatformSpecificOptions_Web_NavigationMode webNavigationMode =
       OidcPlatformSpecificOptions_Web_NavigationMode.newPage;
@@ -52,49 +55,66 @@ class AuthApiClient {
     );
   }
 
-  final oidcManager = OidcUserManager.lazy(
-    id: managerId,
-    discoveryDocumentUri: OidcUtils.getOpenIdConfigWellKnownUri(
-      Uri.parse(_issuer),
-    ),
-    clientCredentials: const OidcClientAuthentication.none(clientId: _clientId),
-    store: OidcDefaultStore(),
-    settings: OidcUserManagerSettings(
-      uiLocales: ["de"],
-      refreshBefore: (token) {
-        return const Duration(seconds: 1);
-      },
-      scope: _scopes,
+  late OidcUserManager oidcManager;
 
-      postLogoutRedirectUri: kIsWeb
-          ? Uri.parse('http://localhost:22433/redirect.html')
-          : Platform.isAndroid || Platform.isIOS || Platform.isMacOS
-          ? Uri.parse(_redirectUrlMobile)
-          : Platform.isWindows || Platform.isLinux
-          ? Uri.parse('http://localhost:0')
-          : null,
-      redirectUri: kIsWeb
-          // this url must be an actual html page.
-          // see the file in /web/redirect.html for an example.
-          //
-          // for debugging in flutter, you must run this app with --web-port 22433
-          ? Uri.parse('http://localhost:22433/redirect.html')
-          : Platform.isIOS || Platform.isMacOS || Platform.isAndroid
-          // scheme: reverse domain name notation of your package name.
-          // path: anything.
-          ? Uri.parse(_redirectUrlMobile)
-          : Platform.isWindows || Platform.isLinux
-          // using port 0 means that we don't care which port is used,
-          // and a random unused port will be assigned.
-          //
-          // this is safer than passing a port yourself.
-          //
-          // note that you can also pass a path like /redirect,
-          // but it's completely optional.
-          ? Uri.parse('http://localhost:0')
-          : Uri(),
-    ),
-  );
+  AuthApiClient() : _secureStorage = FlutterSecureStorage() {
+    oidcManager = OidcUserManager.lazy(
+      id: managerId,
+      discoveryDocumentUri: OidcUtils.getOpenIdConfigWellKnownUri(
+        Uri.parse(_issuer),
+      ),
+      clientCredentials: const OidcClientAuthentication.none(
+        clientId: _clientId,
+      ),
+      store: OidcDefaultStore(secureStorageInstance: _secureStorage),
+      keyStore: JsonWebKeyStore(),
+      settings: OidcUserManagerSettings(
+        uiLocales: ["de"],
+        refreshBefore: (token) {
+          return const Duration(seconds: 1);
+        },
+        scope: _scopes,
+        postLogoutRedirectUri: kIsWeb
+            ? Uri.parse('http://localhost:22433/redirect.html')
+            : Platform.isAndroid || Platform.isIOS || Platform.isMacOS
+            ? Uri.parse(_redirectUrlMobile)
+            : Platform.isWindows || Platform.isLinux
+            ? Uri.parse('http://localhost:0')
+            : null,
+        redirectUri: kIsWeb
+            // this url must be an actual html page.
+            // see the file in /web/redirect.html for an example.
+            //
+            // for debugging in flutter, you must run this app with --web-port 22433
+            ? Uri.parse('http://localhost:22433/redirect.html')
+            : Platform.isIOS || Platform.isMacOS || Platform.isAndroid
+            // scheme: reverse domain name notation of your package name.
+            // path: anything.
+            ? Uri.parse(_redirectUrlMobile)
+            : Platform.isWindows || Platform.isLinux
+            // using port 0 means that we don't care which port is used,
+            // and a random unused port will be assigned.
+            //
+            // this is safer than passing a port yourself.
+            //
+            // note that you can also pass a path like /redirect,
+            // but it's completely optional.
+            ? Uri.parse('http://localhost:0')
+            : Uri(),
+      ),
+    );
+  }
+
+  Future<void> init() async {
+    if (oidcManager.didInit) {
+      return;
+    }
+    var a = await _secureStorage.readAll();
+    await oidcManager.init();
+
+    var b = await _secureStorage.readAll();
+    return;
+  }
 
   Future<Result<void>> login() async {
     debugPrint("Logging in");
@@ -102,7 +122,6 @@ class AuthApiClient {
       var res = await oidcManager.loginAuthorizationCodeFlow(
         options: _getOptions(),
       );
-      debugPrint(res?.uid ?? "");
       return Result.ok(null);
     } on Exception catch (e) {
       return Result.error(e);
@@ -120,6 +139,15 @@ class AuthApiClient {
     } on Exception catch (e) {
       return Result.error(e);
     }
+  }
+
+  Future<void> writeToken(OidcToken token) async {
+    await _secureStorage.write(key: _accessTokenKey, value: token.accessToken);
+    await _secureStorage.write(
+      key: _refreshTokenKey,
+      value: token.refreshToken,
+    );
+    await _secureStorage.write(key: _idTokenKey, value: token.idToken);
   }
 
   Future<Result<void>> refreshTokens() async {

@@ -37,7 +37,7 @@ class MainApp extends StatelessWidget {
       builder: (context, child) {
         AuthApiClient auth = context.read();
         return FutureBuilder(
-          future: auth.oidcManager.init(),
+          future: auth.init(),
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               return const Center(child: CircularProgressIndicator.adaptive());
