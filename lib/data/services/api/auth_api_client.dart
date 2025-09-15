@@ -18,6 +18,10 @@ class AuthApiClient {
     defaultValue: 'https://johnnyst.de:8443/realms/applications',
   );
   static const String _redirectUrlMobile = 'de.ayronband.crm://callback';
+  static const String _redirectUrlWeb = String.fromEnvironment(
+    'redirect_url_web',
+    defaultValue: 'http://localhost:22433/redirect.html',
+  );
 
   static const managerId = "ayron-crm";
 
@@ -75,7 +79,7 @@ class AuthApiClient {
         },
         scope: _scopes,
         postLogoutRedirectUri: kIsWeb
-            ? Uri.parse('http://localhost:22433/redirect.html')
+            ? Uri.parse(_redirectUrlWeb)
             : Platform.isAndroid || Platform.isIOS || Platform.isMacOS
             ? Uri.parse(_redirectUrlMobile)
             : Platform.isWindows || Platform.isLinux
@@ -86,7 +90,7 @@ class AuthApiClient {
             // see the file in /web/redirect.html for an example.
             //
             // for debugging in flutter, you must run this app with --web-port 22433
-            ? Uri.parse('http://localhost:22433/redirect.html')
+            ? Uri.parse(_redirectUrlWeb)
             : Platform.isIOS || Platform.isMacOS || Platform.isAndroid
             // scheme: reverse domain name notation of your package name.
             // path: anything.
@@ -109,10 +113,8 @@ class AuthApiClient {
     if (oidcManager.didInit) {
       return;
     }
-    var a = await _secureStorage.readAll();
     await oidcManager.init();
 
-    var b = await _secureStorage.readAll();
     return;
   }
 
@@ -122,7 +124,11 @@ class AuthApiClient {
       var res = await oidcManager.loginAuthorizationCodeFlow(
         options: _getOptions(),
       );
-      return Result.ok(null);
+      if (res != null) {
+        return Result.ok(null);
+      } else {
+        return Result.error(Exception("Login failed"));
+      }
     } on Exception catch (e) {
       return Result.error(e);
     }
@@ -133,10 +139,13 @@ class AuthApiClient {
   }
 
   Future<Result<void>> logout() async {
+    debugPrint("Logging out");
     try {
-      oidcManager.logout();
+      await oidcManager.logout();
+      await oidcManager.forgetUser();
       return Result.ok(null);
     } on Exception catch (e) {
+      debugPrint(e.toString());
       return Result.error(e);
     }
   }

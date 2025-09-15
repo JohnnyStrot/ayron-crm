@@ -8,14 +8,14 @@
             "name": "ayron_crm staging",
             "request": "launch",
             "type": "dart",
-            "program": "${workspaceFolder}/lib/main_staging.dart"
+            "program": "${workspaceFolder}/lib/main_staging.dart",
         },
         {
             "name": "ayron_crm dev",
             "request": "launch",
             "type": "dart",
             "program": "${workspaceFolder}/lib/main_development.dart",
-            "preLaunchTask": "adb reverse"
+            "preLaunchTask": "adb reverse",
         },
         {
             "name": "ayron_crm local",

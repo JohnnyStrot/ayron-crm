@@ -128,12 +128,20 @@ class _MainScreenState extends State<MainScreen> {
           child: Scaffold(
             appBar: AppBar(
               title: displayMobileLayout
-                  ? Text(
-                      "Ayron-CRM",
-                      style: TextTheme.of(context).headlineSmall!.copyWith(
-                        color: ColorScheme.of(context).onPrimaryContainer,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic,
+                  ? MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          context.push(Routes.dashboard);
+                        },
+                        child: Text(
+                          "Ayron-CRM",
+                          style: TextTheme.of(context).headlineSmall!.copyWith(
+                            color: ColorScheme.of(context).onPrimaryContainer,
+                            fontWeight: FontWeight.w500,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
                       ),
                     )
                   : null,
@@ -197,12 +205,20 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
               ),
             ),
-            child: Text(
-              "Ayron-CRM",
-              style: TextTheme.of(context).displayMedium!.copyWith(
-                color: ColorScheme.of(context).onPrimary,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {
+                  context.push(Routes.dashboard);
+                },
+                child: Text(
+                  "Ayron-CRM",
+                  style: TextTheme.of(context).displayMedium!.copyWith(
+                    color: ColorScheme.of(context).onPrimary,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),

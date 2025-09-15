@@ -28,6 +28,8 @@ abstract final class Dimens {
   /// Vertical padding for screen edges
   double get paddingScreenVertical;
 
+  static const scrollBarGap = 10.0;
+
   /// Horizontal symmetric padding for screen edges
   EdgeInsets get edgeInsetsScreenHorizontal =>
       EdgeInsets.symmetric(horizontal: paddingScreenHorizontal);

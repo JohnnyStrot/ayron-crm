@@ -60,6 +60,7 @@ dependencies:
   oidc_default_store: ^0.4.0+3
   async: ^2.13.0
   carousel_slider: ^5.1.1
+  universal_io: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,12 @@ dev_dependencies:
   morphy: ^1.3.0
   build_runner: ^2.5.4
   json_serializable: ^6.9.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

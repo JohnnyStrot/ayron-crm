@@ -55,16 +55,20 @@ class _RepertoireListState extends State<RepertoireList> {
             child: ListView.builder(
               itemBuilder: (context, index) {
                 Song song = repertoire[index];
-                return InkWell(
-                  onTap: () {
-                    context.push("${Routes.songs}/${song.id}");
-                  },
-                  child: Card(
-                    elevation: 0.5,
-                    margin: EdgeInsets.symmetric(
-                      vertical: Dimens.vgap / 2.0,
-                      horizontal: Dimens.hgap,
-                    ),
+                return Card(
+                  elevation: 0.5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: Dimens.vgap / 2.0,
+                    horizontal: Dimens.hgap,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8.0),
+                    onTap: () {
+                      context.push("${Routes.songs}/${song.id}");
+                    },
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: Dimens.vgap,

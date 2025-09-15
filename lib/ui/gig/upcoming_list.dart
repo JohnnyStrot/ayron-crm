@@ -56,16 +56,20 @@ class _UpcomingListState extends State<UpcomingList> {
             child: ListView.builder(
               itemBuilder: (context, index) {
                 Gig gig = upcomingGigs[index];
-                return InkWell(
-                  onTap: () {
-                    context.push("${Routes.gigs}/${gig.id}");
-                  },
-                  child: Card(
-                    elevation: 0.5,
-                    margin: EdgeInsets.symmetric(
-                      vertical: Dimens.vgap / 2.0,
-                      horizontal: Dimens.hgap,
-                    ),
+                return Card(
+                  elevation: 0.5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: Dimens.vgap / 2.0,
+                    horizontal: Dimens.hgap,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8.0),
+                    onTap: () {
+                      context.push("${Routes.gigs}/${gig.id}");
+                    },
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: Dimens.vgap,

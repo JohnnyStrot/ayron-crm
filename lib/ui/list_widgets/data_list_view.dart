@@ -59,7 +59,10 @@ abstract class DataListViewState<
     final scroll = CustomScrollView(
       slivers: [
         SliverPadding(
-          padding: EdgeInsets.only(bottom: Dimens.fabGap),
+          padding: EdgeInsets.only(
+            bottom: Dimens.fabGap,
+            right: Dimens.scrollBarGap,
+          ),
           sliver: paging,
         ),
       ],

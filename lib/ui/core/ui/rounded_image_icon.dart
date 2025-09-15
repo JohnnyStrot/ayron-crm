@@ -5,12 +5,12 @@ class RoundedImageIcon extends StatelessWidget {
   final String imageLocation;
   final double size;
 
-  final String _baseImageUrl = String.fromEnvironment(
+  static const String _baseImageUrl = String.fromEnvironment(
     'base_image_url',
     defaultValue: 'http://localhost:4006/image-data',
   );
 
-  RoundedImageIcon({
+  const RoundedImageIcon({
     super.key,
     required this.imageLocation,
     required this.size,

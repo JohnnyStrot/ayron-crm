@@ -34,7 +34,7 @@ class ImageView extends StatefulWidget {
 }
 
 class _ImageViewState extends State<ImageView> {
-  final String _baseImageUrl = String.fromEnvironment(
+  static const String _baseImageUrl = String.fromEnvironment(
     'base_image_url',
     defaultValue: 'http://localhost:4006/image-data',
   );

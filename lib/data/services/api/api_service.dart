@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:ayron_crm/data/services/api/auth_api_client.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:dio/dio.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,7 +12,7 @@ class ApiService {
     : _authApiClient = authApiClient;
 
   final AuthApiClient _authApiClient;
-  final String _baseUrl = String.fromEnvironment(
+  static const String _baseUrl = String.fromEnvironment(
     'backend_url',
     defaultValue: 'http://localhost:4003',
   );

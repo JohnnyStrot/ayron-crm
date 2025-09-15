@@ -1,6 +1,7 @@
 import 'package:ayron_crm/data/repositories/auth/auth_repository.dart';
 import 'package:ayron_crm/data/services/api/auth_api_client.dart';
 import 'package:ayron_crm/utils/result.dart';
+import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
 class AuthRepositoryRemote extends AuthRepository {
@@ -38,7 +39,6 @@ class AuthRepositoryRemote extends AuthRepository {
   Future<Result<void>> logout() async {
     _isLoading = true;
     notifyListeners();
-
     final result = await _authApiClient.logout();
     if (result is Error<void>) {
       _log.severe(result.error);
