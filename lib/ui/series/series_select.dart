@@ -1,10 +1,10 @@
 import 'package:ayron_crm/data/model/event_series.dart';
 import 'package:ayron_crm/data/repositories/series/series_repository.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/core/ui/entity_select.dart';
+import 'package:ayron_crm/ui/core/ui/entity_select_box.dart';
 import 'package:flutter/material.dart';
 
-class EventSeriesSelect extends EntitySelect<EventSeries> {
+class EventSeriesSelect extends EntitySelectBox<EventSeries> {
   const EventSeriesSelect({
     super.key,
     required EventSeriesRepository super.repository,

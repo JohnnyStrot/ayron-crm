@@ -206,7 +206,7 @@ class _GigDetailsState
                         SizedBox(height: Dimens.vdivide),
                         TextFormField(
                           controller: TextEditingController(text: gig.summary),
-                          onChanged: (value) => gig.tickets = value,
+                          onChanged: (value) => gig.summary = value,
                           decoration: InputDecoration(label: Text("Kurztext")),
                           maxLines: 3,
                           minLines: 3,

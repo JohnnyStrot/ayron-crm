@@ -1,10 +1,10 @@
 import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/data/repositories/contact/contact_repository.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/core/ui/entity_select.dart';
+import 'package:ayron_crm/ui/core/ui/entity_select_box.dart';
 import 'package:flutter/material.dart';
 
-class ContactSelect extends EntitySelect<Contact> {
+class ContactSelect extends EntitySelectBox<Contact> {
   const ContactSelect({
     super.key,
     required ContactRepository super.repository,

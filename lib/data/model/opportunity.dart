@@ -1,6 +1,6 @@
 import 'package:ayron_crm/data/model/band.dart';
 import 'package:ayron_crm/data/model/contact.dart';
-import 'package:ayron_crm/data/model/contact_protocol.dart';
+import 'package:ayron_crm/data/model/protocol.dart';
 import 'package:ayron_crm/data/model/entity.dart';
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/data/model/event_series.dart';
@@ -29,7 +29,7 @@ class Opportunity extends StrongEntity {
     this.web = "",
     this.youtube = "",
     required ToMany<OpportunityContact> contacts,
-    required ToMany<ContactProtocol> protocols,
+    required ToMany<Protocol> protocols,
   }) : _contacts = contacts,
        _protocols = protocols;
 
@@ -77,7 +77,7 @@ class Opportunity extends StrongEntity {
           json["contacts"],
           OpportunityContact.fromJson,
         ),
-        protocols: ToMany.fromJson(json["protocols"], ContactProtocol.fromJson),
+        protocols: ToMany.fromJson(json["protocols"], Protocol.fromJson),
       );
 
   @override
@@ -143,8 +143,8 @@ class Opportunity extends StrongEntity {
   ToMany<OpportunityContact> _contacts;
   List<OpportunityContact> get contacts => _contacts.entities;
 
-  ToMany<ContactProtocol> _protocols;
-  List<ContactProtocol> get protocols => _protocols.entities;
+  ToMany<Protocol> _protocols;
+  List<Protocol> get protocols => _protocols.entities;
 
   @override
   String get displayShort => name;

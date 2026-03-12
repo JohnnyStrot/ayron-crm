@@ -1,10 +1,10 @@
 import 'package:ayron_crm/data/model/band.dart';
 import 'package:ayron_crm/data/repositories/band/band_repository.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/core/ui/entity_select.dart';
+import 'package:ayron_crm/ui/core/ui/entity_select_box.dart';
 import 'package:flutter/material.dart';
 
-class BandSelect extends EntitySelect<Band> {
+class BandSelect extends EntitySelectBox<Band> {
   const BandSelect({
     super.key,
     required BandRepository super.repository,

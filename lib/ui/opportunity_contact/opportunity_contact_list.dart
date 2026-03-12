@@ -1,7 +1,7 @@
 import 'package:ayron_crm/data/model/band.dart';
 import 'package:ayron_crm/data/model/band_member.dart';
 import 'package:ayron_crm/data/model/contact.dart';
-import 'package:ayron_crm/data/model/contact_protocol.dart';
+import 'package:ayron_crm/data/model/protocol.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/opportunity_contact.dart';
 import 'package:ayron_crm/data/model/to_one.dart';
@@ -333,7 +333,7 @@ abstract class _ContactListState<
 
   void showProtocols(
     String title, {
-    List<ContactProtocol>? protocols,
+    List<Protocol>? protocols,
     Contact? contact,
   }) async {
     await showDialog(

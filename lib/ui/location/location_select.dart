@@ -1,10 +1,10 @@
 import 'package:ayron_crm/data/model/location.dart';
 import 'package:ayron_crm/data/repositories/location/location_repository.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/core/ui/entity_select.dart';
+import 'package:ayron_crm/ui/core/ui/entity_select_box.dart';
 import 'package:flutter/material.dart';
 
-class LocationSelect extends EntitySelect<Location> {
+class LocationSelect extends EntitySelectBox<Location> {
   const LocationSelect({
     super.key,
     required LocationRepository super.repository,

@@ -1,12 +1,14 @@
-import 'package:ayron_crm/data/model/song.dart';
+import 'package:ayron_crm/data/model/contact.dart';
+import 'package:ayron_crm/data/model/opportunity.dart';
+import 'package:ayron_crm/data/repositories/contact/contact_repository.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/core/ui/entity_select_box.dart';
+import 'package:ayron_crm/ui/core/ui/entity_pick_button.dart';
 import 'package:flutter/material.dart';
 
-class SongSelect extends EntitySelectBox<Song> {
-  const SongSelect({
+class ContactPickButton extends EntityPickButton<Contact> {
+  const ContactPickButton({
     super.key,
-    required super.repository,
+    required ContactRepository super.repository,
     required super.onSelect,
     super.initialValue,
   });
@@ -14,7 +16,7 @@ class SongSelect extends EntitySelectBox<Song> {
   @override
   Widget buildItem(
     BuildContext context,
-    Song item,
+    Opportunity item,
     bool isDisabled,
     bool isSelected,
   ) => Row(
@@ -37,10 +39,10 @@ class SongSelect extends EntitySelectBox<Song> {
   };
 
   @override
-  String entityAsString(Song? entity) => entity?.name ?? "";
+  String entityAsString(Opportunity? entity) => entity?.name ?? "";
 
   @override
-  String get label => "Song";
+  String get label => "Kontakt";
 
   @override
   String get order => "name";

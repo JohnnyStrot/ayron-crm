@@ -1,5 +1,5 @@
 import 'package:ayron_crm/data/model/contact.dart';
-import 'package:ayron_crm/data/model/contact_protocol.dart';
+import 'package:ayron_crm/data/model/protocol.dart';
 import 'package:ayron_crm/data/repositories/contact_protocol/contact_protocol_repository.dart';
 import 'package:ayron_crm/ui/contact_protocol/protocol_details.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class _ExpansionProtocolItem {
   _ExpansionProtocolItem({required this.protocol}) : isExpanded = false;
 
-  ContactProtocol protocol;
+  Protocol protocol;
   bool isExpanded;
 }
 
@@ -18,7 +18,7 @@ class ProtocolList extends StatefulWidget {
   ProtocolList({
     super.key,
     required this.repository,
-    List<ContactProtocol>? protocols,
+    List<Protocol>? protocols,
     this.contact,
     this.showContact = true,
     this.showOpp = true,
@@ -30,7 +30,7 @@ class ProtocolList extends StatefulWidget {
 
   final ContactProtocolRepository repository;
 
-  final List<ContactProtocol> protocols;
+  final List<Protocol> protocols;
   final Contact? contact;
 
   final Listenable? updateProtocols;
@@ -68,13 +68,13 @@ class _ProtocolListState extends State<ProtocolList> {
     if (widget.contact != null) {
       widget.repository.getProtocols(widget.contact!).then((res) {
         switch (res) {
-          case Ok<List<ContactProtocol>>():
+          case Ok<List<Protocol>>():
             setState(() {
               _items = res.value
                   .map((e) => _ExpansionProtocolItem(protocol: e))
                   .toList();
             });
-          case Error<List<ContactProtocol>>():
+          case Error<List<Protocol>>():
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text("Fehler beim Laden der Protokolle")),
@@ -109,7 +109,7 @@ class _ProtocolListState extends State<ProtocolList> {
   }
 
   ExpansionPanel _toPanel(_ExpansionProtocolItem item) {
-    ContactProtocol prot = item.protocol;
+    Protocol prot = item.protocol;
     return ExpansionPanel(
       isExpanded: item.isExpanded,
       headerBuilder: (context, isExpanded) => Padding(
@@ -142,30 +142,36 @@ class _ProtocolListState extends State<ProtocolList> {
                       ),
                     ],
                   ),
-                  if (widget.showContact && prot.contact != null)
+                  if (widget.showContact &&
+                      prot.contacts != null &&
+                      prot.contacts!.isNotEmpty)
                     Row(
                       spacing: 2.0,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Expanded(child: Icon(prot.contact!.displayIcon)),
+                        Expanded(child: Icon(prot.contacts!.first.displayIcon)),
                         Expanded(
                           flex: 3,
                           child: Text(
-                            prot.contact!.displayShort,
+                            "${prot.contacts!.first.displayShort}${prot.contacts!.length > 1 ? " +${prot.contacts!.length - 1}" : ""}",
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
-                  if (widget.showOpp && prot.opportunity != null)
+                  if (widget.showOpp &&
+                      prot.opportunities != null &&
+                      prot.opportunities!.isNotEmpty)
                     Row(
                       spacing: 2.0,
                       children: [
-                        Expanded(child: Icon(prot.opportunity!.typeIcon)),
+                        Expanded(
+                          child: Icon(prot.opportunities!.first.typeIcon),
+                        ),
                         Expanded(
                           flex: 3,
                           child: Text(
-                            prot.opportunity!.displayShort,
+                            "${prot.opportunities!.first.displayShort}${prot.opportunities!.length > 1 ? " +${prot.opportunities!.length - 1}" : ""}",
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

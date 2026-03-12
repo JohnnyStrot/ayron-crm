@@ -1,6 +1,6 @@
 import 'package:ayron_crm/data/model/addressable.dart';
 import 'package:ayron_crm/data/model/band_member.dart';
-import 'package:ayron_crm/data/model/contact_protocol.dart';
+import 'package:ayron_crm/data/model/protocol.dart';
 import 'package:ayron_crm/data/model/opportunity_contact.dart';
 import 'package:ayron_crm/data/model/to_many.dart';
 import 'package:ayron_crm/routing/routes.dart';
@@ -18,7 +18,7 @@ class Contact extends Opportunity implements Addressable {
     this.email = "",
     this.tel = "",
     this.picture,
-    required ToMany<ContactProtocol> contactProtocols,
+    required ToMany<Protocol> contactProtocols,
     required ToMany<OpportunityContact> opportunities,
     required ToMany<BandMember> bands,
   }) : _contactProtocols = contactProtocols,
@@ -36,7 +36,7 @@ class Contact extends Opportunity implements Addressable {
     tel: (json['tel'] ?? "") as String,
     contactProtocols: ToMany.fromJson(
       json["contact_protocols"],
-      ContactProtocol.fromJson,
+      Protocol.fromJson,
     ),
     opportunities: ToMany.fromJson(
       json["opportunities"],
@@ -58,8 +58,8 @@ class Contact extends Opportunity implements Addressable {
   String tel;
   String? picture;
 
-  ToMany<ContactProtocol> _contactProtocols;
-  List<ContactProtocol> get contactProtocols => _contactProtocols.entities;
+  ToMany<Protocol> _contactProtocols;
+  List<Protocol> get contactProtocols => _contactProtocols.entities;
 
   ToMany<OpportunityContact> _opportunities;
   List<OpportunityContact> get opportunities => _opportunities.entities;

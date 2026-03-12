@@ -1,6 +1,5 @@
 import 'package:ayron_crm/data/model/entity.dart';
 import 'package:ayron_crm/data/repositories/data_repository.dart';
-import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -22,9 +21,6 @@ abstract class EntitySelect<T extends StrongEntity> extends StatefulWidget {
   String entityAsString(T? entity);
 
   String get label;
-
-  @override
-  State<StatefulWidget> createState() => EntitySelectState<T>();
 
   Widget buildItem(
     BuildContext context,
@@ -57,73 +53,24 @@ abstract class EntitySelect<T extends StrongEntity> extends StatefulWidget {
   bool get orderDesc => false;
 }
 
-class EntitySelectState<T extends StrongEntity> extends State<EntitySelect<T>> {
-  T? _currentValue;
+abstract class EntitySelectState<T extends StrongEntity>
+    extends State<EntitySelect<T>> {
+  T? currentValue;
 
   @override
   void initState() {
-    _currentValue = widget.initialValue;
+    currentValue = widget.initialValue;
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return DropdownSearch<T>(
-          compareFn: (item1, item2) => item1.id == item2.id,
-          selectedItem: _currentValue,
-          onChanged: _select,
-          items: _getData,
-          itemAsString: widget.entityAsString,
-
-          suffixProps: DropdownSuffixProps(
-            clearButtonProps: ClearButtonProps(isVisible: true),
-            dropdownButtonProps: DropdownButtonProps(isVisible: false),
-          ),
-          decoratorProps: DropDownDecoratorProps(
-            decoration: InputDecoration(
-              labelText: widget.label,
-              border: OutlineInputBorder(),
-            ),
-          ),
-          popupProps: PopupProps.modalBottomSheet(
-            cacheItems: true,
-            modalBottomSheetProps: ModalBottomSheetProps(
-              backgroundColor: ColorScheme.of(context).surfaceContainer,
-              useRootNavigator: true,
-            ),
-            searchFieldProps: TextFieldProps(
-              decoration: InputDecoration(label: Text("Suche...")),
-              padding: EdgeInsets.symmetric(
-                vertical: Dimens.paddingVertical,
-                horizontal: Dimens.paddingHorizontal,
-              ),
-            ),
-            showSearchBox: true,
-            itemBuilder: (context, item, isDisabled, isSelected) {
-              return Padding(
-                padding: EdgeInsetsGeometry.symmetric(
-                  vertical: Dimens.of(context).paddingScreenVertical,
-                  horizontal: Dimens.of(context).paddingScreenHorizontal,
-                ),
-                child: widget.buildItem(context, item, isDisabled, isSelected),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  void _select(T? l) {
+  void select(T? l) {
     setState(() {
-      _currentValue = l;
+      currentValue = l;
       widget.onSelect(l);
     });
   }
 
-  Future<List<T>> _getData(String filter, LoadProps? loadProps) {
+  Future<List<T>> getData(String filter, LoadProps? loadProps) {
     return widget.getEntities(filter, loadProps).then((result) {
       switch (result) {
         case Ok<List<T>>():

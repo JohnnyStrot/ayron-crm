@@ -1,20 +1,20 @@
 import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/data/model/entity.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
-import 'package:ayron_crm/data/model/to_one.dart';
+import 'package:ayron_crm/data/model/to_many.dart';
 import 'package:flutter/material.dart';
 
-class ContactProtocol implements StrongEntity {
-  ContactProtocol({
+class Protocol implements StrongEntity {
+  Protocol({
     required this.id,
     required this.timestamp,
     this.type = "",
     this.user = "",
     this.content = "",
-    required ToOne<Opportunity> opportunity,
-    required ToOne<Contact> contact,
-  }) : _contact = contact,
-       _opportunity = opportunity;
+    required ToMany<Opportunity> opportunities,
+    required ToMany<Contact> contacts,
+  }) : _contacts = contacts,
+       _opportunities = opportunities;
 
   @override
   int id;
@@ -23,13 +23,11 @@ class ContactProtocol implements StrongEntity {
   String user;
   String content;
 
-  ToOne<Opportunity> _opportunity;
-  Opportunity? get opportunity => _opportunity.entity;
-  int? get opportunityId => _opportunity.id;
+  ToMany<Opportunity> _opportunities;
+  List<Opportunity>? get opportunities => _opportunities.entities;
 
-  ToOne<Contact> _contact;
-  Contact? get contact => _contact.entity;
-  int? get contactId => _contact.id;
+  ToMany<Contact> _contacts;
+  List<Contact>? get contacts => _contacts.entities;
 
   IconData get icon => getIcon(type);
 
@@ -55,18 +53,17 @@ class ContactProtocol implements StrongEntity {
   @override
   String get displayShort => "$type #$id";
 
-  factory ContactProtocol.fromJson(Map<String, dynamic> json) =>
-      ContactProtocol(
-        id: (json['id'] as num).toInt(),
-        timestamp: json["timestamp"] == null
-            ? DateTime.now()
-            : DateTime.parse(json["timestamp"]),
-        type: json["type"] ?? "",
-        user: json["user"] ?? "",
-        content: json["content"] ?? "",
-        opportunity: ToOne.fromJson(json, Opportunity.fromJson, "opportunity"),
-        contact: ToOne.fromJson(json, Contact.fromJson, "contact"),
-      );
+  factory Protocol.fromJson(Map<String, dynamic> json) => Protocol(
+    id: (json['id'] as num).toInt(),
+    timestamp: json["timestamp"] == null
+        ? DateTime.now()
+        : DateTime.parse(json["timestamp"]),
+    type: json["type"] ?? "",
+    user: json["user"] ?? "",
+    content: json["content"] ?? "",
+    opportunities: ToMany.fromJson(json["opportunities"], Opportunity.fromJson),
+    contacts: ToMany.fromJson(json["contacts"], Contact.fromJson),
+  );
 
   @override
   Map<String, dynamic> toJson() {
@@ -76,11 +73,9 @@ class ContactProtocol implements StrongEntity {
       'type': type,
       'user': user,
       'content': content,
+      "opportunities": _opportunities.toJson(),
+      "contacts": _contacts.toJson(),
     };
-    a.addEntries([
-      _opportunity.toJson("opportunity"),
-      _contact.toJson("contact"),
-    ]);
     return a;
   }
 }

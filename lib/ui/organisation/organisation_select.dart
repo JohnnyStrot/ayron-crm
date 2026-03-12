@@ -1,10 +1,10 @@
 import 'package:ayron_crm/data/model/organisation.dart';
 import 'package:ayron_crm/data/repositories/organisation/organisation_repository.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
-import 'package:ayron_crm/ui/core/ui/entity_select.dart';
+import 'package:ayron_crm/ui/core/ui/entity_select_box.dart';
 import 'package:flutter/material.dart';
 
-class OrganisationSelect extends EntitySelect<Organisation> {
+class OrganisationSelect extends EntitySelectBox<Organisation> {
   const OrganisationSelect({
     super.key,
     required OrganisationRepository super.repository,

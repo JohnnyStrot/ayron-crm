@@ -106,8 +106,8 @@ class _SongDetailsState
                       ),
                       Expanded(
                         child: TextFormField(
-                          controller: TextEditingController(text: song.youtube),
-                          onChanged: (value) => song.youtube = value,
+                          controller: TextEditingController(text: song.tuning),
+                          onChanged: (value) => song.tuning = value,
                           decoration: InputDecoration(label: Text("Tuning")),
                           validator: (value) =>
                               value == null || (value.length <= 128)

@@ -1,14 +1,18 @@
 import 'package:ayron_crm/data/model/contact.dart';
-import 'package:ayron_crm/data/model/contact_protocol.dart';
+import 'package:ayron_crm/data/model/protocol.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
+import 'package:ayron_crm/data/model/to_many.dart';
 import 'package:ayron_crm/data/model/to_one.dart';
 import 'package:ayron_crm/data/repositories/contact_protocol/contact_protocol_repository.dart';
+import 'package:ayron_crm/ui/contact/contact_pick_button.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/datepicker.dart';
 import 'package:ayron_crm/ui/core/ui/timeofdaypicker.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_pick_button.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProtocolDetails extends StatefulWidget {
   const ProtocolDetails({
@@ -20,7 +24,7 @@ class ProtocolDetails extends StatefulWidget {
   });
 
   final ContactProtocolRepository repository;
-  final ContactProtocol? protocol;
+  final Protocol? protocol;
   final Contact? contact;
   final Opportunity? opportunity;
 
@@ -29,7 +33,7 @@ class ProtocolDetails extends StatefulWidget {
 }
 
 class _ProtocolDetailsState extends State<ProtocolDetails> {
-  ContactProtocol? _protocol;
+  Protocol? _protocol;
 
   @override
   void initState() {
@@ -42,11 +46,17 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
             switch (res) {
               case Ok<int>():
                 setState(() {
-                  _protocol = ContactProtocol(
+                  _protocol = Protocol(
                     id: res.value,
                     timestamp: DateTime.now(),
-                    opportunity: ToOne(entity: widget.opportunity),
-                    contact: ToOne(entity: widget.contact),
+                    opportunities: ToMany(
+                      entities: widget.opportunity == null
+                          ? []
+                          : [widget.opportunity!],
+                    ),
+                    contacts: ToMany(
+                      entities: widget.contact == null ? [] : [widget.contact!],
+                    ),
                   );
                   if (widget.opportunity != null) {
                     widget.opportunity!.protocols.add(_protocol!);
@@ -92,8 +102,7 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
               ),
               TextSpan(
                 text:
-                    (_protocol!.contact?.displayShort) ??
-                    "#${_protocol?.id ?? ""}",
+                    "#${_protocol?.id ?? ""} ${_protocol!.contacts != null && _protocol!.contacts!.isNotEmpty ? ("${_protocol!.contacts!.first.displayShort}${_protocol!.contacts!.length > 1 ? "+${_protocol!.contacts!.length - 1}" : ""}") : ""}",
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.w500,
@@ -114,8 +123,83 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
         ),
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             spacing: Dimens.vgap,
             children: [
+              Text("Gelegenheiten"),
+              Row(
+                children: [
+                  OpportunityPickButton(
+                    repository: context.read(),
+                    onSelect: (op) {
+                      if (_protocol != null && op != null) {
+                        setState(() {
+                          _protocol?.opportunities?.add(op);
+                        });
+                      }
+                    },
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 50,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          for (Opportunity op in _protocol?.opportunities ?? [])
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: InputChip(
+                                label: Text(op.name),
+                                avatar: Icon(op.typeIcon),
+                                deleteIcon: Icon(Icons.delete),
+                                onDeleted: () => setState(
+                                  () => _protocol?.opportunities!.remove(op),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Text("Kontakte"),
+              Row(
+                children: [
+                  ContactPickButton(
+                    repository: context.read(),
+                    onSelect: (c) {
+                      if (_protocol != null && c != null) {
+                        setState(() {
+                          _protocol?.contacts?.add(c);
+                        });
+                      }
+                    },
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 50,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          for (Contact c in _protocol?.contacts ?? [])
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: InputChip(
+                                label: Text(c.displayShort),
+                                avatar: Icon(c.displayIcon),
+                                deleteIcon: Icon(Icons.delete),
+                                onDeleted: () => setState(
+                                  () => _protocol?.contacts!.remove(c),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 spacing: Dimens.hgap,
                 children: [
@@ -168,7 +252,7 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
                       prefixIcon: ListenableBuilder(
                         listenable: tec,
                         builder: (context, child) {
-                          return Icon(ContactProtocol.getIcon(tec.text));
+                          return Icon(Protocol.getIcon(tec.text));
                         },
                       ),
                       border: OutlineInputBorder(),
@@ -187,10 +271,7 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
                     ),
                     child: Row(
                       spacing: Dimens.hgap,
-                      children: [
-                        Icon(ContactProtocol.getIcon(value)),
-                        Text(value),
-                      ],
+                      children: [Icon(Protocol.getIcon(value)), Text(value)],
                     ),
                   );
                 },
