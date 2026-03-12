@@ -18,6 +18,12 @@
           //  "preLaunchTask": "adb reverse",
         },
         {
+            "name": "ayron_crm web dev",
+            "request": "launch",
+            "type": "dart",
+            "args": ["-d", "chrome","--web-port", "22433", "--web-browser-flag=--disable-web-security"],
+        },
+        {
             "name": "ayron_crm local",
             "request": "launch",
             "type": "dart",

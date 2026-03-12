@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:ayron_crm/data/services/api/auth_api_client.dart';
 import 'package:ayron_crm/utils/result.dart';
@@ -288,8 +289,9 @@ class ApiService {
 
           var formData = FormData();
 
-          var file = await MultipartFile.fromFile(
-            image.path,
+          final Uint8List bytes = await image.readAsBytes();
+          MultipartFile file = MultipartFile.fromBytes(
+            bytes,
             filename: image.name,
             contentType: DioMediaType("image", image.name),
           );
@@ -336,9 +338,11 @@ class ApiService {
           };
 
           var formData = FormData();
+
           for (var image in images) {
-            var file = await MultipartFile.fromFile(
-              image.path,
+            final Uint8List bytes = await image.readAsBytes();
+            MultipartFile file = MultipartFile.fromBytes(
+              bytes,
               filename: image.name,
               contentType: DioMediaType("image", image.name),
             );
