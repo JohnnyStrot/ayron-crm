@@ -192,7 +192,7 @@ class _BandDetailsState
                           ),
                         ),
                         ProtocolList(
-                          protocols: band.protocols,
+                          opportunity: band,
                           repository: context.read(),
                           showContact: true,
                           showOpp: false,

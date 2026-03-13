@@ -86,7 +86,7 @@ class EventContactPage extends StatelessWidget {
           child: Text("Protokoll", style: TextTheme.of(context).headlineSmall),
         ),
         ProtocolList(
-          protocols: event.protocols,
+          opportunity: event,
           repository: context.read(),
           showContact: true,
           showOpp: false,

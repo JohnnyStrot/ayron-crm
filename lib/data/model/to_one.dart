@@ -5,7 +5,7 @@ class ToOne<T extends StrongEntity> {
   T? _entity;
   T? get entity => _entity;
   set entity(T? ent) {
-    this._entity = ent;
+    _entity = ent;
     _id = ent?.id;
   }
 

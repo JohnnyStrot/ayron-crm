@@ -139,7 +139,6 @@ class _MainScreenState extends State<MainScreen> {
                           style: TextTheme.of(context).headlineSmall!.copyWith(
                             color: ColorScheme.of(context).onPrimaryContainer,
                             fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.italic,
                           ),
                         ),
                       ),
@@ -215,7 +214,6 @@ class _AppDrawerState extends State<AppDrawer> {
                   "Ayron-CRM",
                   style: TextTheme.of(context).displayMedium!.copyWith(
                     color: ColorScheme.of(context).onPrimary,
-                    fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -7,7 +7,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 abstract class DataListViewmodel<T extends StrongEntity> {
   DataListViewmodel({required this.repository}) {
     deleteEntity = Command.createAsync((entity) async {
-      var l = await this.repository.deleteEntity(entity.id);
+      var l = await repository.deleteEntity(entity.id);
       pagingController.refresh();
       return l;
     }, initialValue: Result.ok(null));

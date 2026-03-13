@@ -37,7 +37,7 @@ abstract class DataRepositoryLocal<T extends StrongEntity>
     }
     try {
       final entities = _entities.where((c) => this.filter(c, filter)).toList();
-      return Result.ok((entities: entities, count: this._entities.length));
+      return Result.ok((entities: entities, count: _entities.length));
     } on Exception catch (error) {
       return Result.error(error);
     }

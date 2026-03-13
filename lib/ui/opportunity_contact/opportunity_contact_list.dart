@@ -185,10 +185,7 @@ abstract class _ContactListState<
                 ),
                 IconButton(
                   onPressed: () {
-                    showProtocols(
-                      "Protokoll ${contact.displayShort}",
-                      contact: contact,
-                    );
+                    showProtocols("Protokoll ${contact.displayShort}", contact);
                   },
                   icon: Icon(Icons.list),
                 ),
@@ -331,11 +328,7 @@ abstract class _ContactListState<
     }
   }
 
-  void showProtocols(
-    String title, {
-    List<Protocol>? protocols,
-    Contact? contact,
-  }) async {
+  void showProtocols(String title, Contact contact) async {
     await showDialog(
       context: context,
       builder: (context) => SimpleDialog(
@@ -361,7 +354,6 @@ abstract class _ContactListState<
           ),
           SizedBox(height: Dimens.vgap),
           ProtocolList(
-            protocols: protocols,
             contact: contact,
             repository: context.read(),
             showContact: false,

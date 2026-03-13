@@ -1,7 +1,9 @@
 import 'package:ayron_crm/data/model/contact.dart';
+import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/model/protocol.dart';
 import 'package:ayron_crm/data/repositories/contact_protocol/contact_protocol_repository.dart';
 import 'package:ayron_crm/ui/contact_protocol/protocol_details.dart';
+import 'package:ayron_crm/ui/core/callable_change_notifier.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter/material.dart';
@@ -15,36 +17,37 @@ class _ExpansionProtocolItem {
 }
 
 class ProtocolList extends StatefulWidget {
-  ProtocolList({
+  const ProtocolList({
     super.key,
     required this.repository,
-    List<Protocol>? protocols,
+    this.opportunity,
     this.contact,
     this.showContact = true,
     this.showOpp = true,
     this.updateProtocols,
-  }) : protocols = protocols ?? [];
+  });
 
   final bool showContact;
   final bool showOpp;
 
   final ContactProtocolRepository repository;
 
-  final List<Protocol> protocols;
+  final Opportunity? opportunity;
   final Contact? contact;
 
-  final Listenable? updateProtocols;
+  final CallableChangeNotifier? updateProtocols;
 
   @override
   State<ProtocolList> createState() => _ProtocolListState();
 }
 
 class _ProtocolListState extends State<ProtocolList> {
+  List<Protocol> _protocols = [];
   List<_ExpansionProtocolItem> _items = [];
 
   @override
   void initState() {
-    _createItems();
+    _updateProtocols();
     if (widget.updateProtocols != null) {
       widget.updateProtocols!.addListener(_updateProtocols);
     }
@@ -59,36 +62,48 @@ class _ProtocolListState extends State<ProtocolList> {
     super.dispose();
   }
 
+  void _update() async {
+    if (widget.updateProtocols != null) {
+      widget.updateProtocols!.change();
+    } else {
+      _updateProtocols();
+    }
+  }
+
   void _updateProtocols() {
-    widget.protocols.sort((a, b) => a.timestamp.isBefore(b.timestamp) ? 1 : -1);
-    _createItems();
+    Future<Result<List<Protocol>>> res;
+    if (widget.opportunity != null) {
+      res = widget.repository.getProtocolsOpportunity(widget.opportunity!);
+    } else if (widget.contact != null) {
+      res = widget.repository.getProtocolsContact(widget.contact!);
+    } else {
+      res = Future.value(Result.ok([]));
+    }
+
+    res.then((res) {
+      switch (res) {
+        case Ok<List<Protocol>>():
+          _protocols = res.value;
+        case Error<List<Protocol>>():
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Fehler beim Laden der Protokolle")),
+            );
+          }
+          _protocols = [];
+      }
+
+      _protocols.sort((a, b) => a.timestamp.isBefore(b.timestamp) ? 1 : -1);
+      _createItems();
+    });
   }
 
   void _createItems() {
-    if (widget.contact != null) {
-      widget.repository.getProtocols(widget.contact!).then((res) {
-        switch (res) {
-          case Ok<List<Protocol>>():
-            setState(() {
-              _items = res.value
-                  .map((e) => _ExpansionProtocolItem(protocol: e))
-                  .toList();
-            });
-          case Error<List<Protocol>>():
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Fehler beim Laden der Protokolle")),
-              );
-            }
-        }
-      });
-    } else {
-      setState(() {
-        _items = widget.protocols
-            .map((e) => _ExpansionProtocolItem(protocol: e))
-            .toList();
-      });
-    }
+    setState(() {
+      _items = _protocols
+          .map((e) => _ExpansionProtocolItem(protocol: e))
+          .toList();
+    });
   }
 
   @override
@@ -199,8 +214,8 @@ class _ProtocolListState extends State<ProtocolList> {
                 ),
                 Expanded(child: SizedBox()),
                 IconButton(
-                  onPressed: () async {
-                    await Navigator.push(
+                  onPressed: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute<void>(
                         builder: (context) => Align(
@@ -211,29 +226,28 @@ class _ProtocolListState extends State<ProtocolList> {
                             ),
                             child: ProtocolDetails(
                               repository: context.read(),
-                              protocol: prot,
+                              id: prot.id,
                             ),
                           ),
                         ),
                       ),
-                    );
-                    setState(() {
-                      widget.protocols.sort(
-                        (a, b) => a.timestamp.isBefore(b.timestamp) ? 1 : -1,
-                      );
-                      _createItems();
+                    ).then((val) {
+                      setState(() {
+                        _update();
+                      });
                     });
                   },
                   icon: Icon(Icons.edit),
                 ),
                 IconButton(
                   onPressed: () async {
-                    var result = await widget.repository.delete(prot.id);
+                    var result = await widget.repository.deleteEntity(prot.id);
                     switch (result) {
                       case Ok<void>():
                         setState(() {
-                          if (widget.protocols.isNotEmpty) {
-                            widget.protocols.remove(prot);
+                          if (_protocols.isNotEmpty) {
+                            _protocols.remove(prot);
+                            _update();
                           }
                           _items.remove(item);
                         });

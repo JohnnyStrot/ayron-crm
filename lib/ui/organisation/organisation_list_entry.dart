@@ -3,7 +3,6 @@ import 'package:ayron_crm/routing/routes.dart';
 import 'package:ayron_crm/ui/core/ui/rounded_image_icon.dart';
 import 'package:ayron_crm/ui/opportunity/opportunity_list_entry.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class OrganisationListEntry extends OpportunityListEntry<Organisation> {
   const OrganisationListEntry({

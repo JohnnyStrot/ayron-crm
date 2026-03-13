@@ -1,5 +1,4 @@
 import 'package:ayron_crm/data/model/contact.dart';
-import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/repositories/contact/contact_repository.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/entity_pick_button.dart';
@@ -16,7 +15,7 @@ class ContactPickButton extends EntityPickButton<Contact> {
   @override
   Widget buildItem(
     BuildContext context,
-    Opportunity item,
+    Contact item,
     bool isDisabled,
     bool isSelected,
   ) => Row(
@@ -25,7 +24,7 @@ class ContactPickButton extends EntityPickButton<Contact> {
       Expanded(
         flex: 3,
         child: Text(
-          item.name,
+          item.displayShort,
           overflow: TextOverflow.ellipsis,
           style: TextTheme.of(context).headlineSmall!.copyWith(fontSize: 14),
         ),
@@ -39,7 +38,7 @@ class ContactPickButton extends EntityPickButton<Contact> {
   };
 
   @override
-  String entityAsString(Opportunity? entity) => entity?.name ?? "";
+  String entityAsString(Contact? entity) => entity?.displayShort ?? "";
 
   @override
   String get label => "Kontakt";

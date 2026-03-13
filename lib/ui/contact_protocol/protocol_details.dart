@@ -1,8 +1,6 @@
 import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/data/model/protocol.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
-import 'package:ayron_crm/data/model/to_many.dart';
-import 'package:ayron_crm/data/model/to_one.dart';
 import 'package:ayron_crm/data/repositories/contact_protocol/contact_protocol_repository.dart';
 import 'package:ayron_crm/ui/contact/contact_pick_button.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
@@ -18,13 +16,13 @@ class ProtocolDetails extends StatefulWidget {
   const ProtocolDetails({
     super.key,
     required this.repository,
-    this.protocol,
+    this.id,
     this.contact,
     this.opportunity,
   });
 
   final ContactProtocolRepository repository;
-  final Protocol? protocol;
+  final int? id;
   final Contact? contact;
   final Opportunity? opportunity;
 
@@ -37,44 +35,53 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
 
   @override
   void initState() {
-    if (widget.protocol != null) {
-      _protocol = widget.protocol;
+    if (widget.id != null) {
+      widget.repository.getEntity(widget.id!).then((prot) {
+        switch (prot) {
+          case Ok<Protocol>():
+            setState(() {
+              _protocol = prot.value;
+            });
+          case Error<Protocol>():
+            setState(() {
+              if (mounted && context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Fehler beim Laden des Protokolls ${widget.id}",
+                    ),
+                  ),
+                );
+              }
+            });
+        }
+      });
     } else {
-      widget.repository
-          .create(contact: widget.contact, opportunity: widget.opportunity)
-          .then((res) {
-            switch (res) {
-              case Ok<int>():
-                setState(() {
-                  _protocol = Protocol(
-                    id: res.value,
-                    timestamp: DateTime.now(),
-                    opportunities: ToMany(
-                      entities: widget.opportunity == null
-                          ? []
-                          : [widget.opportunity!],
-                    ),
-                    contacts: ToMany(
-                      entities: widget.contact == null ? [] : [widget.contact!],
-                    ),
-                  );
-                  if (widget.opportunity != null) {
-                    widget.opportunity!.protocols.add(_protocol!);
-                  }
-                  if (widget.contact != null) {
-                    widget.contact!.contactProtocols.add(_protocol!);
-                  }
-                });
-              case Error<int>():
-                setState(() {
-                  if (mounted && context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Fehler beim Erstellen")),
-                    );
-                  }
-                });
-            }
-          });
+      widget.repository.createEntity().then((res) {
+        switch (res) {
+          case Ok<Protocol>():
+            setState(() {
+              _protocol = res.value;
+              _protocol!.timestamp = DateTime.now();
+              if (widget.opportunity != null) {
+                _protocol!.opportunities!.add(widget.opportunity!);
+                widget.opportunity!.protocols.add(_protocol!);
+              }
+              if (widget.contact != null) {
+                _protocol!.contacts!.add(widget.contact!);
+                widget.contact!.contactProtocols.add(_protocol!);
+              }
+            });
+          case Error<Protocol>():
+            setState(() {
+              if (mounted && context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Fehler beim Erstellen")),
+                );
+              }
+            });
+        }
+      });
     }
     super.initState();
   }
@@ -305,14 +312,14 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
 
   void submit(BuildContext context) async {
     if (_protocol == null) return;
-    var res = await widget.repository.save(_protocol!);
+    var res = await widget.repository.saveEntity(_protocol!);
     if (mounted && context.mounted) {
       switch (res) {
-        case Ok<int>():
+        case Ok<void>():
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text("Protokoll gespeichert")));
-        case Error<int>():
+        case Error<void>():
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text("Fehler beim Speichern")));

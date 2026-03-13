@@ -58,6 +58,5 @@ class GigRepositoryRemote extends DataRepositoryRemote<Gig>
         .catchError((err) {
           return Result<Gig>.error(Exception(err));
         });
-    ;
   }
 }
