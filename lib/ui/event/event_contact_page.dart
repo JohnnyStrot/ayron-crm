@@ -1,4 +1,5 @@
 import 'package:ayron_crm/data/model/event.dart';
+import 'package:ayron_crm/ui/contact_protocol/protocol_details.dart';
 import 'package:ayron_crm/ui/contact_protocol/protocol_list.dart';
 import 'package:ayron_crm/ui/core/callable_change_notifier.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
@@ -83,7 +84,15 @@ class EventContactPage extends StatelessWidget {
             right: Dimens.paddingHorizontal,
             bottom: Dimens.vgap,
           ),
-          child: Text("Protokoll", style: TextTheme.of(context).headlineSmall),
+          child: Row(
+            children: [
+              Text("Protokoll", style: TextTheme.of(context).headlineSmall),
+              IconButton(
+                onPressed: () => addProtocol(context),
+                icon: Icon(Icons.add),
+              ),
+            ],
+          ),
         ),
         ProtocolList(
           opportunity: event,
@@ -95,5 +104,18 @@ class EventContactPage extends StatelessWidget {
         SizedBox(height: Dimens.fabGap),
       ],
     );
+  }
+
+  void addProtocol(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) =>
+            ProtocolDetails(repository: context.read(), opportunity: event),
+      ),
+    );
+    if (context.mounted) {
+      updateProtocols.change();
+    }
   }
 }

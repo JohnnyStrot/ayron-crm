@@ -9,6 +9,7 @@ import 'package:ayron_crm/data/repositories/band_member/band_member_repository.d
 import 'package:ayron_crm/data/repositories/contact/contact_repository.dart';
 import 'package:ayron_crm/data/repositories/data_repository.dart';
 import 'package:ayron_crm/data/repositories/opportunity_contact/opportunity_contact_repository.dart';
+import 'package:ayron_crm/ui/contact/contact_picker.dart';
 import 'package:ayron_crm/ui/contact_protocol/protocol_details.dart';
 import 'package:ayron_crm/ui/contact_protocol/protocol_list.dart';
 import 'package:ayron_crm/ui/core/callable_change_notifier.dart';
@@ -285,7 +286,11 @@ abstract class _ContactListState<
             children: [
               widget.label ??
                   Text("Kontakte", style: TextTheme.of(context).headlineSmall),
-              dropdown,
+              ContactPicker(
+                buttonOnly: true,
+                repository: context.read(),
+                onSelect: (l) => addContact(contact: l),
+              ),
             ],
           ),
         ),

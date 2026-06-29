@@ -1,6 +1,7 @@
 import 'package:ayron_crm/data/model/band.dart';
 import 'package:ayron_crm/ui/band/band_details_viewmodel.dart';
 import 'package:ayron_crm/ui/band/member_list.dart';
+import 'package:ayron_crm/ui/contact_protocol/protocol_details.dart';
 import 'package:ayron_crm/ui/contact_protocol/protocol_list.dart';
 import 'package:ayron_crm/ui/core/callable_change_notifier.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
@@ -100,7 +101,7 @@ class _BandDetailsState
                         TextFormField(
                           controller: TextEditingController(text: band.city),
                           onChanged: (value) => band.city = value,
-                          decoration: InputDecoration(label: Text("Stadt")),
+                          decoration: InputDecoration(label: Text("Ort")),
                           validator: (value) =>
                               value == null || (value.length <= 50)
                               ? null
@@ -186,9 +187,17 @@ class _BandDetailsState
                             right: Dimens.paddingHorizontal,
                             bottom: Dimens.vgap,
                           ),
-                          child: Text(
-                            "Protokoll",
-                            style: TextTheme.of(cont).headlineSmall,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Protokoll",
+                                style: TextTheme.of(cont).headlineSmall,
+                              ),
+                              IconButton(
+                                onPressed: () => addProtocol(context, band),
+                                icon: Icon(Icons.add),
+                              ),
+                            ],
                           ),
                         ),
                         ProtocolList(
@@ -211,6 +220,19 @@ class _BandDetailsState
         }
       },
     );
+  }
+
+  void addProtocol(BuildContext context, Band band) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) =>
+            ProtocolDetails(repository: context.read(), opportunity: band),
+      ),
+    );
+    if (context.mounted) {
+      updateProtocols.change();
+    }
   }
 
   @override

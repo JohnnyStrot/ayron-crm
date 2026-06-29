@@ -2,11 +2,11 @@ import 'package:ayron_crm/data/model/contact.dart';
 import 'package:ayron_crm/data/model/protocol.dart';
 import 'package:ayron_crm/data/model/opportunity.dart';
 import 'package:ayron_crm/data/repositories/contact_protocol/contact_protocol_repository.dart';
-import 'package:ayron_crm/ui/contact/contact_pick_button.dart';
+import 'package:ayron_crm/ui/contact/contact_picker.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/datepicker.dart';
 import 'package:ayron_crm/ui/core/ui/timeofdaypicker.dart';
-import 'package:ayron_crm/ui/opportunity/opportunity_pick_button.dart';
+import 'package:ayron_crm/ui/opportunity/opportunity_picker.dart';
 import 'package:ayron_crm/utils/result.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,13 @@ class ProtocolDetails extends StatefulWidget {
 
 class _ProtocolDetailsState extends State<ProtocolDetails> {
   Protocol? _protocol;
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   @override
   void initState() {
@@ -136,7 +143,8 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
               Text("Gelegenheiten"),
               Row(
                 children: [
-                  OpportunityPickButton(
+                  OpportunityPicker(
+                    buttonOnly: true,
                     repository: context.read(),
                     onSelect: (op) {
                       if (_protocol != null && op != null) {
@@ -173,7 +181,8 @@ class _ProtocolDetailsState extends State<ProtocolDetails> {
               Text("Kontakte"),
               Row(
                 children: [
-                  ContactPickButton(
+                  ContactPicker(
+                    buttonOnly: true,
                     repository: context.read(),
                     onSelect: (c) {
                       if (_protocol != null && c != null) {

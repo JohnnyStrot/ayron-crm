@@ -11,9 +11,9 @@ import 'package:ayron_crm/ui/event/event_contact_page.dart';
 import 'package:ayron_crm/ui/event/event_details_viewmodel.dart';
 import 'package:ayron_crm/ui/event/lineup_list.dart';
 import 'package:ayron_crm/ui/gig/create_gig_button.dart';
-import 'package:ayron_crm/ui/location/location_select.dart';
-import 'package:ayron_crm/ui/organisation/organisation_select.dart';
-import 'package:ayron_crm/ui/series/series_select.dart';
+import 'package:ayron_crm/ui/location/location_picker.dart';
+import 'package:ayron_crm/ui/organisation/organisation_picker.dart';
+import 'package:ayron_crm/ui/series/series_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -113,20 +113,23 @@ class _EventDetailsState
                                 ),
                               ],
                             ),
-                            LocationSelect(
+                            LocationPicker(
                               repository: context.read(),
                               onSelect: (l) => event.location = l,
                               initialValue: event.location,
+                              label: "Location",
                             ),
-                            OrganisationSelect(
+                            OrganisationPicker(
                               repository: context.read(),
                               onSelect: (o) => event.organisation = o,
                               initialValue: event.organisation,
+                              label: "Organisation",
                             ),
-                            EventSeriesSelect(
+                            SeriesPicker(
                               repository: context.read(),
                               onSelect: (s) => event.series = s,
                               initialValue: event.series,
+                              label: "Veranstaltungsreihe",
                             ),
                           ],
                         ),

@@ -46,6 +46,13 @@ class _ProtocolListState extends State<ProtocolList> {
   List<_ExpansionProtocolItem> _items = [];
 
   @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   void initState() {
     _updateProtocols();
     if (widget.updateProtocols != null) {

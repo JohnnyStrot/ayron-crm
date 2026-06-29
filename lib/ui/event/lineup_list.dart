@@ -1,6 +1,7 @@
 import 'package:ayron_crm/data/model/event.dart';
 import 'package:ayron_crm/data/model/lineup.dart';
 import 'package:ayron_crm/data/model/to_one.dart';
+import 'package:ayron_crm/ui/band/band_picker.dart';
 import 'package:ayron_crm/ui/band/band_select.dart';
 import 'package:ayron_crm/ui/core/themes/dimens.dart';
 import 'package:ayron_crm/ui/core/ui/timeofdaypicker.dart';
@@ -136,7 +137,7 @@ class _LineupListState extends State<LineupList> {
             spacing: Dimens.hgap,
             children: [
               Expanded(
-                child: BandSelect(
+                child: BandPicker(
                   repository: context.read(),
                   onSelect: (l) => setState(() {
                     entity.band = l;

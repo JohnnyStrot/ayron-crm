@@ -12,9 +12,9 @@ import 'package:ayron_crm/ui/event/event_contact_page.dart';
 import 'package:ayron_crm/ui/event/lineup_list.dart';
 import 'package:ayron_crm/ui/gig/gig_details_viewmodel.dart';
 import 'package:ayron_crm/ui/gig/gig_setlist.dart';
-import 'package:ayron_crm/ui/location/location_select.dart';
-import 'package:ayron_crm/ui/organisation/organisation_select.dart';
-import 'package:ayron_crm/ui/series/series_select.dart';
+import 'package:ayron_crm/ui/location/location_picker.dart';
+import 'package:ayron_crm/ui/organisation/organisation_picker.dart';
+import 'package:ayron_crm/ui/series/series_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -101,20 +101,23 @@ class _GigDetailsState
                                 gig.date = date;
                               },
                             ),
-                            LocationSelect(
+                            LocationPicker(
                               repository: context.read(),
                               onSelect: (l) => gig.location = l,
                               initialValue: gig.location,
+                              label: "Location",
                             ),
-                            OrganisationSelect(
+                            OrganisationPicker(
                               repository: context.read(),
                               onSelect: (o) => gig.organisation = o,
                               initialValue: gig.organisation,
+                              label: "Organisation",
                             ),
-                            EventSeriesSelect(
+                            SeriesPicker(
                               repository: context.read(),
                               onSelect: (s) => gig.series = s,
                               initialValue: gig.series,
+                              label: "Veranstaltungsreihe",
                             ),
                           ],
                         ),
